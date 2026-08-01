@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->passwordReset()
             ->profile()
             ->brandName('Fastora')
             ->brandLogo(asset('images/brand/logo-color.png'))
