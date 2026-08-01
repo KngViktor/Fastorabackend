@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Filament\Resources\Posts\Schemas;
+
+use App\Filament\Concerns\HasMediaSelect;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
+
+class PostForm
+{
+    use HasMediaSelect;
+
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema->components([
+            Tabs::make('Post')
+                ->columnSpanFull()
+                ->tabs([
+                    Tab::make('Content')
+                        ->schema([
+                            TextInput::make('title')->required()->columnSpanFull(),
+                            TextInput::make('slug')->required()->columnSpanFull(),
+                            static::mediaSelect('heroImage', 'Hero image')->columnSpanFull(),
+                            RichEditor::make('content')->required()->columnSpanFull(),
+                        ]),
+
+                    Tab::make('Meta')
+                        ->schema([
+                            Select::make('categories')
+                                ->relationship('categories', 'title')
+                                ->multiple()
+                                ->searchable()
+                                ->preload(),
+                            Select::make('authors')
+                                ->relationship('authors', 'name')
+                                ->multiple()
+                                ->searchable()
+                                ->preload(),
+                            Repeater::make('tags')
+                                ->columnSpanFull()
+                                ->schema([
+                                    TextInput::make('tag')->required(),
+                                ])
+                                ->addActionLabel('Add tag')
+                                ->defaultItems(0)
+                                ->helperText('Free-form keywords shown on the post and used for grouping.'),
+                        ])
+                        ->columns(2),
+
+                    Tab::make('Publishing & SEO')
+                        ->schema([
+                            Select::make('status')
+                                ->options([
+                                    'draft' => 'Draft',
+                                    'scheduled' => 'Scheduled',
+                                    'published' => 'Published',
+                                ])
+                                ->default('draft')
+                                ->required()
+                                ->live(),
+                            DateTimePicker::make('published_at')
+                                ->helperText('For scheduled posts, this is when it goes live automatically.'),
+                            TextInput::make('meta_title'),
+                            TextInput::make('meta_description'),
+                            static::mediaSelect('metaImage', 'Meta image'),
+                        ])
+                        ->columns(2),
+                ]),
+        ]);
+    }
+}
