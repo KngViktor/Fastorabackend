@@ -30,6 +30,7 @@ Route::get('/posts/{slug}', [PostController::class, 'show']);
 
 Route::get('/testimonials', [TestimonialController::class, 'index']);
 
+Route::get('/pages', [PageController::class, 'index']);
 Route::get('/pages/slugs', [PageController::class, 'slugs']);
 Route::get('/pages/{slug}', [PageController::class, 'show']);
 

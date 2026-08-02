@@ -27,6 +27,7 @@ class ServiceResource extends JsonResource
             'faqs' => $this->faqs ?? [],
             'status' => $this->status,
             'publishedAt' => $this->published_at?->toIso8601String(),
+            'updatedAt' => $this->updated_at?->toIso8601String(),
             'meta' => [
                 'title' => $this->meta_title,
                 'description' => $this->meta_description,

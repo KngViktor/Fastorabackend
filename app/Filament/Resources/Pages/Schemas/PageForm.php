@@ -9,6 +9,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -75,6 +76,17 @@ class PageForm
                             static::linksRepeater('hero_links'),
                         ])
                         ->columns(2),
+
+                    Tab::make('Page Header')
+                        ->schema([
+                            TextInput::make('page_header_eyebrow')->label('Eyebrow'),
+                            TextInput::make('page_header_heading')->label('Heading'),
+                            Textarea::make('page_header_description')
+                                ->label('Description')
+                                ->columnSpanFull(),
+                        ])
+                        ->columns(2)
+                        ->columnSpanFull(),
 
                     Tab::make('Content')
                         ->schema([

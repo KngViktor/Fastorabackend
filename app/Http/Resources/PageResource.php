@@ -17,6 +17,9 @@ class PageResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
+            'pageHeaderEyebrow' => $this->page_header_eyebrow,
+            'pageHeaderHeading' => $this->page_header_heading,
+            'pageHeaderDescription' => $this->page_header_description,
             'hero' => [
                 'type' => $this->hero_type,
                 'richText' => $this->hero_rich_text,
@@ -26,6 +29,7 @@ class PageResource extends JsonResource
             'layout' => $this->resolveLayoutMedia($this->layout ?? []),
             'status' => $this->status,
             'publishedAt' => $this->published_at?->toIso8601String(),
+            'updatedAt' => $this->updated_at?->toIso8601String(),
             'meta' => [
                 'title' => $this->meta_title,
                 'description' => $this->meta_description,
