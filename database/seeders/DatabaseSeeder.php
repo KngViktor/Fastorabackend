@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'logo_light_media_id' => $brandMedia->id,
             'logo_dark_media_id' => $brandMedia->id,
             'favicon_media_id' => $brandMedia->id,
-            'contact_email' => 'hello@fastora.africa',
+            'contact_email' => 'workwith@fastora.africa',
             'contact_phone' => '+234 800 000 0000',
             'address' => 'Lagos, Nigeria',
             'social_links' => [
