@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
             'featured_image_media_id' => $brandMedia->id,
             'order' => 1,
             'featured_on_home' => true,
-            'problem' => '<p>Most businesses communicate reactively — every announcement, pitch, and update sounds like it came from a different company.</p>',
+            'problem' => '<p>Most businesses communicate reactively. Every announcement, pitch, and update sounds like it came from a different company.</p>',
             'approach' => '<p>We build a messaging framework once, then train every team that speaks publicly to use it.</p>',
             'deliverables' => [['label' => 'Messaging framework'], ['label' => 'Spokesperson training'], ['label' => 'Quarterly message audits']],
             'faqs' => [
@@ -203,7 +203,7 @@ class DatabaseSeeder extends Seeder
             'hero_rich_text' => '<h1>Communications that earn attention, not just spend it.</h1><p>Fastora helps businesses communicate with clarity, credibility, and confidence.</p>',
             'hero_links' => [
                 ['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default'],
-                ['label' => 'See our work', 'url' => '/case-studies', 'appearance' => 'outline'],
+                ['label' => 'View our work', 'url' => '/case-studies', 'appearance' => 'outline'],
             ],
             'hero_media_id' => $brandMedia->id,
             'layout' => [
@@ -237,7 +237,7 @@ class DatabaseSeeder extends Seeder
             ],
             'status' => 'published',
             'published_at' => now()->subMonths(8),
-            'meta_title' => 'Fastora — Communications & Digital Strategy',
+            'meta_title' => 'Fastora, Communications & Digital Strategy',
             'meta_description' => 'Fastora helps businesses communicate with clarity, credibility, and confidence.',
         ]);
 
