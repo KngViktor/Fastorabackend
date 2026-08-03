@@ -200,6 +200,7 @@ class DatabaseSeeder extends Seeder
         Page::updateOrCreate(['slug' => 'home'], [
             'title' => 'Home',
             'hero_type' => 'highImpact',
+            'hero_eyebrow' => 'Communications & Digital Strategy',
             'hero_rich_text' => '<h1>Communications that earn attention, not just spend it.</h1><p>Fastora helps businesses communicate with clarity, credibility, and confidence.</p>',
             'hero_links' => [
                 ['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default'],
@@ -247,9 +248,36 @@ class DatabaseSeeder extends Seeder
             'page_header_eyebrow' => 'What we do',
             'page_header_heading' => 'Services built around how you communicate',
             'page_header_description' => 'Integrated services, each designed to help your business communicate with more clarity, credibility, and confidence.',
+            'faqs' => [
+                [
+                    'question' => 'How do I know which service is right for us?',
+                    'answer' => "Book a consultation and we'll help you figure out the right starting point. Most engagements begin with Strategic Communications or Brand Consulting before moving into execution.",
+                ],
+                [
+                    'question' => 'Can we combine multiple services?',
+                    'answer' => 'Yes. Most clients combine two or three services. Strategy, content, and digital marketing are a common pairing, delivered as one connected engagement.',
+                ],
+                [
+                    'question' => 'Do you offer one-off projects or only retainers?',
+                    'answer' => 'Both. Some services, like Brand Consulting, work well as defined projects. Others, like Social Media Management and Communication Advisory, are typically ongoing retainers.',
+                ],
+            ],
             'layout' => [],
             'status' => 'published',
             'published_at' => now()->subMonths(8),
+        ]);
+
+        Page::updateOrCreate(['slug' => 'insights'], [
+            'title' => 'Insights',
+            'hero_type' => 'none',
+            'page_header_eyebrow' => 'Insights',
+            'page_header_heading' => 'Thinking on communication and brand strategy',
+            'page_header_description' => 'Practical ideas on communications, branding, and digital strategy, for businesses that want to be understood, not just seen.',
+            'layout' => [],
+            'status' => 'published',
+            'published_at' => now()->subMonths(8),
+            'meta_title' => 'Insights',
+            'meta_description' => 'Practical thinking on communications, branding, and digital strategy from the Fastora team.',
         ]);
 
         Page::updateOrCreate(['slug' => 'case-studies'], [
@@ -269,6 +297,20 @@ class DatabaseSeeder extends Seeder
             'page_header_eyebrow' => 'Contact',
             'page_header_heading' => "Let's start your project",
             'page_header_description' => "Tell us where you want to go. We'll come back with how to get there, fast.",
+            'faqs' => [
+                [
+                    'question' => 'What happens after I submit the form?',
+                    'answer' => "We'll review your message and follow up within one to two business days to schedule a consultation.",
+                ],
+                [
+                    'question' => 'Is the first consultation free?',
+                    'answer' => "Yes. The first consultation is a conversation about your business and communication goals, with no obligation.",
+                ],
+                [
+                    'question' => 'What information should I include in my message?',
+                    'answer' => "A short description of your business, what you're hoping to achieve, and which service you're interested in helps us prepare for the call.",
+                ],
+            ],
             'layout' => [],
             'status' => 'published',
             'published_at' => now()->subMonths(8),

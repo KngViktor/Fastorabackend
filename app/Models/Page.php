@@ -11,12 +11,14 @@ class Page extends Model
         'title',
         'slug',
         'hero_type',
+        'hero_eyebrow',
         'hero_rich_text',
         'hero_links',
         'hero_media_id',
         'page_header_eyebrow',
         'page_header_heading',
         'page_header_description',
+        'faqs',
         'layout',
         'status',
         'published_at',
@@ -27,6 +29,7 @@ class Page extends Model
 
     protected $casts = [
         'hero_links' => 'array',
+        'faqs' => 'array',
         'layout' => 'array',
         'published_at' => 'datetime',
     ];

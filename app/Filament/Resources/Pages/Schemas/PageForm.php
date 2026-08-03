@@ -72,6 +72,9 @@ class PageForm
                                 ->live(),
                             static::mediaSelect('heroMedia', 'Hero media')
                                 ->visible(fn ($get) => in_array($get('hero_type'), ['highImpact', 'mediumImpact'])),
+                            TextInput::make('hero_eyebrow')
+                                ->label('Hero eyebrow')
+                                ->helperText('Small line above the hero headline, e.g. "Communications & Digital Strategy".'),
                             RichEditor::make('hero_rich_text')->label('Hero text')->columnSpanFull(),
                             static::linksRepeater('hero_links'),
                         ])
@@ -86,6 +89,24 @@ class PageForm
                                 ->columnSpanFull(),
                         ])
                         ->columns(2)
+                        ->columnSpanFull(),
+
+                    Tab::make('FAQs')
+                        ->schema([
+                            Repeater::make('faqs')
+                                ->label('Frequently asked questions')
+                                ->columnSpanFull()
+                                ->schema([
+                                    TextInput::make('question')->required(),
+                                    Textarea::make('answer')->required()->rows(3),
+                                ])
+                                ->addActionLabel('Add question')
+                                ->reorderable()
+                                ->collapsed()
+                                ->itemLabel(fn (array $state): ?string => $state['question'] ?? null)
+                                ->defaultItems(0)
+                                ->helperText('Shown at the bottom of this page, and published as FAQ structured data so search engines and AI assistants can quote the answers.'),
+                        ])
                         ->columnSpanFull(),
 
                     Tab::make('Content')

@@ -20,8 +20,10 @@ class PageResource extends JsonResource
             'pageHeaderEyebrow' => $this->page_header_eyebrow,
             'pageHeaderHeading' => $this->page_header_heading,
             'pageHeaderDescription' => $this->page_header_description,
+            'faqs' => $this->faqs ?? [],
             'hero' => [
                 'type' => $this->hero_type,
+                'eyebrow' => $this->hero_eyebrow,
                 'richText' => $this->hero_rich_text,
                 'links' => $this->hero_links ?? [],
                 'media' => $this->heroMedia ? new MediaResource($this->heroMedia) : null,
