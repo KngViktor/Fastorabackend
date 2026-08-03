@@ -11,6 +11,13 @@ trait SingletonModel
 {
     public static function current(): static
     {
-        return static::query()->firstOrCreate([]);
+        $model = static::query()->firstOrCreate([]);
+
+        // firstOrCreate() returns the model as it was inserted, holding only
+        // the id and timestamps. The column defaults declared in the migration
+        // (site name, brand colors) are applied by the database and are not
+        // read back, so without this the very first request after a fresh
+        // deploy serves nulls for every defaulted field.
+        return $model->wasRecentlyCreated ? $model->refresh() : $model;
     }
 }
