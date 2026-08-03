@@ -10,6 +10,13 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Uploaded media. `php artisan storage:link` points public/storage at
+    # storage/app/public with a symlink, but shared hosts frequently disallow
+    # symlinks, leaving every image 404ing. Mapping the URL straight onto the
+    # real directory works either way. Scoped to app/public, so nothing else
+    # under storage/ (logs, cached views, sessions) is reachable.
+    RewriteRule ^storage/(.*)$ storage/app/public/$1 [L]
+
     # Avoid re-entering the rule once a request is already inside public/.
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ public/$1 [L]

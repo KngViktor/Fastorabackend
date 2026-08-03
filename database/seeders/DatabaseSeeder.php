@@ -58,6 +58,8 @@ class DatabaseSeeder extends Seeder
                 ['label' => 'Services', 'url' => '/services'],
                 ['label' => 'Case Studies', 'url' => '/case-studies'],
                 ['label' => 'Insights', 'url' => '/insights'],
+                ['label' => 'About', 'url' => '/about'],
+                ['label' => 'Contact', 'url' => '/contact'],
             ],
         ]);
 
@@ -66,6 +68,7 @@ class DatabaseSeeder extends Seeder
                 ['label' => 'Services', 'url' => '/services'],
                 ['label' => 'Case Studies', 'url' => '/case-studies'],
                 ['label' => 'Insights', 'url' => '/insights'],
+                ['label' => 'About', 'url' => '/about'],
                 ['label' => 'Contact', 'url' => '/contact'],
             ],
         ]);
@@ -265,6 +268,43 @@ class DatabaseSeeder extends Seeder
             'layout' => [],
             'status' => 'published',
             'published_at' => now()->subMonths(8),
+        ]);
+
+        Page::updateOrCreate(['slug' => 'about'], [
+            'title' => 'About',
+            'hero_type' => 'lowImpact',
+            'hero_rich_text' => '<h1>We help businesses say what they actually mean.</h1><p>Fastora is a communications and digital strategy company working with organisations that want to be understood, not just seen.</p>',
+            'hero_media_id' => $brandMedia->id,
+            'layout' => [
+                ['type' => 'content', 'data' => [
+                    'richText' => '<h2>What we do</h2><p>We build the messaging foundations a business communicates from, then carry them through brand, campaigns, and everyday content. Most engagements start with positioning work before moving into execution.</p>',
+                ]],
+                ['type' => 'whyFastora', 'data' => [
+                    'heading' => 'How we think about the work',
+                    'points' => [
+                        ['stat' => '1', 'title' => 'One message', 'description' => 'Every team speaks from the same framework, so the story holds together.'],
+                        ['stat' => '3', 'title' => 'Three disciplines', 'description' => 'Strategy, brand, and digital marketing delivered as one engagement.'],
+                        ['stat' => '90', 'title' => 'Days to clarity', 'description' => 'A typical repositioning is live within a quarter.'],
+                    ],
+                ]],
+                ['type' => 'ourProcess', 'data' => [
+                    'heading' => 'How we work',
+                    'steps' => [
+                        ['title' => 'Discover', 'description' => 'We learn your business, market, and audience.'],
+                        ['title' => 'Define', 'description' => 'We build the messaging and positioning framework.'],
+                        ['title' => 'Deploy', 'description' => 'We roll it out across every channel that matters.'],
+                        ['title' => 'Refine', 'description' => 'We measure and adjust every quarter.'],
+                    ],
+                ]],
+                ['type' => 'cta', 'data' => [
+                    'richText' => '<h2>Ready to start your project?</h2><p>Tell us where you want to go, we\'ll come back with how to get there.</p>',
+                    'links' => [['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default']],
+                ]],
+            ],
+            'status' => 'published',
+            'published_at' => now()->subMonths(8),
+            'meta_title' => 'About Fastora',
+            'meta_description' => 'Fastora is a communications and digital strategy company helping businesses communicate with clarity, credibility, and confidence.',
         ]);
 
         Page::updateOrCreate(['slug' => 'insights'], [
