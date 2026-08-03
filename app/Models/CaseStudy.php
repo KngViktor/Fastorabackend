@@ -25,10 +25,13 @@ class CaseStudy extends Model
         'published_at',
         'meta_title',
         'meta_description',
+        'meta_canonical_url',
+        'meta_noindex',
         'meta_image_media_id',
     ];
 
     protected $casts = [
+        'meta_noindex' => 'boolean',
         'gallery' => 'array',
         'featured_on_home' => 'boolean',
         'results' => 'array',

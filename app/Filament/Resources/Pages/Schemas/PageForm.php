@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Pages\Schemas;
 
 use App\Filament\Concerns\HasMediaSelect;
+use App\Filament\Concerns\HasSeoFields;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\DateTimePicker;
@@ -24,6 +25,7 @@ use Filament\Schemas\Schema;
 class PageForm
 {
     use HasMediaSelect;
+    use HasSeoFields;
 
     protected static function linksRepeater(string $name = 'links'): Repeater
     {
@@ -240,9 +242,7 @@ class PageForm
                                 ->default('draft')
                                 ->required(),
                             DateTimePicker::make('published_at'),
-                            TextInput::make('meta_title'),
-                            TextInput::make('meta_description'),
-                            static::mediaSelect('metaImage', 'Meta image'),
+                            ...static::seoFields(),
                         ])
                         ->columns(2),
                 ]),

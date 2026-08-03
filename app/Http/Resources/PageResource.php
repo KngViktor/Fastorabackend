@@ -35,6 +35,8 @@ class PageResource extends JsonResource
             'meta' => [
                 'title' => $this->meta_title,
                 'description' => $this->meta_description,
+                'canonicalUrl' => $this->meta_canonical_url,
+                'noindex' => (bool) $this->meta_noindex,
                 'image' => $this->metaImage ? new MediaResource($this->metaImage) : null,
             ],
         ];

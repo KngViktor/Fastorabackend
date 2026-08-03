@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\CaseStudies\Schemas;
 
 use App\Filament\Concerns\HasMediaSelect;
+use App\Filament\Concerns\HasSeoFields;
 use App\Models\Media;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Repeater;
@@ -18,6 +19,7 @@ use Filament\Schemas\Schema;
 class CaseStudyForm
 {
     use HasMediaSelect;
+    use HasSeoFields;
 
     public static function configure(Schema $schema): Schema
     {
@@ -80,9 +82,7 @@ class CaseStudyForm
                                 ->default('draft')
                                 ->required(),
                             DateTimePicker::make('published_at'),
-                            TextInput::make('meta_title'),
-                            TextInput::make('meta_description'),
-                            static::mediaSelect('metaImage', 'Meta image'),
+                            ...static::seoFields(),
                         ])
                         ->columns(2),
                 ]),
