@@ -43,27 +43,79 @@ class PageResource extends JsonResource
     }
 
     /**
-     * Blocks are stored as [{ "type": "...", "data": {...} }, ...]. The only
-     * block referencing media directly is "mediaBlock" (a raw media id under
-     * data.media) — resolve it to a full MediaResource so the frontend never
-     * has to make a second lookup.
+     * Blocks are stored as [{ "type": "...", "data": {...} }, ...] holding raw
+     * media ids. Resolve them to full MediaResource arrays in one pass so the
+     * frontend never has to make a second lookup per block.
+     *
+     * Keyed by block type: each entry lists the data keys holding a single id,
+     * and the repeaters holding a list of rows that each carry an id.
      */
+    protected const MEDIA_FIELDS = [
+        'mediaBlock' => ['single' => ['media'], 'repeaters' => []],
+        'aboutFastora' => ['single' => ['image'], 'repeaters' => []],
+        'trustedBy' => ['single' => [], 'repeaters' => ['logos' => 'media']],
+    ];
+
     protected function resolveLayoutMedia(array $blocks): array
     {
-        $mediaIds = collect($blocks)
-            ->filter(fn ($block) => ($block['type'] ?? null) === 'mediaBlock')
-            ->pluck('data.media')
-            ->filter()
-            ->all();
+        $ids = [];
 
-        $mediaById = $mediaIds
-            ? Media::query()->whereIn('id', $mediaIds)->get()->keyBy('id')
+        foreach ($blocks as $block) {
+            $spec = self::MEDIA_FIELDS[$block['type'] ?? ''] ?? null;
+            if (! $spec) {
+                continue;
+            }
+
+            foreach ($spec['single'] as $key) {
+                if (! empty($block['data'][$key])) {
+                    $ids[] = $block['data'][$key];
+                }
+            }
+
+            foreach ($spec['repeaters'] as $repeater => $key) {
+                foreach ($block['data'][$repeater] ?? [] as $row) {
+                    if (! empty($row[$key])) {
+                        $ids[] = $row[$key];
+                    }
+                }
+            }
+        }
+
+        $mediaById = $ids
+            ? Media::query()->whereIn('id', array_unique($ids))->get()->keyBy('id')
             : collect();
 
-        return collect($blocks)->map(function ($block) use ($mediaById) {
-            if (($block['type'] ?? null) === 'mediaBlock' && isset($block['data']['media'])) {
-                $media = $mediaById->get($block['data']['media']);
-                $block['data']['media'] = $media ? (new MediaResource($media))->resolve() : null;
+        $resolve = fn ($id) => ($media = $mediaById->get($id))
+            ? (new MediaResource($media))->resolve()
+            : null;
+
+        return collect($blocks)->map(function ($block) use ($resolve) {
+            $spec = self::MEDIA_FIELDS[$block['type'] ?? ''] ?? null;
+            if (! $spec) {
+                return $block;
+            }
+
+            foreach ($spec['single'] as $key) {
+                if (array_key_exists($key, $block['data'] ?? [])) {
+                    $block['data'][$key] = $resolve($block['data'][$key]);
+                }
+            }
+
+            foreach ($spec['repeaters'] as $repeater => $key) {
+                if (! isset($block['data'][$repeater])) {
+                    continue;
+                }
+
+                $block['data'][$repeater] = collect($block['data'][$repeater])
+                    ->map(function ($row) use ($key, $resolve) {
+                        $row[$key] = $resolve($row[$key] ?? null);
+
+                        return $row;
+                    })
+                    // A logo whose media was deleted would render as a gap.
+                    ->filter(fn ($row) => $row[$key] !== null)
+                    ->values()
+                    ->all();
             }
 
             return $block;

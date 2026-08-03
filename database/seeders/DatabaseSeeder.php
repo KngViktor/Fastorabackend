@@ -211,6 +211,23 @@ class DatabaseSeeder extends Seeder
             ],
             'hero_media_id' => $brandMedia->id,
             'layout' => [
+                // Left empty on purpose: the section hides itself until real
+                // client logos are uploaded, rather than shipping placeholders
+                // that would imply clients the company does not yet have.
+                ['type' => 'trustedBy', 'data' => ['heading' => 'Trusted by', 'logos' => []]],
+
+                ['type' => 'aboutFastora', 'data' => [
+                    'heading' => 'Good work deserves to be noticed, understood, and remembered.',
+                    'richText' => '<p>Many businesses are genuinely good at what they do. Capable teams, quality products, years of experience. Yet they are overlooked because they struggle to communicate their value.</p><p>Fastora exists to close that gap. We help businesses communicate more effectively so they become easier to understand, easier to trust, and harder to ignore.</p>',
+                    'image' => $brandMedia->id,
+                    'linkLabel' => 'More about Fastora',
+                    'linkUrl' => '/about',
+                    'stats' => [
+                        ['value' => '10', 'label' => 'Services under one team'],
+                        ['value' => 'Africa', 'label' => 'Rooted here, working globally'],
+                    ],
+                ]],
+
                 ['type' => 'servicesOverview', 'data' => ['eyebrow' => 'What we do', 'heading' => 'Services built around how you communicate', 'limit' => 6]],
                 ['type' => 'whyFastora', 'data' => [
                     'eyebrow' => 'Why Fastora',

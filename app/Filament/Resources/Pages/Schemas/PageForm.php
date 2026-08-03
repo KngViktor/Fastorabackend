@@ -137,6 +137,57 @@ class PageForm
                                             TextInput::make('caption'),
                                         ]),
 
+                                    Block::make('aboutFastora')
+                                        ->label('About Fastora')
+                                        ->schema([
+                                            TextInput::make('heading')->required(),
+                                            RichEditor::make('richText')
+                                                ->label('Body')
+                                                ->columnSpanFull(),
+                                            static::mediaSelect('image', 'Image')
+                                                ->helperText('A team, workshop or workspace photo works best here.'),
+                                            TextInput::make('linkLabel')
+                                                ->label('Link label')
+                                                ->default('More about Fastora'),
+                                            TextInput::make('linkUrl')
+                                                ->label('Link URL')
+                                                ->default('/about'),
+                                            Repeater::make('stats')
+                                                ->label('Supporting figures')
+                                                ->columnSpanFull()
+                                                ->schema([
+                                                    TextInput::make('value')->required()->helperText('e.g. "10"'),
+                                                    TextInput::make('label')->required()->helperText('e.g. "Services"'),
+                                                ])
+                                                ->columns(2)
+                                                ->addActionLabel('Add figure')
+                                                ->defaultItems(0)
+                                                ->maxItems(3),
+                                        ])
+                                        ->columns(2),
+
+                                    Block::make('trustedBy')
+                                        ->label('Trusted By (client logos)')
+                                        ->schema([
+                                            TextInput::make('heading')
+                                                ->default('Trusted by')
+                                                ->helperText('Kept short. The logos carry the credibility, not the wording.'),
+                                            Repeater::make('logos')
+                                                ->label('Client logos')
+                                                ->columnSpanFull()
+                                                ->schema([
+                                                    static::mediaSelect('media', 'Logo'),
+                                                    TextInput::make('name')
+                                                        ->required()
+                                                        ->helperText('Used as the image alt text, not displayed.'),
+                                                ])
+                                                ->columns(2)
+                                                ->addActionLabel('Add logo')
+                                                ->reorderable()
+                                                ->defaultItems(0)
+                                                ->helperText('The section stays hidden until at least one logo is added, so it is never shown empty.'),
+                                        ]),
+
                                     Block::make('servicesOverview')
                                         ->label('Services Overview')
                                         ->schema([
