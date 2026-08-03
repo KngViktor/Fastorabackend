@@ -18,7 +18,18 @@
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
+
+# /vendor is deliberately NOT ignored.
+#
+# Composer needs proc_open to run, and it is disabled on this host's deploy
+# runner, so `composer install` fails there on every push. Committing the
+# installed dependencies means the server only ever has to pull files.
+#
+# Consequences to know about:
+#  - the tree is built with --no-dev, so phpunit, pint and faker are absent
+#  - after changing composer.json, re-run:
+#      composer install --no-dev --optimize-autoloader
+#    and commit the resulting vendor/ changes along with composer.lock
 Homestead.json
 Homestead.yaml
 Thumbs.db
