@@ -1,0 +1,42 @@
+# Laravel expects the web server's document root to be its `public/` folder.
+# On hosts that lock the document root to public_html (and deploy the repo
+# straight into it), that isn't configurable, so the whole application ends up
+# inside the web root with no index.php at the top level, which serves a 403.
+#
+# This forwards every request into public/ so the app works unchanged, and
+# denies direct access to the application files that are now sitting inside
+# the web root as a side effect of that layout.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Avoid re-entering the rule once a request is already inside public/.
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Never serve dotfiles. .env holds the database password and app key, and a
+# git clone may also leave .git/ here.
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Project manifests and the CLI entry point are not web resources.
+<FilesMatch "^(composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# No directory listings anywhere above public/.
+Options -Indexes
