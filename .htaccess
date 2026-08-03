@@ -15,10 +15,18 @@
     # symlinks, leaving every image 404ing. Mapping the URL straight onto the
     # real directory works either way. Scoped to app/public, so nothing else
     # under storage/ (logs, cached views, sessions) is reachable.
-    RewriteRule ^storage/(.*)$ storage/app/public/$1 [L]
+    #
+    # The (?!app/public/) guard matters: the substitution still begins with
+    # "storage/", so without it the rule matches its own output and loops
+    # until the server gives up with a 500. [END] stops rewriting outright
+    # rather than restarting the ruleset the way [L] does in .htaccess.
+    RewriteRule ^storage/(?!app/public/)(.*)$ storage/app/public/$1 [END]
 
-    # Avoid re-entering the rule once a request is already inside public/.
+    # Everything else is a Laravel route, so hand it to public/index.php.
+    # Skipping /storage/ here too, in case [END] above is unsupported and the
+    # request comes back round.
     RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_URI} !^/storage/
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
