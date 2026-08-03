@@ -4,15 +4,32 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    /**
+     * Every role reaches the panel; what they can do once inside is decided
+     * by the policies in app/Policies. This has to be declared explicitly:
+     * Filament's Authenticate middleware only lets a user model that does not
+     * implement FilamentUser through when APP_ENV is "local", so without this
+     * every login on production is rejected with a 403.
+     *
+     * Listing the roles rather than returning true also means a user whose
+     * role is empty or unrecognised is refused instead of let in by default.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return in_array($this->role, ['super_admin', 'admin', 'editor', 'commenter'], true);
+    }
 
     /**
      * The attributes that are mass assignable.
