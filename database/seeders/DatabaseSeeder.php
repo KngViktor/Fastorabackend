@@ -35,6 +35,16 @@ class DatabaseSeeder extends Seeder
 
         $brandMedia = $this->seedBrandMedia();
 
+        // Real photography, so the site is not built entirely out of the logo.
+        // The hero image is pre-composited: navy gradient, ghosted wordmark and
+        // a diagonally-cut team photo in one file, which is exactly what the
+        // HighImpact hero component expects as its background.
+        $heroImage = $this->importImage('fastora-hero-section.png', 'Two colleagues reviewing work together on a laptop and tablet');
+        $studioPhoto = $this->importImage('121758.jpg', 'A communications professional at work in a studio');
+        $analyticsPhoto = $this->importImage('119721.jpg', 'Reviewing performance figures on a tablet');
+        $contentPhoto = $this->importImage('83416.jpg', 'Planning content across digital channels');
+        $strategyPhoto = $this->importImage('32.jpg', 'Mapping a communications strategy across markets');
+
         SiteSetting::current()->update([
             'site_name' => 'Fastora',
             'tagline' => 'Communications and digital strategy for businesses that want to be understood.',
@@ -76,7 +86,7 @@ class DatabaseSeeder extends Seeder
         $strategy = Service::updateOrCreate(['slug' => 'strategic-communications'], [
             'title' => 'Strategic Communications',
             'summary' => 'Clear, consistent messaging that aligns every team around the same story.',
-            'featured_image_media_id' => $brandMedia->id,
+            'featured_image_media_id' => $strategyPhoto->id,
             'order' => 1,
             'featured_on_home' => true,
             'problem' => '<p>Most businesses communicate reactively. Every announcement, pitch, and update sounds like it came from a different company.</p>',
@@ -92,7 +102,7 @@ class DatabaseSeeder extends Seeder
         $branding = Service::updateOrCreate(['slug' => 'brand-consulting'], [
             'title' => 'Brand Consulting',
             'summary' => 'Positioning, identity, and voice work that makes a business memorable.',
-            'featured_image_media_id' => $brandMedia->id,
+            'featured_image_media_id' => $studioPhoto->id,
             'order' => 2,
             'featured_on_home' => true,
             'problem' => '<p>A brand that looks and sounds inconsistent erodes trust before a single sales conversation happens.</p>',
@@ -108,7 +118,7 @@ class DatabaseSeeder extends Seeder
         Service::updateOrCreate(['slug' => 'digital-marketing'], [
             'title' => 'Digital Marketing',
             'summary' => 'Paid and organic campaigns built around a clear communications strategy.',
-            'featured_image_media_id' => $brandMedia->id,
+            'featured_image_media_id' => $analyticsPhoto->id,
             'order' => 3,
             'featured_on_home' => true,
             'problem' => '<p>Running ads without a strategy behind them burns budget fast.</p>',
@@ -119,13 +129,63 @@ class DatabaseSeeder extends Seeder
             'published_at' => now()->subMonths(2),
         ]);
 
+        // The remaining services named in the specification. Only the first
+        // three are featured on the home page; the rest fill out the services
+        // index so the offering is complete rather than a sample of it.
+        $moreServices = [
+            ['content-strategy', 'Content Strategy', 'A publishing plan that says something worth reading, consistently.',
+                'Content gets produced in bursts, with no plan behind what it is meant to achieve.',
+                'We set the themes, formats, and cadence, then build a calendar the team can actually keep to.',
+                ['Content pillars', 'Editorial calendar', 'Tone of voice guide'], 4],
+            ['reputation-management', 'Reputation Management', 'Protecting how a business is perceived, before and during difficult moments.',
+                'Reputation is usually only considered once it is already under pressure.',
+                'We prepare the positions, spokespeople, and holding statements in advance, then support you live if something breaks.',
+                ['Risk audit', 'Crisis playbook', 'Spokesperson preparation'], 5],
+            ['founder-branding', 'Founder Branding', 'Positioning the person in front of the business.',
+                'Founders are often the most credible voice a company has, and the least prepared to use it.',
+                'We define what the founder is known for, then build the content and speaking presence to support it.',
+                ['Personal positioning', 'Content programme', 'Speaking and profile support'], 6],
+            ['social-media-management', 'Social Media Management', 'Day-to-day channels run with the same discipline as the wider strategy.',
+                'Channels drift from the brand when they are handed to whoever has time.',
+                'We take ownership of planning, publishing, and community response, working from the agreed messaging.',
+                ['Channel management', 'Content production', 'Community management'], 7],
+            ['copywriting', 'Copywriting', 'Words that carry the positioning through every touchpoint.',
+                'Good strategy is regularly undone by copy written in a hurry.',
+                'We write the website, campaign, and sales material so the language stays consistent wherever it appears.',
+                ['Website copy', 'Campaign and sales copy', 'Messaging library'], 8],
+            ['marketing-strategy', 'Marketing Strategy', 'Where to compete, who to reach, and what to say first.',
+                'Activity begins before anyone has agreed the audience or the priority.',
+                'We set the market position, audience priorities, and channel plan before any execution starts.',
+                ['Market and audience analysis', 'Channel plan', 'Quarterly roadmap'], 9],
+            ['communication-advisory', 'Communication Advisory', 'A senior voice to think alongside, on retainer.',
+                'Leadership teams often need judgement on a communications decision faster than a project allows.',
+                'We stay close as an ongoing advisor, available for the decisions that matter as they come up.',
+                ['Ongoing advisory', 'Leadership counsel', 'Quarterly review'], 10],
+        ];
+
+        foreach ($moreServices as [$slug, $title, $summary, $problem, $approach, $deliverables, $order]) {
+            Service::updateOrCreate(['slug' => $slug], [
+                'title' => $title,
+                'summary' => $summary,
+                'featured_image_media_id' => $studioPhoto->id,
+                'order' => $order,
+                'featured_on_home' => false,
+                'problem' => '<p>' . $problem . '</p>',
+                'approach' => '<p>' . $approach . '</p>',
+                'deliverables' => array_map(fn ($d) => ['label' => $d], $deliverables),
+                'faqs' => [],
+                'status' => 'published',
+                'published_at' => now()->subMonths(2),
+            ]);
+        }
+
         $acme = CaseStudy::updateOrCreate(['slug' => 'acme-logistics-rebrand'], [
             'title' => 'A rebrand that cut sales-cycle confusion in half',
             'summary' => 'Repositioning a 15-year-old logistics company for an enterprise buyer.',
             'client_name' => 'Acme Logistics',
             'industry' => 'Logistics',
-            'cover_image_media_id' => $brandMedia->id,
-            'gallery' => [['media_id' => $brandMedia->id]],
+            'cover_image_media_id' => $analyticsPhoto->id,
+            'gallery' => [['media_id' => $contentPhoto->id]],
             'order' => 1,
             'featured_on_home' => true,
             'related_service_id' => $branding->id,
@@ -144,7 +204,7 @@ class DatabaseSeeder extends Seeder
             'summary' => 'A coordinated messaging and campaign launch across five markets.',
             'client_name' => 'Northwind Foods',
             'industry' => 'Consumer Goods',
-            'cover_image_media_id' => $brandMedia->id,
+            'cover_image_media_id' => $contentPhoto->id,
             'gallery' => [],
             'order' => 2,
             'featured_on_home' => true,
@@ -162,7 +222,7 @@ class DatabaseSeeder extends Seeder
         Testimonial::updateOrCreate(['client_name' => 'Amara Chukwu', 'company' => 'Acme Logistics'], [
             'quote' => 'Fastora didn\'t just redesign our brand, they gave our sales team language that actually closes deals.',
             'role' => 'VP of Marketing',
-            'avatar_media_id' => $brandMedia->id,
+            'avatar_media_id' => null,
             'rating' => 5,
             'show_on_home' => true,
         ])->services()->sync([$branding->id]);
@@ -170,7 +230,7 @@ class DatabaseSeeder extends Seeder
         Testimonial::updateOrCreate(['client_name' => 'David Osei', 'company' => 'Northwind Foods'], [
             'quote' => 'The launch was the smoothest we\'ve ever run across five markets, and it started with one shared message.',
             'role' => 'Head of Brand',
-            'avatar_media_id' => $brandMedia->id,
+            'avatar_media_id' => null,
             'rating' => 5,
             'show_on_home' => true,
         ])->services()->sync([$strategy->id]);
@@ -179,7 +239,7 @@ class DatabaseSeeder extends Seeder
         $brandingCategory = Category::updateOrCreate(['slug' => 'branding'], ['title' => 'Branding']);
 
         $post1 = Post::updateOrCreate(['slug' => 'why-most-messaging-frameworks-fail'], [
-            'hero_image_media_id' => $brandMedia->id,
+            'hero_image_media_id' => $contentPhoto->id,
             'title' => 'Why most messaging frameworks fail in the first quarter',
             'content' => '<p>A messaging framework only works if the people using it were part of building it.</p><p>The most common failure mode isn\'t a bad framework, it\'s a framework nobody outside the marketing team ever saw.</p>',
             'tags' => [['tag' => 'messaging'], ['tag' => 'strategy']],
@@ -190,7 +250,7 @@ class DatabaseSeeder extends Seeder
         $post1->authors()->sync([$admin->id]);
 
         $post2 = Post::updateOrCreate(['slug' => 'brand-consistency-checklist'], [
-            'hero_image_media_id' => $brandMedia->id,
+            'hero_image_media_id' => $studioPhoto->id,
             'title' => 'A ten-point brand consistency checklist',
             'content' => '<p>Before your next campaign ships, run it against these ten checks.</p><ul><li>Does the headline match your positioning statement?</li><li>Would a new hire recognize the voice as yours?</li></ul>',
             'tags' => [['tag' => 'branding']],
@@ -209,7 +269,7 @@ class DatabaseSeeder extends Seeder
                 ['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default'],
                 ['label' => 'View our work', 'url' => '/case-studies', 'appearance' => 'outline'],
             ],
-            'hero_media_id' => $brandMedia->id,
+            'hero_media_id' => $heroImage->id,
             'layout' => [
                 // Left empty on purpose: the section hides itself until real
                 // client logos are uploaded, rather than shipping placeholders
@@ -219,7 +279,7 @@ class DatabaseSeeder extends Seeder
                 ['type' => 'aboutFastora', 'data' => [
                     'heading' => 'Good work deserves to be noticed, understood, and remembered.',
                     'richText' => '<p>Many businesses are genuinely good at what they do. Capable teams, quality products, years of experience. Yet they are overlooked because they struggle to communicate their value.</p><p>Fastora exists to close that gap. We help businesses communicate more effectively so they become easier to understand, easier to trust, and harder to ignore.</p>',
-                    'image' => $brandMedia->id,
+                    'image' => $studioPhoto->id,
                     'linkLabel' => 'More about Fastora',
                     'linkUrl' => '/about',
                     'stats' => [
@@ -291,7 +351,7 @@ class DatabaseSeeder extends Seeder
             'title' => 'About',
             'hero_type' => 'lowImpact',
             'hero_rich_text' => '<h1>We help businesses say what they actually mean.</h1><p>Fastora is a communications and digital strategy company working with organisations that want to be understood, not just seen.</p>',
-            'hero_media_id' => $brandMedia->id,
+            'hero_media_id' => $studioPhoto->id,
             'layout' => [
                 ['type' => 'content', 'data' => [
                     'richText' => '<h2>What we do</h2><p>We build the messaging foundations a business communicates from, then carry them through brand, campaigns, and everyday content. Most engagements start with positioning work before moving into execution.</p>',
@@ -390,6 +450,37 @@ class DatabaseSeeder extends Seeder
             'mime_type' => 'image/png',
             'size' => Storage::disk('public')->size($path),
             'alt' => 'Fastora brand mark',
+            'width' => $dimensions[0] ?? null,
+            'height' => $dimensions[1] ?? null,
+        ]);
+    }
+
+    /**
+     * Copies a photo from database/seeders/images onto the public disk and
+     * registers it in the media library, so the site launches with real
+     * imagery instead of the logo standing in for every picture.
+     *
+     * The files live in this repository rather than the frontend's so they
+     * travel with the deploy that needs them.
+     */
+    protected function importImage(string $filename, string $alt): Media
+    {
+        $source = database_path('seeders/images/' . $filename);
+        $path = 'seed/' . $filename;
+
+        if (is_file($source) && ! Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->put($path, file_get_contents($source));
+        }
+
+        $dimensions = Storage::disk('public')->exists($path)
+            ? @getimagesize(Storage::disk('public')->path($path))
+            : false;
+
+        return Media::updateOrCreate(['path' => $path, 'disk' => 'public'], [
+            'filename' => $filename,
+            'mime_type' => str_ends_with(strtolower($filename), '.png') ? 'image/png' : 'image/jpeg',
+            'size' => Storage::disk('public')->exists($path) ? Storage::disk('public')->size($path) : 0,
+            'alt' => $alt,
             'width' => $dimensions[0] ?? null,
             'height' => $dimensions[1] ?? null,
         ]);
