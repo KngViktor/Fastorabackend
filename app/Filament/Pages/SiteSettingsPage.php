@@ -79,6 +79,9 @@ class SiteSettingsPage extends Page
                         Tab::make('Colors')
                             ->schema([
                                 TextInput::make('accent_color')->label('Accent')->helperText('Buttons, links, highlights, CTAs.'),
+                                TextInput::make('gold_color')
+                                    ->label('Gold')
+                                    ->helperText('Reserved for emphasis: result figures, statistics, and the hero label. Kept sparing so it stays a premium accent rather than a second brand colour.'),
                                 TextInput::make('background_color')->label('Background'),
                                 TextInput::make('text_color')->label('Text'),
                                 TextInput::make('surface_color')->label('Surface (cards)'),

@@ -20,6 +20,7 @@ class SiteSettingResource extends JsonResource
             'favicon' => $this->favicon ? new MediaResource($this->favicon) : null,
             'colors' => [
                 'accent' => $this->accent_color,
+                'gold' => $this->gold_color,
                 'background' => $this->background_color,
                 'text' => $this->text_color,
                 'surface' => $this->surface_color,

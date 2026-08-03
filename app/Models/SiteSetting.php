@@ -17,6 +17,7 @@ class SiteSetting extends Model
         'logo_dark_media_id',
         'favicon_media_id',
         'accent_color',
+        'gold_color',
         'background_color',
         'text_color',
         'surface_color',
