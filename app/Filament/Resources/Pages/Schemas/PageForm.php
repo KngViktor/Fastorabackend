@@ -167,25 +167,28 @@ class PageForm
                                         ->columns(2),
 
                                     Block::make('trustedBy')
-                                        ->label('Trusted By (client logos)')
+                                        ->label('Trusted By (clients)')
                                         ->schema([
                                             TextInput::make('heading')
                                                 ->default('Trusted by')
-                                                ->helperText('Kept short. The logos carry the credibility, not the wording.'),
+                                                ->helperText('Kept short. The client names carry the credibility, not the wording.'),
                                             Repeater::make('logos')
-                                                ->label('Client logos')
+                                                ->label('Clients')
                                                 ->columnSpanFull()
                                                 ->schema([
-                                                    static::mediaSelect('media', 'Logo'),
                                                     TextInput::make('name')
                                                         ->required()
-                                                        ->helperText('Used as the image alt text, not displayed.'),
+                                                        ->helperText('Shown as text until a logo is uploaded.'),
+                                                    TextInput::make('industry')
+                                                        ->helperText('Shown under the name, e.g. "Oil & Gas". Hidden once a logo is set.'),
+                                                    static::mediaSelect('media', 'Logo')
+                                                        ->helperText('Optional. Replaces the name once uploaded.'),
                                                 ])
                                                 ->columns(2)
-                                                ->addActionLabel('Add logo')
+                                                ->addActionLabel('Add client')
                                                 ->reorderable()
                                                 ->defaultItems(0)
-                                                ->helperText('The section stays hidden until at least one logo is added, so it is never shown empty.'),
+                                                ->helperText('The section stays hidden while this list is empty, so it is never shown bare. A client with no logo shows as its name, so a confirmed list can go live before the logo files arrive.'),
                                         ]),
 
                                     Block::make('servicesOverview')

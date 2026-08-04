@@ -112,8 +112,20 @@ class PageResource extends JsonResource
 
                         return $row;
                     })
-                    // A logo whose media was deleted would render as a gap.
-                    ->filter(fn ($row) => $row[$key] !== null)
+                    // Drop only rows with nothing left to render. This used to
+                    // require the media, back when a client without a logo could
+                    // not be displayed; the Trusted By block now falls back to the
+                    // client's name, so filtering on media alone silently hid every
+                    // confirmed client that had no logo file yet.
+                    ->filter(function ($row) use ($key) {
+                        if ($row[$key] !== null) {
+                            return true;
+                        }
+
+                        return collect($row)
+                            ->except($key)
+                            ->contains(fn ($value) => is_string($value) && trim($value) !== '');
+                    })
                     ->values()
                     ->all();
             }

@@ -52,9 +52,12 @@ class DatabaseSeeder extends Seeder
             'logo_dark_media_id' => $brandMedia->id,
             'favicon_media_id' => $brandMedia->id,
             'contact_email' => 'workwith@fastora.africa',
-            'contact_phone' => '+234 800 000 0000',
-            'address' => 'Lagos, Nigeria',
+            'contact_phone' => '+234 703 814 7969',
+            'address' => 'Nigeria · Remote · Africa',
             'social_links' => [
+                // WhatsApp is the primary channel, so it leads. wa.me wants the
+                // number with no spaces, plus sign, or leading zero.
+                ['platform' => 'whatsapp', 'url' => 'https://wa.me/2347038147969'],
                 ['platform' => 'instagram', 'url' => 'https://instagram.com/fastora'],
                 ['platform' => 'linkedin', 'url' => 'https://linkedin.com/company/fastora'],
             ],
@@ -275,10 +278,12 @@ class DatabaseSeeder extends Seeder
             ],
             'hero_media_id' => $heroImage->id,
             'layout' => [
-                // Left empty on purpose: the section hides itself until real
-                // client logos are uploaded, rather than shipping placeholders
-                // that would imply clients the company does not yet have.
-                ['type' => 'trustedBy', 'data' => ['heading' => 'Trusted by', 'logos' => []]],
+                // Six confirmed clients. No logo files yet, so the block renders
+                // each as its name until one is attached in the admin.
+                ['type' => 'trustedBy', 'data' => [
+                    'heading' => 'Trusted by',
+                    'logos' => require database_path('data/confirmed-clients.php'),
+                ]],
 
                 ['type' => 'aboutFastora', 'data' => [
                     'heading' => 'Good work deserves to be noticed, understood, and remembered.',
