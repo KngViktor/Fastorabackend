@@ -22,6 +22,10 @@ class HeaderNavPage extends Page
 
     protected static ?string $navigationLabel = 'Header Nav';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Site';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $title = 'Header Navigation';
 
     public static function canAccess(): bool

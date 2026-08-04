@@ -18,7 +18,11 @@ class MediaResource extends Resource
 {
     protected static ?string $model = Media::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Library';
+
+    protected static ?string $navigationLabel = 'Media Files';
 
     public static function form(Schema $schema): Schema
     {

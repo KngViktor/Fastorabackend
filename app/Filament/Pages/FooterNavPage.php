@@ -18,9 +18,16 @@ class FooterNavPage extends Page
 {
     protected string $view = 'filament.pages.footer-nav-page';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBars3BottomLeft;
+    // Bars3BottomLeft renders almost identically to the header's Bars3 at
+    // sidebar size, so the footer uses a link glyph instead: the footer is a
+    // list of links, and the two entries are now distinguishable at a glance.
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLink;
 
     protected static ?string $navigationLabel = 'Footer Nav';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Site';
+
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $title = 'Footer Navigation';
 

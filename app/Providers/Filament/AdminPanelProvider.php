@@ -3,16 +3,18 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
+use App\Filament\Widgets\ContentOverview;
+use App\Filament\Widgets\RecentEnquiries;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
+use Filament\Support\Enums\Width;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -40,16 +42,34 @@ class AdminPanelProvider extends PanelProvider
                 // Matches the Next.js frontend's Sky Blue accent (see
                 // Fastora's Site Settings → Colors).
                 'primary' => Color::hex('#2B7FD6'),
+                'gray' => Color::Slate,
+                'warning' => Color::hex('#C6A15B'),
             ])
+            ->font('Poppins')
+            // Groups are declared here rather than inferred, so the sidebar
+            // order is deliberate and does not shuffle when a resource is
+            // added. Content first because it is the daily work; Site and
+            // People are occasional.
+            ->navigationGroups([
+                NavigationGroup::make('Content'),
+                NavigationGroup::make('Library'),
+                NavigationGroup::make('Site'),
+                NavigationGroup::make('People'),
+            ])
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth(Width::Full)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
                 Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            // FilamentInfoWidget is deliberately absent: it advertised the
+            // framework version on the client's dashboard instead of telling
+            // them anything about their own site.
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                ContentOverview::class,
+                RecentEnquiries::class,
             ])
             ->middleware([
                 EncryptCookies::class,

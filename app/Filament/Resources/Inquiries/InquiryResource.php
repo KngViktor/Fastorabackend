@@ -18,7 +18,30 @@ class InquiryResource extends Resource
 {
     protected static ?string $model = Inquiry::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInbox;
+
+    // Left ungrouped, directly under Dashboard. A group containing one item
+    // named almost the same as the group is noise, and this is the entry most
+    // likely to need action, so it belongs at the top rather than filed away.
+    protected static ?int $navigationSort = -1;
+
+    protected static ?string $navigationLabel = 'Enquiries';
+
+    /**
+     * Unanswered enquiries are the one thing in here that costs money to miss,
+     * so the count sits in the sidebar rather than needing a click to find.
+     */
+    public static function getNavigationBadge(): ?string
+    {
+        $new = static::getModel()::query()->where('status', 'new')->count();
+
+        return $new > 0 ? (string) $new : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning';
+    }
 
     public static function form(Schema $schema): Schema
     {

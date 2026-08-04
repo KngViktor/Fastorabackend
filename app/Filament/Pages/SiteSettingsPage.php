@@ -31,6 +31,10 @@ class SiteSettingsPage extends Page
 
     protected static ?string $navigationLabel = 'Site Settings';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Site';
+
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $title = 'Site Settings';
 
     public static function canAccess(): bool
