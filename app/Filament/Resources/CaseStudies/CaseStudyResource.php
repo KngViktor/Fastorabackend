@@ -18,6 +18,8 @@ class CaseStudyResource extends Resource
 {
     protected static ?string $model = CaseStudy::class;
 
+    protected static ?string $recordTitleAttribute = 'title';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
 
     protected static string|\UnitEnum|null $navigationGroup = 'Content';

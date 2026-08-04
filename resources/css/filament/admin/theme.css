@@ -1,0 +1,317 @@
+/*
+ * Fastora admin theme.
+ *
+ * Filament's stock panel is functional but generic. This reshapes it towards
+ * the reference design the client supplied: a light, airy panel with rounded
+ * white cards on a tinted page, a white sidebar whose active item is a solid
+ * blue pill, quiet grouped section labels, and soft tinted shadows instead of
+ * hard borders.
+ *
+ * Everything here is a token or a class override on Filament's own `fi-*`
+ * classes, deliberately not a fork of its Blade views: the panel keeps working
+ * through framework upgrades, and only the surface changes.
+ */
+
+@import 'tailwindcss' source(none);
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*.php';
+@source '../../../../resources/views/filament/**/*.blade.php';
+@source '../../../../vendor/filament/**/*.blade.php';
+
+@theme {
+    --font-sans:
+        'Poppins', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+
+    /* Softer, rounder geometry than Filament ships with. */
+    --radius-lg: 0.75rem;
+    --radius-xl: 0.875rem;
+    --radius-2xl: 1rem;
+}
+
+:root {
+    /* Page sits slightly off-white so white cards read as raised without
+       needing a heavy border or shadow. */
+    --fastora-canvas: #f6f7f9;
+    --fastora-surface: #ffffff;
+    --fastora-hairline: #e9ecf2;
+    --fastora-ink: #101828;
+    --fastora-ink-muted: #667085;
+    --fastora-brand: #2b7fd6;
+    --fastora-brand-soft: #eff6fd;
+
+    /* Shadows tinted with the brand hue rather than pure black, which keeps
+       cards from looking grey and dirty on the tinted canvas. */
+    --fastora-shadow-sm: 0 1px 2px rgb(16 24 40 / 0.04);
+    --fastora-shadow-md: 0 2px 8px -2px rgb(16 24 40 / 0.06), 0 4px 16px -4px rgb(43 127 214 / 0.06);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page canvas                                                        */
+/* ------------------------------------------------------------------ */
+
+.fi-body {
+    background-color: var(--fastora-canvas);
+    color: var(--fastora-ink);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Sidebar                                                            */
+/* ------------------------------------------------------------------ */
+
+.fi-sidebar {
+    background-color: var(--fastora-surface);
+    border-right: 1px solid var(--fastora-hairline);
+}
+
+.fi-sidebar-header {
+    background-color: var(--fastora-surface);
+    border-bottom: 1px solid var(--fastora-hairline);
+    box-shadow: none;
+}
+
+/* Group labels are wayfinding, not content: small, quiet, and spaced away
+   from the items above them. */
+.fi-sidebar-group-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fastora-ink-muted);
+}
+
+.fi-sidebar-group + .fi-sidebar-group {
+    margin-top: 1.25rem;
+}
+
+.fi-sidebar-item-button {
+    border-radius: 0.625rem;
+    gap: 0.75rem;
+    padding-block: 0.5rem;
+    font-weight: 500;
+}
+
+.fi-sidebar-item:not(.fi-active) .fi-sidebar-item-button:hover {
+    background-color: var(--fastora-canvas);
+}
+
+/* The active item is a solid brand pill, which is the single strongest cue
+   in the reference and the clearest "you are here" signal. */
+.fi-sidebar-item.fi-active .fi-sidebar-item-button {
+    background-color: var(--fastora-brand);
+    color: #ffffff;
+    box-shadow: 0 2px 8px -2px rgb(43 127 214 / 0.45);
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-button .fi-icon,
+.fi-sidebar-item.fi-active .fi-sidebar-item-button svg {
+    color: #ffffff;
+}
+
+/* Signed-in user card at the top of the sidebar (see
+   resources/views/filament/sidebar-user.blade.php). */
+.fastora-sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: 1rem;
+    padding: 0.625rem;
+    border: 1px solid var(--fastora-hairline);
+    border-radius: 0.75rem;
+    background-color: var(--fastora-canvas);
+}
+
+.fastora-sidebar-user-avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.625rem;
+    background-color: var(--fastora-brand);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.fastora-sidebar-user-text {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.fastora-sidebar-user-name {
+    overflow: hidden;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--fastora-ink);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fastora-sidebar-user-meta {
+    font-size: 0.6875rem;
+    color: var(--fastora-ink-muted);
+}
+
+/* Collapsed sidebar shows icons only, so the card would just be a floating
+   square with clipped text. */
+.fi-sidebar-collapsed .fastora-sidebar-user {
+    display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Topbar                                                             */
+/* ------------------------------------------------------------------ */
+
+.fi-topbar > nav {
+    background-color: var(--fastora-surface);
+    border-bottom: 1px solid var(--fastora-hairline);
+    box-shadow: none;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Cards and panels                                                   */
+/* ------------------------------------------------------------------ */
+
+.fi-section,
+.fi-wi-stats-overview-stat,
+.fi-ta-ctn,
+.fi-modal-window {
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--fastora-hairline);
+    background-color: var(--fastora-surface);
+    box-shadow: var(--fastora-shadow-md);
+}
+
+.fi-section-header {
+    border-bottom: 1px solid var(--fastora-hairline);
+}
+
+.fi-section-header-heading {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+/* Stat tiles read as one row of equals, so they get the lighter shadow. */
+.fi-wi-stats-overview-stat {
+    box-shadow: var(--fastora-shadow-sm);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.fi-wi-stats-overview-stat:hover {
+    box-shadow: var(--fastora-shadow-md);
+    transform: translateY(-1px);
+}
+
+.fi-wi-stats-overview-stat-value {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Forms                                                              */
+/* ------------------------------------------------------------------ */
+
+.fi-input-wrp {
+    border-radius: 0.625rem;
+    box-shadow: none;
+    border: 1px solid var(--fastora-hairline);
+    background-color: var(--fastora-surface);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fi-input-wrp:focus-within {
+    border-color: var(--fastora-brand);
+    box-shadow: 0 0 0 3px var(--fastora-brand-soft);
+}
+
+.fi-fo-field-wrp-label {
+    font-weight: 500;
+    color: var(--fastora-ink);
+}
+
+.fi-fo-field-wrp-hint,
+.fi-fo-field-wrp-helper-text {
+    color: var(--fastora-ink-muted);
+}
+
+/* Tabs read as a segmented control rather than browser tabs. */
+.fi-tabs {
+    border-radius: 0.75rem;
+    background-color: var(--fastora-canvas);
+    border: 1px solid var(--fastora-hairline);
+    padding: 0.25rem;
+    gap: 0.25rem;
+}
+
+.fi-tabs-item {
+    border-radius: 0.5rem;
+    font-weight: 500;
+}
+
+.fi-tabs-item.fi-active {
+    background-color: var(--fastora-surface);
+    box-shadow: var(--fastora-shadow-sm);
+    color: var(--fastora-brand);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Buttons                                                            */
+/* ------------------------------------------------------------------ */
+
+.fi-btn {
+    border-radius: 0.625rem;
+    font-weight: 500;
+    transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+/* Physical press feedback, which the stock panel lacks entirely. */
+.fi-btn:active {
+    transform: scale(0.98);
+}
+
+.fi-btn.fi-color-primary {
+    box-shadow: 0 2px 8px -2px rgb(43 127 214 / 0.4);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Tables                                                             */
+/* ------------------------------------------------------------------ */
+
+.fi-ta-header-cell {
+    background-color: var(--fastora-canvas);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--fastora-ink-muted);
+}
+
+.fi-ta-row:hover {
+    background-color: var(--fastora-brand-soft);
+}
+
+.fi-badge {
+    border-radius: 9999px;
+    font-weight: 500;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Dark mode                                                          */
+/* ------------------------------------------------------------------ */
+
+/* The reference is a light design, but the panel offers a dark toggle, so the
+   same tokens are restated rather than leaving dark mode half-themed. */
+.dark {
+    --fastora-canvas: #0f1623;
+    --fastora-surface: #16202f;
+    --fastora-hairline: #253347;
+    --fastora-ink: #e8eef6;
+    --fastora-ink-muted: #94a3b8;
+    --fastora-brand-soft: #1c2c40;
+    --fastora-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+    --fastora-shadow-md: 0 2px 10px -2px rgb(0 0 0 / 0.45);
+}

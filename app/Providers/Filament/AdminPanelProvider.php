@@ -13,8 +13,11 @@ use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Enums\ThemeMode;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Width;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -46,6 +49,11 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::hex('#C6A15B'),
             ])
             ->font('Poppins')
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            // The reference design is light, and Filament otherwise follows the
+            // operating system, so anyone on a dark desktop would never see the
+            // intended panel. Dark mode stays available from the user menu.
+            ->defaultThemeMode(ThemeMode::Light)
             // Groups are declared here rather than inferred, so the sidebar
             // order is deliberate and does not shuffle when a resource is
             // added. Content first because it is the daily work; Site and
@@ -58,6 +66,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth(Width::Full)
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            // The reference opens its sidebar with the signed-in user rather
+            // than hiding identity in a topbar avatar. With four roles that
+            // each see different things, that is worth showing outright.
+            ->renderHook(
+                PanelsRenderHook::SIDEBAR_NAV_START,
+                fn (): View => view('filament.sidebar-user'),
+            )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

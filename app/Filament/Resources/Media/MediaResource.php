@@ -18,6 +18,8 @@ class MediaResource extends Resource
 {
     protected static ?string $model = Media::class;
 
+    protected static ?string $recordTitleAttribute = 'filename';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
 
     protected static string|\UnitEnum|null $navigationGroup = 'Library';

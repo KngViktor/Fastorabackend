@@ -18,6 +18,8 @@ class InquiryResource extends Resource
 {
     protected static ?string $model = Inquiry::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInbox;
 
     // Left ungrouped, directly under Dashboard. A group containing one item
