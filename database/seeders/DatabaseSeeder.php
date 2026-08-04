@@ -353,6 +353,24 @@ class DatabaseSeeder extends Seeder
             'hero_rich_text' => '<h1>We help businesses say what they actually mean.</h1><p>Fastora is a communications and digital strategy company working with organisations that want to be understood, not just seen.</p>',
             'hero_media_id' => $studioPhoto->id,
             'layout' => [
+                // Same block as on the home page, leading the About page because
+                // it is the clearest statement of why the company exists.
+                //
+                // Two deliberate differences from the home-page copy: no link,
+                // since "More about Fastora" would point at the page the reader
+                // is already on, and a different photograph from the hero
+                // directly above it.
+                ['type' => 'aboutFastora', 'data' => [
+                    'heading' => 'Good work deserves to be noticed, understood, and remembered.',
+                    'richText' => '<p>Many businesses are genuinely good at what they do. Capable teams, quality products, years of experience. Yet they are overlooked because they struggle to communicate their value.</p><p>Fastora exists to close that gap. We help businesses communicate more effectively so they become easier to understand, easier to trust, and harder to ignore.</p>',
+                    'image' => $strategyPhoto->id,
+                    'linkLabel' => null,
+                    'linkUrl' => null,
+                    'stats' => [
+                        ['value' => '10', 'label' => 'Services under one team'],
+                        ['value' => 'Africa', 'label' => 'Rooted here, working globally'],
+                    ],
+                ]],
                 ['type' => 'content', 'data' => [
                     'richText' => '<h2>What we do</h2><p>We build the messaging foundations a business communicates from, then carry them through brand, campaigns, and everyday content. Most engagements start with positioning work before moving into execution.</p>',
                 ]],

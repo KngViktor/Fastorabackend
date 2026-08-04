@@ -46,6 +46,13 @@ class DeployCommand extends Command
         $this->components->info('Syncing bundled media');
         Artisan::call('app:sync-media', [], $this->output);
 
+        // Data migrations write with the query builder, which does not fire the
+        // model observers that normally invalidate the API cache. Without this,
+        // a migration that edits page content would be invisible behind a cached
+        // response until the TTL expired or an editor happened to save something.
+        $this->components->info('Clearing the API response cache');
+        Artisan::call('cache:clear', [], $this->output);
+
         $this->components->info('Rebuilding caches');
         Artisan::call('config:cache', [], $this->output);
         Artisan::call('route:cache', [], $this->output);
