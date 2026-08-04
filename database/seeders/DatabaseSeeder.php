@@ -179,57 +179,61 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $acme = CaseStudy::updateOrCreate(['slug' => 'acme-logistics-rebrand'], [
-            'title' => 'A rebrand that cut sales-cycle confusion in half',
-            'summary' => 'Repositioning a 15-year-old logistics company for an enterprise buyer.',
-            'client_name' => 'Acme Logistics',
-            'industry' => 'Logistics',
+        $acme = CaseStudy::updateOrCreate(['slug' => 'lumen-skincare-content-strategy'], [
+            'title' => 'From sporadic posts to a content strategy that compounds',
+            'summary' => 'Lumen Skincare had beautiful products but flat social engagement. We rebuilt their content strategy and social media management from the ground up.',
+            'client_name' => 'Lumen Skincare',
+            'industry' => 'Beauty & Wellness',
             'cover_image_media_id' => $analyticsPhoto->id,
             'gallery' => [['media_id' => $contentPhoto->id]],
             'order' => 1,
             'featured_on_home' => true,
             'related_service_id' => $branding->id,
-            'challenge' => '<p>Acme\'s messaging still sounded like a regional trucking company even as it moved upmarket.</p>',
-            'approach' => '<p>We repositioned the brand around reliability at scale and rebuilt every client-facing asset around that idea.</p>',
+            'challenge' => '<p>Lumen Skincare had beautiful products but an inconsistent social presence, irregular posting, no clear content strategy, and flat engagement across Instagram and TikTok.</p>',
+            'approach' => '<p>We built a platform-specific content strategy and editorial calendar, then took over day-to-day social media management, consistent publishing, community engagement, and monthly reporting tied to real growth metrics.</p>',
             'results' => [
-                ['metric' => '2.4x', 'label' => 'Increase in qualified enterprise leads'],
-                ['metric' => '48%', 'label' => 'Shorter average sales cycle'],
+                ['metric' => '+212%', 'label' => 'Engagement rate in 90 days'],
+                ['metric' => '3.1x', 'label' => 'Follower growth in 6 months'],
+                ['metric' => '48hr', 'label' => 'Average content turnaround'],
             ],
             'status' => 'published',
             'published_at' => now()->subMonths(5),
         ]);
 
-        CaseStudy::updateOrCreate(['slug' => 'northwind-launch-campaign'], [
-            'title' => 'Launching a new product line with one consistent story',
-            'summary' => 'A coordinated messaging and campaign launch across five markets.',
-            'client_name' => 'Northwind Foods',
-            'industry' => 'Consumer Goods',
+        CaseStudy::updateOrCreate(['slug' => 'northbound-logistics-marketing-strategy'], [
+            'title' => 'Turning a strong operation into a clear, trusted brand',
+            'summary' => 'Northbound Logistics ran a strong operation but a fragmented digital presence made it hard for prospects to understand their value. We rebuilt their messaging and marketing strategy.',
+            'client_name' => 'Northbound Logistics',
+            'industry' => 'Logistics & Supply Chain',
             'cover_image_media_id' => $contentPhoto->id,
             'gallery' => [],
             'order' => 2,
             'featured_on_home' => true,
             'related_service_id' => $strategy->id,
-            'challenge' => '<p>Five regional teams were each telling a different version of the launch story.</p>',
-            'approach' => '<p>One messaging framework, localized by market but never contradicted.</p>',
+            'challenge' => '<p>Northbound\'s messaging was inconsistent across their website, proposals, and social presence, and their marketing had no clear strategy connecting it to business goals, so qualified leads were slipping through before a conversation ever started.</p>',
+            'approach' => '<p>We developed a marketing strategy grounded in Northbound\'s actual competitive position, rewrote their core messaging for clarity and trust, and rebuilt their lead-generating campaigns around a single measurable goal: qualified quote requests.</p>',
             'results' => [
-                ['metric' => '5', 'label' => 'Markets launched in sync'],
-                ['metric' => '31%', 'label' => 'Above-target first-quarter sales'],
+                ['metric' => '+40%', 'label' => 'Qualified quote requests in 90 days'],
+                ['metric' => '-28%', 'label' => 'Cost per qualified lead'],
+                ['metric' => '100%', 'label' => 'Consistent messaging across every channel'],
             ],
             'status' => 'published',
             'published_at' => now()->subMonths(3),
         ]);
 
-        Testimonial::updateOrCreate(['client_name' => 'Amara Chukwu', 'company' => 'Acme Logistics'], [
-            'quote' => 'Fastora didn\'t just redesign our brand, they gave our sales team language that actually closes deals.',
-            'role' => 'VP of Marketing',
+        // Avatars stay null on purpose. There is no photograph of either person,
+        // and standing the logo in as a face was wrong the first time it was tried.
+        Testimonial::updateOrCreate(['client_name' => 'Amaka Chukwu', 'company' => 'Lumen Skincare'], [
+            'quote' => 'Fastora rebuilt our entire social presence in six weeks. We went from posting sporadically to a real content strategy, and our engagement tripled.',
+            'role' => 'Founder',
             'avatar_media_id' => null,
             'rating' => 5,
             'show_on_home' => true,
         ])->services()->sync([$branding->id]);
 
-        Testimonial::updateOrCreate(['client_name' => 'David Osei', 'company' => 'Northwind Foods'], [
-            'quote' => 'The launch was the smoothest we\'ve ever run across five markets, and it started with one shared message.',
-            'role' => 'Head of Brand',
+        Testimonial::updateOrCreate(['client_name' => 'Daniel Osei', 'company' => 'Northbound Logistics'], [
+            'quote' => 'Fastora helped us explain what Northbound actually does, clearly and consistently. Our qualified quote requests are up 40%, and prospects understand our value before they even call.',
+            'role' => 'CEO',
             'avatar_media_id' => null,
             'rating' => 5,
             'show_on_home' => true,
@@ -264,10 +268,10 @@ class DatabaseSeeder extends Seeder
             'title' => 'Home',
             'hero_type' => 'highImpact',
             'hero_eyebrow' => 'Communications & Digital Strategy',
-            'hero_rich_text' => '<h1>Communications that earn attention, not just spend it.</h1><p>Fastora helps businesses communicate with clarity, credibility, and confidence.</p>',
+            'hero_rich_text' => '<h1>Communication that earns attention.</h1><p>Fastora is a communications and digital strategy company that helps businesses communicate with purpose, strengthen their brand, and earn the trust they deserve.</p>',
             'hero_links' => [
                 ['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default'],
-                ['label' => 'View our work', 'url' => '/case-studies', 'appearance' => 'outline'],
+                ['label' => 'View case studies', 'url' => '/case-studies', 'appearance' => 'outline'],
             ],
             'hero_media_id' => $heroImage->id,
             'layout' => [
@@ -290,27 +294,40 @@ class DatabaseSeeder extends Seeder
 
                 ['type' => 'servicesOverview', 'data' => ['eyebrow' => 'What we do', 'heading' => 'Services built around how you communicate', 'limit' => 6]],
                 ['type' => 'whyFastora', 'data' => [
-                    'eyebrow' => 'Why Fastora',
-                    'heading' => 'Results our clients can point to',
+                    'eyebrow' => null,
+                    'heading' => 'A strategic partner, not just another vendor',
                     'points' => [
-                        ['stat' => '89%', 'title' => 'Faster message alignment', 'description' => 'Teams ship consistent messaging in weeks, not quarters.'],
-                        ['stat' => '150+', 'title' => 'Campaigns launched', 'description' => 'Across a dozen industries and five continents.'],
-                        ['stat' => '2.4x', 'title' => 'Average lead lift', 'description' => 'For clients after a full repositioning engagement.'],
+                        ['stat' => '10+', 'title' => 'Integrated services', 'description' => 'From strategy to execution, communications and digital work live under one accountable team, not scattered across vendors.'],
+                        ['stat' => 'Strategy-first', 'title' => 'We think before we create', 'description' => 'Every recommendation starts with understanding your business, not a template. Strategy guides everything we produce.'],
+                        ['stat' => 'Africa', 'title' => 'Proudly African, globally minded', 'description' => "We're committed to raising the standard of business communication across Africa while serving clients and partners around the world."],
+                    ],
+                ]],
+
+                // Precedes the case studies, as in the reference: how we work,
+                // then what it produced.
+                ['type' => 'ourProcess', 'data' => [
+                    'eyebrow' => null,
+                    'heading' => 'How we work with you',
+                    'steps' => [
+                        ['title' => 'Listen & understand', 'description' => 'We start every engagement by understanding your business, audience, and communication challenge, before recommending anything.'],
+                        ['title' => 'Strategise', 'description' => 'We translate that understanding into a clear, practical strategy connected to your actual business objectives.'],
+                        ['title' => 'Create & execute', 'description' => 'We bring the strategy to life, content, campaigns, messaging, and digital execution, with the same care at every step.'],
+                        ['title' => 'Review & grow', 'description' => "We measure what matters, share what we're learning, and refine the approach as your business and audience evolve."],
                     ],
                 ]],
                 ['type' => 'selectedWork', 'data' => ['eyebrow' => 'Selected work', 'heading' => 'Results, not just deliverables', 'limit' => 3]],
                 ['type' => 'testimonialsBlock', 'data' => ['eyebrow' => 'Client voices', 'heading' => 'What clients say', 'limit' => 3]],
-                ['type' => 'ourProcess', 'data' => [
-                    'eyebrow' => 'How we work',
-                    'heading' => 'A process built for clarity',
-                    'steps' => [
-                        ['title' => 'Discover', 'description' => 'We learn your business, market, and audience.'],
-                        ['title' => 'Define', 'description' => 'We build the messaging and positioning framework.'],
-                        ['title' => 'Deploy', 'description' => 'We roll it out across every channel that matters.'],
-                        ['title' => 'Refine', 'description' => 'We measure and adjust every quarter.'],
+                ['type' => 'latestInsights', 'data' => ['eyebrow' => 'Insights', 'heading' => 'Recent thinking', 'limit' => 3]],
+                ['type' => 'faq', 'data' => [
+                    'heading' => 'Questions, answered directly',
+                    'items' => [
+                        ['question' => 'What does Fastora do?', 'answer' => 'Fastora is a communications and digital strategy company. We help businesses communicate more effectively through strategic communications, brand consulting, content strategy, reputation management, founder branding, social media management, copywriting, digital marketing, marketing strategy, and communication advisory, all working toward one goal: helping you become easier to understand, easier to trust, and harder to ignore.'],
+                        ['question' => 'How is Fastora different from a typical marketing agency?', 'answer' => 'We start with strategy, not content production. Before we write a caption or launch a campaign, we take time to understand your business, audience, and communication challenge, then build a plan execution can actually follow.'],
+                        ['question' => 'How quickly can we start working together?', 'answer' => 'Most engagements begin with a consultation to understand your goals, followed by a proposal within a few days. From there, timelines depend on scope, but we move as quickly as good strategy allows.'],
+                        ['question' => 'Does Fastora work with businesses outside Africa?', 'answer' => "Yes. We're proudly African and committed to raising the standard of business communication across Africa, while serving clients and partners around the world."],
                     ],
                 ]],
-                ['type' => 'latestInsights', 'data' => ['eyebrow' => 'Insights', 'heading' => 'Recent thinking', 'limit' => 3]],
+
                 ['type' => 'cta', 'data' => [
                     'richText' => '<h2>Ready to start your project?</h2><p>Tell us where you want to go, we\'ll come back with how to get there.</p>',
                     'links' => [['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default']],
@@ -450,6 +467,59 @@ class DatabaseSeeder extends Seeder
             'status' => 'published',
             'published_at' => now()->subMonths(8),
         ]);
+
+        $this->applyReferenceServiceCopy();
+    }
+
+    /**
+     * Writes the full per-service copy from the reference build.
+     *
+     * A migration backfills this same content for databases that already exist,
+     * but on a fresh install migrations run *before* the seeder, so that
+     * migration finds no services and does nothing. Without this call a new
+     * database would come up with the short placeholder summaries while a
+     * migrated one had the full copy.
+     *
+     * Both read the same file so the two paths cannot drift.
+     */
+    protected function applyReferenceServiceCopy(): void
+    {
+        $copy = require database_path('data/reference-services.php');
+
+        foreach ($copy as $slug => $data) {
+            Service::query()->where('slug', $slug)->update([
+                'summary' => $data['summary'],
+                'problem' => $data['problem'],
+                'approach' => $data['approach'],
+                'deliverables' => array_map(
+                    fn (string $label) => ['label' => $label],
+                    $data['deliverables'],
+                ),
+                'faqs' => $data['faqs'],
+            ]);
+        }
+
+        // Six featured, in the reference's order, so the home page grid fills its
+        // two columns exactly rather than ending on a half-empty row. Set here
+        // for the same reason as the copy above: on a fresh database the
+        // migration that does this runs before any service exists.
+        $featured = [
+            'strategic-communications',
+            'brand-consulting',
+            'content-strategy',
+            'social-media-management',
+            'digital-marketing',
+            'communication-advisory',
+        ];
+
+        Service::query()->whereNotIn('slug', $featured)->update(['featured_on_home' => false]);
+
+        foreach ($featured as $position => $slug) {
+            Service::query()->where('slug', $slug)->update([
+                'featured_on_home' => true,
+                'order' => $position + 1,
+            ]);
+        }
     }
 
     /** One shared demo image (the brand mark), copied onto the public disk and registered as a Media row. */
