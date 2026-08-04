@@ -29,11 +29,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $admin = User::updateOrCreate(
-            ['email' => 'workwith@fastora.africa'],
+            ['email' => 'hello@fastora.africa'],
             ['name' => 'Fastora Admin', 'password' => Hash::make('Fastora-2026!'), 'role' => 'super_admin'],
         );
 
         $brandMedia = $this->seedBrandMedia();
+        $brandMediaWhite = $this->importImage('icon-white.png', 'Fastora icon, white');
 
         // Real photography, so the site is not built entirely out of the logo.
         // The hero image is pre-composited: navy gradient, ghosted wordmark and
@@ -49,9 +50,11 @@ class DatabaseSeeder extends Seeder
             'site_name' => 'Fastora',
             'tagline' => 'Communications and digital strategy for businesses that want to be understood.',
             'logo_light_media_id' => $brandMedia->id,
-            'logo_dark_media_id' => $brandMedia->id,
+            // White cut of the same mark, because the footer sits on navy where the
+            // blue version is legible but muddy.
+            'logo_dark_media_id' => $brandMediaWhite->id,
             'favicon_media_id' => $brandMedia->id,
-            'contact_email' => 'workwith@fastora.africa',
+            'contact_email' => 'hello@fastora.africa',
             'contact_phone' => '+234 703 814 7969',
             'address' => 'Nigeria · Remote · Africa',
             'social_links' => [
@@ -505,25 +508,21 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    /** One shared demo image (the brand mark), copied onto the public disk and registered as a Media row. */
+    /**
+     * The brand mark used for the header, footer and favicon.
+     *
+     * The icon alone, without the wordmark: the header already sits beside the
+     * site name, so repeating it in the logo said the same thing twice.
+     *
+     * Goes through importImage rather than reading from public/images/brand,
+     * so the file lives in database/seeders/images alongside the photography
+     * and app:sync-media restores it on every deploy like everything else. When
+     * it was read straight from public/ it was the one asset that could not be
+     * re-synced if storage was ever cleared.
+     */
     protected function seedBrandMedia(): Media
     {
-        $path = 'seed/brand-mark.png';
-
-        if (! Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->put($path, file_get_contents(public_path('images/brand/logo-color.png')));
-        }
-
-        $dimensions = @getimagesize(Storage::disk('public')->path($path));
-
-        return Media::updateOrCreate(['path' => $path, 'disk' => 'public'], [
-            'filename' => 'brand-mark.png',
-            'mime_type' => 'image/png',
-            'size' => Storage::disk('public')->size($path),
-            'alt' => 'Fastora brand mark',
-            'width' => $dimensions[0] ?? null,
-            'height' => $dimensions[1] ?? null,
-        ]);
+        return $this->importImage('icon-color.png', 'Fastora icon');
     }
 
     /**

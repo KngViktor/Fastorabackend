@@ -37,7 +37,10 @@ class AdminPanelProvider extends PanelProvider
             ->passwordReset()
             ->profile()
             ->brandName('Fastora')
-            ->brandLogo(asset('images/brand/logo-color.png'))
+            // The mark alone. brandName already prints "Fastora" beside it, so the
+            // wordmark version said it twice — the same reason the public site now
+            // uses the icon.
+            ->brandLogo(asset('images/brand/icon-color.png'))
             ->brandLogoHeight('2.25rem')
             ->darkModeBrandLogo(asset('images/brand/icon-white.png'))
             ->favicon(asset('images/brand/favicon.png'))
