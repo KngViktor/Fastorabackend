@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $admin = User::updateOrCreate(
-            ['email' => 'hello@fastora.africa'],
+            ['email' => 'workwith@fastora.africa'],
             ['name' => 'Fastora Admin', 'password' => Hash::make('Fastora-2026!'), 'role' => 'super_admin'],
         );
 
