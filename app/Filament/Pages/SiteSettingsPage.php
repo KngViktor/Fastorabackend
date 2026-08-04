@@ -112,6 +112,7 @@ class SiteSettingsPage extends Page
                                                 'tiktok' => 'TikTok',
                                                 'youtube' => 'YouTube',
                                                 'facebook' => 'Facebook',
+                                                'threads' => 'Threads',
                                                 'whatsapp' => 'WhatsApp',
                                             ])
                                             ->required(),

@@ -133,7 +133,7 @@ class PageForm
                                     Block::make('mediaBlock')
                                         ->label('Media')
                                         ->schema([
-                                            static::mediaSelect('media', 'Image'),
+                                            static::mediaPicker('media', 'Image'),
                                             TextInput::make('caption'),
                                         ]),
 
@@ -144,7 +144,7 @@ class PageForm
                                             RichEditor::make('richText')
                                                 ->label('Body')
                                                 ->columnSpanFull(),
-                                            static::mediaSelect('image', 'Image')
+                                            static::mediaPicker('image', 'Image')
                                                 ->helperText('A team, workshop or workspace photo works best here.'),
                                             TextInput::make('linkLabel')
                                                 ->label('Link label')
@@ -181,7 +181,7 @@ class PageForm
                                                         ->helperText('Shown as text until a logo is uploaded.'),
                                                     TextInput::make('industry')
                                                         ->helperText('Shown under the name, e.g. "Oil & Gas". Hidden once a logo is set.'),
-                                                    static::mediaSelect('media', 'Logo')
+                                                    static::mediaPicker('media', 'Logo')
                                                         ->helperText('Optional. Replaces the name once uploaded.'),
                                                 ])
                                                 ->columns(2)

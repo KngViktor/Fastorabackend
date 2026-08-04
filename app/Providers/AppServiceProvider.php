@@ -16,6 +16,7 @@ use App\Observers\PostObserver;
 use App\Observers\ServiceObserver;
 use App\Observers\SiteWideSettingsObserver;
 use Filament\Auth\Notifications\ResetPassword;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -45,5 +46,32 @@ class AppServiceProvider extends ServiceProvider
         SiteSetting::observe(SiteWideSettingsObserver::class);
         NavHeader::observe(SiteWideSettingsObserver::class);
         NavFooter::observe(SiteWideSettingsObserver::class);
+
+        $this->configureRichEditors();
+    }
+
+    /**
+     * Lets every rich-text field take images in among the text.
+     *
+     * Configured here rather than on each field: there are nine RichEditors
+     * across five resources, and an editor that accepts images on the Insights
+     * tab but not on a page block would be a trap rather than a feature.
+     *
+     * Attachments land on the public disk, whose URL is built from APP_URL, so
+     * the HTML carries absolute links to the API host. That matters because the
+     * frontend renders this HTML on its own domain — a relative /storage path
+     * would resolve against fastora.africa and 404.
+     *
+     * The frontend passes rich text straight to the DOM rather than through
+     * next/image, so these images need no entry in the image-optimizer allowlist.
+     */
+    protected function configureRichEditors(): void
+    {
+        RichEditor::configureUsing(function (RichEditor $editor): void {
+            $editor
+                ->fileAttachmentsDisk('public')
+                ->fileAttachmentsDirectory('content')
+                ->fileAttachmentsVisibility('public');
+        });
     }
 }

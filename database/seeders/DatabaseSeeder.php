@@ -57,13 +57,7 @@ class DatabaseSeeder extends Seeder
             'contact_email' => 'hello@fastora.africa',
             'contact_phone' => '+234 703 814 7969',
             'address' => 'Nigeria · Remote · Africa',
-            'social_links' => [
-                // WhatsApp is the primary channel, so it leads. wa.me wants the
-                // number with no spaces, plus sign, or leading zero.
-                ['platform' => 'whatsapp', 'url' => 'https://wa.me/2347038147969'],
-                ['platform' => 'instagram', 'url' => 'https://instagram.com/fastora'],
-                ['platform' => 'linkedin', 'url' => 'https://linkedin.com/company/fastora'],
-            ],
+            'social_links' => require database_path('data/social-links.php'),
             'footer_text' => '© ' . now()->year . ' Fastora. All rights reserved.',
             'newsletter_heading' => 'Stay in the loop',
             'newsletter_subheading' => 'Occasional notes on communications and brand strategy.',
