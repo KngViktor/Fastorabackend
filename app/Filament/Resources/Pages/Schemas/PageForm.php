@@ -264,11 +264,18 @@ class PageForm
                                         ->label('Audience Grid')
                                         ->schema([
                                             ...static::eyebrowHeading(),
+                                            Textarea::make('description')
+                                                ->rows(2)
+                                                ->columnSpanFull()
+                                                ->helperText('Optional sentence below the heading.'),
+                                            // Each entry renders as a pill, so it is one short
+                                            // label rather than a title and a paragraph.
                                             Repeater::make('items')
                                                 ->columnSpanFull()
                                                 ->schema([
-                                                    TextInput::make('title')->required(),
-                                                    TextInput::make('description')->required(),
+                                                    TextInput::make('label')
+                                                        ->required()
+                                                        ->helperText('Short, e.g. "Startups".'),
                                                 ])
                                                 ->addActionLabel('Add item')
                                                 ->defaultItems(0),

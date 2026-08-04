@@ -364,19 +364,21 @@ class DatabaseSeeder extends Seeder
             'published_at' => now()->subMonths(8),
         ]);
 
+        // Hero copy and layout come from the shared reference file, so this matches
+        // what the rebuild migration produces on an existing database. The
+        // aboutFastora block is prepended here rather than living in that file,
+        // because it needs a media id the file cannot know.
+        $aboutReference = require database_path('data/reference-about-page.php');
+
         Page::updateOrCreate(['slug' => 'about'], [
             'title' => 'About',
             'hero_type' => 'lowImpact',
-            'hero_rich_text' => '<h1>We help businesses say what they actually mean.</h1><p>Fastora is a communications and digital strategy company working with organisations that want to be understood, not just seen.</p>',
+            'hero_rich_text' => $aboutReference['hero_rich_text'],
             'hero_media_id' => $studioPhoto->id,
-            'layout' => [
-                // Same block as on the home page, leading the About page because
-                // it is the clearest statement of why the company exists.
-                //
-                // Two deliberate differences from the home-page copy: no link,
-                // since "More about Fastora" would point at the page the reader
-                // is already on, and a different photograph from the hero
-                // directly above it.
+            'layout' => array_merge([
+                // Not part of the reference page, but added on request. A different
+                // photograph from the hero directly above it, and no link, since
+                // "More about Fastora" would point at this page.
                 ['type' => 'aboutFastora', 'data' => [
                     'heading' => 'Good work deserves to be noticed, understood, and remembered.',
                     'richText' => '<p>Many businesses are genuinely good at what they do. Capable teams, quality products, years of experience. Yet they are overlooked because they struggle to communicate their value.</p><p>Fastora exists to close that gap. We help businesses communicate more effectively so they become easier to understand, easier to trust, and harder to ignore.</p>',
@@ -388,31 +390,7 @@ class DatabaseSeeder extends Seeder
                         ['value' => 'Africa', 'label' => 'Rooted here, working globally'],
                     ],
                 ]],
-                ['type' => 'content', 'data' => [
-                    'richText' => '<h2>What we do</h2><p>We build the messaging foundations a business communicates from, then carry them through brand, campaigns, and everyday content. Most engagements start with positioning work before moving into execution.</p>',
-                ]],
-                ['type' => 'whyFastora', 'data' => [
-                    'heading' => 'How we think about the work',
-                    'points' => [
-                        ['stat' => '1', 'title' => 'One message', 'description' => 'Every team speaks from the same framework, so the story holds together.'],
-                        ['stat' => '3', 'title' => 'Three disciplines', 'description' => 'Strategy, brand, and digital marketing delivered as one engagement.'],
-                        ['stat' => '90', 'title' => 'Days to clarity', 'description' => 'A typical repositioning is live within a quarter.'],
-                    ],
-                ]],
-                ['type' => 'ourProcess', 'data' => [
-                    'heading' => 'How we work',
-                    'steps' => [
-                        ['title' => 'Discover', 'description' => 'We learn your business, market, and audience.'],
-                        ['title' => 'Define', 'description' => 'We build the messaging and positioning framework.'],
-                        ['title' => 'Deploy', 'description' => 'We roll it out across every channel that matters.'],
-                        ['title' => 'Refine', 'description' => 'We measure and adjust every quarter.'],
-                    ],
-                ]],
-                ['type' => 'cta', 'data' => [
-                    'richText' => '<h2>Ready to start your project?</h2><p>Tell us where you want to go, we\'ll come back with how to get there.</p>',
-                    'links' => [['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default']],
-                ]],
-            ],
+            ], $aboutReference['layout']),
             'status' => 'published',
             'published_at' => now()->subMonths(8),
             'meta_title' => 'About Fastora',
