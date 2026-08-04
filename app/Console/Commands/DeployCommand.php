@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Page;
+use App\Support\RevalidatesFrontend;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
@@ -61,6 +62,21 @@ class DeployCommand extends Command
         // Harmless when the symlink already exists or the host disallows it;
         // the .htaccess maps /storage onto the real folder either way.
         Artisan::call('storage:link', [], $this->output);
+
+        // Clearing this app's cache is only half the job. The frontend fetches
+        // with cache: 'force-cache' and no revalidate window, so its own copy of
+        // the content persists until something tells it otherwise. Normally an
+        // editor's save does that through the observers, but a data migration
+        // writes with the query builder and fires nothing — so content changed
+        // by a migration would stay invisible on the live site indefinitely.
+        //
+        // Sweeping the whole site rather than named paths, because a deploy has
+        // no idea which pages a migration touched.
+        $this->components->info('Asking the frontend to revalidate');
+        RevalidatesFrontend::revalidate(
+            ['/', '/services', '/case-studies', '/insights', '/about', '/contact'],
+            ['pages', 'services', 'case-studies', 'posts', 'site-settings'],
+        );
 
         $this->newLine();
         $this->components->info('Deploy finished.');
