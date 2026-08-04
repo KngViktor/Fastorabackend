@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Caches successful GET responses on the public content API. Appended to
+        // the api group so it wraps every /api route without each one opting in.
+        // Invalidated by the model observers, which already fire on save.
+        $middleware->appendToGroup('api', \App\Http\Middleware\CacheApiResponse::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

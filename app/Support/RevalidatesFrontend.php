@@ -23,6 +23,16 @@ class RevalidatesFrontend
      */
     public static function revalidate(array $paths = [], array $tags = []): void
     {
+        // Drop the API response cache first, and unconditionally. Every observer
+        // already funnels through here on save and delete, which makes this the
+        // one place that catches all of them.
+        //
+        // It has to run before the early returns below: if the frontend URL or
+        // token is unset, the notification is skipped, but this app would still
+        // be serving its own stale JSON. Flushing regardless means a save is
+        // always reflected in the API, whether or not the frontend hears about it.
+        ApiCache::flush();
+
         if (empty($paths) && empty($tags)) {
             return;
         }

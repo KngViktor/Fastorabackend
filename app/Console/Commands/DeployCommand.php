@@ -38,6 +38,14 @@ class DeployCommand extends Command
             $this->components->info('Content already exists, skipping seed');
         }
 
+        // Runs unconditionally, unlike seeding. The bundled photography cannot
+        // reach the server through git (storage/app/public is gitignored) and
+        // the seeder that writes it is skipped once content exists, which is
+        // why every image on the live site was 404ing. This is a file copy with
+        // no database writes, so it is safe on every push.
+        $this->components->info('Syncing bundled media');
+        Artisan::call('app:sync-media', [], $this->output);
+
         $this->components->info('Rebuilding caches');
         Artisan::call('config:cache', [], $this->output);
         Artisan::call('route:cache', [], $this->output);
