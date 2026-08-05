@@ -6,6 +6,7 @@ use App\Models\Page;
 use App\Support\RevalidatesFrontend;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Throwable;
 
 /**
  * One command to run after a deploy, so the sequence cannot be half-remembered.
@@ -59,10 +60,6 @@ class DeployCommand extends Command
         Artisan::call('route:cache', [], $this->output);
         Artisan::call('view:cache', [], $this->output);
 
-        // Harmless when the symlink already exists or the host disallows it;
-        // the .htaccess maps /storage onto the real folder either way.
-        Artisan::call('storage:link', [], $this->output);
-
         // Clearing this app's cache is only half the job. The frontend fetches
         // with cache: 'force-cache' and no revalidate window, so its own copy of
         // the content persists until something tells it otherwise. Normally an
@@ -78,9 +75,53 @@ class DeployCommand extends Command
             ['pages', 'services', 'case-studies', 'posts', 'site-settings'],
         );
 
+        $this->linkStorageIfPossible();
+
         $this->newLine();
         $this->components->info('Deploy finished.');
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Creates public/storage only where the host actually allows it.
+     *
+     * This used to be a bare storage:link call, described in a comment as
+     * "harmless when the host disallows it". That was wrong, and it killed the
+     * whole command:
+     *
+     *   Call to undefined function Illuminate\Filesystem\exec()
+     *
+     * Laravel tries symlink(), and where that is disabled it falls back to
+     * exec('ln -s ...'). This host disables both, so the fallback hit an
+     * undefined function and threw. Because the call sat near the end, migrations
+     * and the media sync had already run — the deploy had done its work and still
+     * reported failure, which is the worst of both.
+     *
+     * The link is not needed here anyway: the root .htaccess rewrites /storage
+     * onto storage/app/public, which is why images serve without it. So this is
+     * now genuinely optional, checked before attempting and caught if it still
+     * fails, and it runs last so nothing important can sit behind it.
+     */
+    private function linkStorageIfPossible(): void
+    {
+        if (file_exists(public_path('storage'))) {
+            $this->components->info('public/storage already present, skipping link');
+
+            return;
+        }
+
+        if (! function_exists('symlink') || ! function_exists('exec')) {
+            $this->components->info('Symlinks unavailable on this host, skipping link (.htaccess serves /storage instead)');
+
+            return;
+        }
+
+        try {
+            Artisan::call('storage:link', [], $this->output);
+        } catch (Throwable $e) {
+            $this->components->warn('Could not create public/storage: ' . $e->getMessage());
+            $this->components->info('Not a problem here — .htaccess maps /storage onto storage/app/public.');
+        }
     }
 }
