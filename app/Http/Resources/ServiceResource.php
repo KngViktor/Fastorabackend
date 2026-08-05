@@ -22,8 +22,21 @@ class ServiceResource extends JsonResource
             'order' => $this->order,
             'featuredOnHome' => (bool) $this->featured_on_home,
             'problem' => $this->problem,
+            'overviewHeading' => $this->overview_heading,
+            'overviewCopy' => $this->overview_copy,
             'approach' => $this->approach,
+            'outcomes' => $this->outcomes ?? [],
             'deliverables' => $this->deliverables ?? [],
+            'goodFitIf' => $this->good_fit_if ?? [],
+            // The former standalone services now grouped under this one, shown on
+            // the card. Distinct from deliverables, which is the longer page list.
+            'includes' => $this->includes ?? [],
+            // Slugs rather than full records: the frontend only needs to build two
+            // links, and resolving them here would mean loading services inside a
+            // service response.
+            'relatedServiceSlugs' => $this->related_service_slugs ?? [],
+            'ctaHeading' => $this->cta_heading,
+            'ctaCopy' => $this->cta_copy,
             'faqs' => $this->faqs ?? [],
             'status' => $this->status,
             'publishedAt' => $this->published_at?->toIso8601String(),

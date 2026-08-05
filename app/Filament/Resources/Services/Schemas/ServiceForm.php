@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Services\Schemas;
 
 use App\Filament\Concerns\HasMediaSelect;
 use App\Filament\Concerns\HasSeoFields;
+use App\Models\Service;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -43,18 +44,77 @@ class ServiceForm
                                 ->helperText('Lower numbers appear first on the services grid.'),
                             Toggle::make('featured_on_home')->default(true)->label('Featured on home'),
                             RichEditor::make('problem')
+                                ->label('Supporting copy')
                                 ->columnSpanFull()
-                                ->helperText('What challenge does this service solve for the client?'),
-                            RichEditor::make('approach')
-                                ->columnSpanFull()
-                                ->helperText('How Fastora tackles it.'),
-                            Repeater::make('deliverables')
+                                ->helperText('The longer intro under the page heading, framing the problem this service solves.'),
+                            Repeater::make('includes')
+                                ->label('Includes')
                                 ->columnSpanFull()
                                 ->schema([
                                     TextInput::make('label')->required(),
                                 ])
-                                ->addActionLabel('Add deliverable')
+                                ->addActionLabel('Add item')
+                                ->defaultItems(0)
+                                ->helperText('The named services grouped under this one, listed on the card, e.g. "Reputation Management".'),
+                        ])
+                        ->columns(2),
+
+                    Tab::make('Page')
+                        ->schema([
+                            TextInput::make('overview_heading')
+                                ->label('Overview heading')
+                                ->columnSpanFull(),
+                            RichEditor::make('overview_copy')
+                                ->label('Overview copy')
+                                ->columnSpanFull(),
+                            Repeater::make('outcomes')
+                                ->label('What this helps you achieve')
+                                ->columnSpanFull()
+                                ->schema([
+                                    TextInput::make('label')->required(),
+                                ])
+                                ->addActionLabel('Add outcome')
                                 ->defaultItems(0),
+                            Repeater::make('deliverables')
+                                ->label("What's included")
+                                ->columnSpanFull()
+                                ->schema([
+                                    TextInput::make('label')->required(),
+                                ])
+                                ->addActionLabel('Add item')
+                                ->defaultItems(0)
+                                ->helperText('The longer list on the page. "Includes" on the Details tab is the short version for cards.'),
+                            RichEditor::make('approach')
+                                ->label('Our approach')
+                                ->columnSpanFull(),
+                            Repeater::make('good_fit_if')
+                                ->label('This service is a good fit if...')
+                                ->columnSpanFull()
+                                ->schema([
+                                    TextInput::make('label')->required(),
+                                ])
+                                ->addActionLabel('Add reason')
+                                ->defaultItems(0),
+                            Repeater::make('related_service_slugs')
+                                ->label('Related services')
+                                ->columnSpanFull()
+                                ->simple(
+                                    Select::make('slug')
+                                        ->options(fn (): array => Service::query()
+                                            ->orderBy('order')
+                                            ->pluck('title', 'slug')
+                                            ->all())
+                                        ->required(),
+                                )
+                                ->addActionLabel('Add related service')
+                                ->defaultItems(0)
+                                ->helperText('Shown as "You may also need" and linked to those pages.'),
+                            TextInput::make('cta_heading')
+                                ->label('Closing call to action heading')
+                                ->columnSpanFull(),
+                            RichEditor::make('cta_copy')
+                                ->label('Closing call to action copy')
+                                ->columnSpanFull(),
                         ])
                         ->columns(2),
 
