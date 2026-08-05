@@ -130,6 +130,26 @@ class PageForm
                                             RichEditor::make('richText')->label('Text')->columnSpanFull(),
                                         ]),
 
+                                    Block::make('visionMission')
+                                        ->label('Vision & Mission')
+                                        ->schema([
+                                            TextInput::make('visionHeading')
+                                                ->label('Vision heading')
+                                                ->default('Our vision')
+                                                ->required(),
+                                            RichEditor::make('visionBody')
+                                                ->label('Vision text')
+                                                ->columnSpanFull(),
+                                            TextInput::make('missionHeading')
+                                                ->label('Mission heading')
+                                                ->default('Our mission')
+                                                ->required(),
+                                            RichEditor::make('missionBody')
+                                                ->label('Mission text')
+                                                ->columnSpanFull(),
+                                        ])
+                                        ->columns(2),
+
                                     Block::make('mediaBlock')
                                         ->label('Media')
                                         ->schema([

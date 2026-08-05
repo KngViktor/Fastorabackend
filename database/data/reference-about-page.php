@@ -71,21 +71,15 @@ return [
         ],
 
         [
-            'type' => 'content',
+            'type' => 'visionMission',
             'data' => [
-                'richText' => '<h2>Our vision</h2>'
-                    . "<p>To become one of the world's most respected communications and digital strategy companies, helping "
+                'visionHeading' => 'Our vision',
+                'visionBody' => "<p>To become one of the world's most respected communications and digital strategy companies, helping "
                     . 'businesses, founders, and organisations communicate with confidence and build brands with lasting impact.</p>'
                     . "<p>We're proudly African, committed to raising the standard of business communication across Africa while "
                     . 'serving clients and partners around the world.</p>',
-            ],
-        ],
-
-        [
-            'type' => 'content',
-            'data' => [
-                'richText' => '<h2>Our mission</h2>'
-                    . '<p>To help businesses communicate with purpose, strengthen their brands, and build meaningful connections '
+                'missionHeading' => 'Our mission',
+                'missionBody' => '<p>To help businesses communicate with purpose, strengthen their brands, and build meaningful connections '
                     . 'through thoughtful strategy, compelling storytelling, and practical digital solutions.</p>'
                     . '<p>We listen before advising, think before creating, and execute with the same care from the first '
                     . 'conversation to long after a project ships.</p>',
