@@ -221,23 +221,27 @@ class DatabaseSeeder extends Seeder
             'published_at' => now()->subMonths(3),
         ]);
 
-        // Avatars stay null on purpose. There is no photograph of either person,
-        // and standing the logo in as a face was wrong the first time it was tried.
-        Testimonial::updateOrCreate(['client_name' => 'Amaka Chukwu', 'company' => 'Lumen Skincare'], [
-            'quote' => 'Fastora rebuilt our entire social presence in six weeks. We went from posting sporadically to a real content strategy, and our engagement tripled.',
-            'role' => 'Founder',
-            'avatar_media_id' => null,
-            'rating' => 5,
-            'show_on_home' => true,
-        ])->services()->sync([$branding->id]);
+        // Real client reviews from the founder's portfolio and LinkedIn, read from
+        // the same file the migration uses so a fresh install matches a migrated one.
+        //
+        // Avatars stay null: there are photographs on the portfolio page but not in
+        // this repository, and the logo is not a face.
+        foreach (require database_path('data/testimonials.php') as $review) {
+            $record = Testimonial::updateOrCreate(
+                ['client_name' => $review['client_name'], 'company' => $review['company']],
+                [
+                    'quote' => $review['quote'],
+                    'role' => $review['role'],
+                    'avatar_media_id' => null,
+                    'rating' => $review['rating'],
+                    'show_on_home' => $review['show_on_home'],
+                ],
+            );
 
-        Testimonial::updateOrCreate(['client_name' => 'Daniel Osei', 'company' => 'Northbound Logistics'], [
-            'quote' => 'Fastora helped us explain what Northbound actually does, clearly and consistently. Our qualified quote requests are up 40%, and prospects understand our value before they even call.',
-            'role' => 'CEO',
-            'avatar_media_id' => null,
-            'rating' => 5,
-            'show_on_home' => true,
-        ])->services()->sync([$strategy->id]);
+            $record->services()->sync(array_filter([
+                Service::where('slug', $review['service_slug'])->value('id'),
+            ]));
+        }
 
         $strategyCategory = Category::updateOrCreate(['slug' => 'strategy'], ['title' => 'Strategy']);
         $brandingCategory = Category::updateOrCreate(['slug' => 'branding'], ['title' => 'Branding']);
