@@ -242,6 +242,32 @@ class PageForm
                                                 ->defaultItems(0),
                                         ]),
 
+                                    Block::make('consultationForm')
+                                        ->label('Consultation Request Form')
+                                        ->schema([
+                                            ...static::eyebrowHeading(),
+                                            Textarea::make('description')
+                                                ->rows(2)
+                                                ->columnSpanFull()
+                                                ->helperText('Sentence below the heading, e.g. what the session covers.'),
+                                            Repeater::make('idealFor')
+                                                ->label('Ideal for')
+                                                ->columnSpanFull()
+                                                ->schema([
+                                                    TextInput::make('label')->required(),
+                                                ])
+                                                ->addActionLabel('Add audience')
+                                                ->defaultItems(0)
+                                                ->helperText('Who the session suits. Shown as a checklist beside the form.'),
+                                            TextInput::make('submitLabel')
+                                                ->label('Button label')
+                                                ->default('Request a session'),
+                                            Textarea::make('reassurance')
+                                                ->label('Line under the button')
+                                                ->rows(2)
+                                                ->default("We'll confirm one of your preferred times by email within one business day."),
+                                        ]),
+
                                     Block::make('latestInsights')
                                         ->label('Latest Insights')
                                         ->schema([

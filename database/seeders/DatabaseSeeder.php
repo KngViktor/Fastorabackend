@@ -270,7 +270,7 @@ class DatabaseSeeder extends Seeder
             'hero_eyebrow' => 'Communications & Digital Strategy',
             'hero_rich_text' => '<h1>Communication that earns attention.</h1><p>Fastora is a communications and digital strategy company that helps businesses communicate with purpose, strengthen their brand, and earn the trust they deserve.</p>',
             'hero_links' => [
-                ['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default'],
+                ['label' => 'Book a Consultation', 'url' => '/consultation', 'appearance' => 'default'],
                 ['label' => 'View case studies', 'url' => '/case-studies', 'appearance' => 'outline'],
             ],
             'hero_media_id' => $heroImage->id,
@@ -332,7 +332,7 @@ class DatabaseSeeder extends Seeder
 
                 ['type' => 'cta', 'data' => [
                     'richText' => '<h2>Ready to start your project?</h2><p>Tell us where you want to go, we\'ll come back with how to get there.</p>',
-                    'links' => [['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default']],
+                    'links' => [['label' => 'Book a Consultation', 'url' => '/consultation', 'appearance' => 'default']],
                 ]],
             ],
             'status' => 'published',
@@ -446,6 +446,24 @@ class DatabaseSeeder extends Seeder
             'layout' => [],
             'status' => 'published',
             'published_at' => now()->subMonths(8),
+        ]);
+
+        // The consultation page, from the same shared file the migration uses, so a
+        // fresh install and a migrated database produce the same page.
+        $consultation = require database_path('data/consultation-page.php');
+
+        Page::updateOrCreate(['slug' => $consultation['slug']], [
+            'title' => $consultation['title'],
+            'hero_type' => $consultation['hero_type'],
+            'hero_eyebrow' => $consultation['hero_eyebrow'],
+            'hero_rich_text' => $consultation['hero_rich_text'],
+            'hero_links' => [],
+            'faqs' => [],
+            'layout' => $consultation['layout'],
+            'status' => 'published',
+            'published_at' => now(),
+            'meta_title' => $consultation['meta_title'],
+            'meta_description' => $consultation['meta_description'],
         ]);
 
         $this->applyReferenceServiceCopy();

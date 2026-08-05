@@ -17,6 +17,12 @@ class InquiryForm
                     ->options(['new' => 'New', 'contacted' => 'Contacted', 'closed' => 'Closed'])
                     ->default('new')
                     ->required(),
+                Select::make('kind')
+                    ->label('Type')
+                    ->options(['general' => 'General enquiry', 'consultation' => 'Consultation request'])
+                    ->default('general')
+                    ->required()
+                    ->live(),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('email')
@@ -28,15 +34,11 @@ class InquiryForm
                 Select::make('service_needed_id')
                     ->relationship('serviceNeeded', 'title')
                     ->default(null),
-                Select::make('budget_range')
+                // Free text rather than fixed bands: the bands forced people into
+                // the wrong one, and "not sure" told us nothing.
+                TextInput::make('budget_range')
                     ->label('Budget')
-                    ->options([
-                        'under-1k' => 'Under $1,000',
-                        '1k-5k' => '$1,000 – $5,000',
-                        '5k-15k' => '$5,000 – $15,000',
-                        '15k-plus' => '$15,000+',
-                        'not-sure' => 'Not sure yet',
-                    ]),
+                    ->helperText('Whatever the enquirer typed, in their own words.'),
                 Select::make('timeline')
                     ->options([
                         'asap' => 'ASAP',
@@ -47,6 +49,16 @@ class InquiryForm
                 Textarea::make('brief')
                     ->required()
                     ->columnSpanFull(),
+                // Only meaningful on a consultation request, so hidden on a
+                // general enquiry rather than shown permanently empty.
+                Textarea::make('preferred_times')
+                    ->label('Times they can make')
+                    ->rows(3)
+                    ->columnSpanFull()
+                    ->visible(fn ($get) => $get('kind') === 'consultation'),
+                TextInput::make('timezone')
+                    ->label('Their timezone')
+                    ->visible(fn ($get) => $get('kind') === 'consultation'),
             ]);
     }
 }

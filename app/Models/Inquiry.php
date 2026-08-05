@@ -9,6 +9,8 @@ class Inquiry extends Model
 {
     protected $fillable = [
         'status',
+        // 'general' or 'consultation' — both forms share this inbox.
+        'kind',
         'name',
         'email',
         'company',
@@ -16,6 +18,8 @@ class Inquiry extends Model
         'budget_range',
         'timeline',
         'brief',
+        'preferred_times',
+        'timezone',
     ];
 
     public function serviceNeeded(): BelongsTo
