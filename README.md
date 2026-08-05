@@ -1,59 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Fastora backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The CMS and content API behind [fastora.africa](https://fastora.africa). Laravel 12
+with Filament v4 on MySQL.
 
-## About Laravel
+This is the system of record for every word and image on the website. The public site
+is a separate Next.js app that reads from this one over HTTP.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+> **New here?** Read [PROJECT-HISTORY.md](PROJECT-HISTORY.md) first. It explains why
+> several things in this repo look unusual — a committed `vendor/`, a rewrite rule
+> instead of a symlink, content duplicated between a seeder and a migration — and the
+> host restrictions behind each. It will save you undoing something load-bearing.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## How the two halves fit together
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| | Repo | Lives at |
+|---|---|---|
+| Frontend | `KngViktor/fastora` | `fastora.africa` |
+| Backend (this repo) | `KngViktor/Fastorabackend` | `api.fastora.africa`, admin at `/admin` |
 
-## Learning Laravel
+Content flows one way. Editors work in the Filament admin here, this app serves JSON
+from `/api`, and the frontend renders it. Saving in the admin also pings the frontend
+to refresh its cache.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Local setup
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Requires PHP 8.2+ and MySQL. Node only if you plan to change the admin theme.
 
-## Laravel Sponsors
+1. `cp .env.example .env` and fill in the database credentials.
+2. `php artisan key:generate`
+3. `php artisan migrate --seed`
+4. `php artisan serve`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+The admin is then at `http://127.0.0.1:8000/admin`. The seeder creates a super admin
+— see `database/seeders/DatabaseSeeder.php` for the address. **Change the seeded
+password in the panel before this goes anywhere near production: it is committed to
+this repo and is not a secret.**
 
-### Premium Partners
+`composer install` is only needed if `vendor/` is somehow missing. It is committed
+deliberately — see below.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Deploying
 
-## Contributing
+The host copies files but runs no commands, so pulling the repo updates PHP instantly
+while **nothing touching the database happens on its own.** After every deploy, in
+the directory containing `artisan`:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan app:deploy
+```
 
-## Code of Conduct
+That migrates, syncs bundled media, clears the API cache, rebuilds caches, and asks
+the frontend to revalidate. Safe to re-run: seeding only fires on a database with no
+pages, so it cannot overwrite live content.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+If the site looks stale after a deploy, this command not having run is the first thing
+to check. Worth wiring up as a Hostinger cron job.
 
-## Security Vulnerabilities
+## Things not to "fix" without reading the history
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **`vendor/` is committed.** `proc_open` is disabled on the deploy runner, so
+  Composer cannot run there. After changing `composer.json`, run
+  `composer install --no-dev --optimize-autoloader` locally and commit the result.
+- **`public/build` is committed**, for the same reason with npm. After editing
+  `resources/css/filament/admin/theme.css`, run `npm run build` and commit the output.
+- **The root `.htaccess` is load-bearing.** It routes requests into `public/` because
+  the document root is locked, and maps `/storage` onto `storage/app/public` because
+  symlinks are unavailable. Both rules have subtleties documented in the history file.
+- **`app:sync-media` exists because media cannot travel through git.**
+  `storage/app/public` is gitignored, so bundled photography is copied from
+  `database/seeders/images/` on every deploy.
 
-## License
+## Where seeded content lives
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Copy that ships with the project is in `database/data/*.php` — plain files returning
+arrays, read by **both** the seeder and the migration that backfills an existing
+database. Both paths read the same file so a fresh install and the live site cannot
+drift apart. If you add seeded content, put it there rather than inline.
+
+Everything in those files stays editable in the admin; they are a starting point, not
+fixed copy.
+
+## Editing content
+
+In the admin at `/admin`:
+
+- **Pages** — Home, About, Contact, Consultation. Built from blocks; each block's
+  text, images and lists are editable.
+- **Services** — the four services, each with its full page copy under the Page tab.
+- **Case Studies**, **Insights**, **Testimonials** — their own sections.
+- **Site Settings** — logo, colours, contact details, social links.
+- **Enquiries** — contact and consultation submissions, opened read-only.
+- **Media** — the image library. Every image field can also upload directly from your
+  computer.
+
+Saving triggers a revalidation call to the frontend, so changes appear without a
+redeploy.
