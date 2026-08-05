@@ -34,4 +34,14 @@ Route::get('/pages', [PageController::class, 'index']);
 Route::get('/pages/slugs', [PageController::class, 'slugs']);
 Route::get('/pages/{slug}', [PageController::class, 'show']);
 
-Route::post('/contact', [ContactController::class, 'store']);
+// The one endpoint here that writes, and the one that costs money: every accepted
+// submission inserts a row and triggers a notification email. Unthrottled it is
+// scriptable — flood the inbox, burn the Resend quota, and fill the enquiries
+// table, all from a single machine. The recipient address is fixed server-side so
+// this was never an open relay, but the subject and body are the sender's to
+// choose.
+//
+// Five per minute per IP is far above anything a real person does on a contact
+// form and low enough that abuse stops being worth the effort.
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1');
