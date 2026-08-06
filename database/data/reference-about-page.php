@@ -55,20 +55,22 @@ return function (array $images): array {
             'data' => [
                 'eyebrow' => 'What guides our work',
                 'heading' => 'The principles behind every recommendation',
+                // No `title` per point, deliberately — see the matching Home
+                // page whyFastora instance for the same treatment.
                 'points' => [
                     [
-                        'stat' => 'Understood',
-                        'title' => 'Good work deserves to be understood.',
+                        'stat' => 'Be Understood',
+                        'title' => '',
                         'description' => "A business shouldn't miss opportunities because people struggle to understand what it does. We help close that gap.",
                     ],
                     [
-                        'stat' => 'Think first',
-                        'title' => 'Think before you create.',
+                        'stat' => 'Think First',
+                        'title' => '',
                         'description' => "Design, content, campaigns, and marketing all matter, but they work best when they're guided by thoughtful decisions rather than guesswork.",
                     ],
                     [
-                        'stat' => 'One story',
-                        'title' => 'Everything should tell the same story.',
+                        'stat' => 'One Clear Message',
+                        'title' => '',
                         'description' => 'Your website, social media, presentations, proposals, and conversations all shape how people see your business. We help make sure they point in the same direction.',
                     ],
                 ],
@@ -95,7 +97,7 @@ return function (array $images): array {
                     [
                         'name' => 'Eya Ndidiamaka',
                         'role' => 'Digital Communications Associate',
-                        'bio' => 'Eya supports the planning, coordination, and delivery of digital communications across client accounts. She helps ensure content is published consistently and that day-to-day communication reflects the quality and direction of each brand.',
+                        'bio' => 'Ndidiamaka supports the planning, coordination, and delivery of digital communications across client accounts. She helps ensure content is published consistently and that day-to-day communication reflects the quality and direction of each brand.',
                     ],
                 ],
             ],
