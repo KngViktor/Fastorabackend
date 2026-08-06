@@ -303,20 +303,6 @@ class DatabaseSeeder extends Seeder
 
                 ['type' => 'whyFastora', 'data' => $home['why_fastora']],
 
-                // Precedes the case studies, as in the reference: how we work,
-                // then what it produced. Not covered by the content document,
-                // so left as it was.
-                ['type' => 'ourProcess', 'data' => [
-                    'eyebrow' => null,
-                    'heading' => 'How we work with you',
-                    'steps' => [
-                        ['title' => 'Listen & understand', 'description' => 'We start every engagement by understanding your business, audience, and communication challenge, before recommending anything.'],
-                        ['title' => 'Strategise', 'description' => 'We translate that understanding into a clear, practical strategy connected to your actual business objectives.'],
-                        ['title' => 'Create & execute', 'description' => 'We bring the strategy to life, content, campaigns, messaging, and digital execution, with the same care at every step.'],
-                        ['title' => 'Review & grow', 'description' => "We measure what matters, share what we're learning, and refine the approach as your business and audience evolve."],
-                    ],
-                ]],
-
                 ['type' => 'selectedWork', 'data' => $home['selected_work']],
                 ['type' => 'testimonialsBlock', 'data' => $home['testimonials_block']],
                 ['type' => 'latestInsights', 'data' => $home['latest_insights']],

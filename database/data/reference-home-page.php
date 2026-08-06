@@ -70,10 +70,13 @@ return [
         'description' => "It's a simple idea, but it shapes everything we do. Before we write, "
             . 'design, publish, or launch, we take time to understand the business behind the brief. '
             . 'Better decisions at the beginning usually lead to better outcomes at the end.',
+        // No `title` per point, deliberately: just the stat word and the
+        // description underneath it, one line lighter than the other
+        // whyFastora instances on this page.
         'points' => [
-            ['stat' => 'Listen', 'title' => 'We listen first', 'description' => 'Good recommendations start with understanding the business, not making assumptions.'],
-            ['stat' => 'Connect', 'title' => 'We connect the dots', 'description' => 'Brand, content, communications, and marketing should reinforce one another.'],
-            ['stat' => 'Measure', 'title' => 'We measure what matters', 'description' => "We care less about what's delivered and more about what it helps you achieve."],
+            ['stat' => 'Listen', 'title' => '', 'description' => 'Good recommendations start with understanding the business, not making assumptions.'],
+            ['stat' => 'Connect', 'title' => '', 'description' => 'Brand, content, communications, and marketing should reinforce one another.'],
+            ['stat' => 'Measure', 'title' => '', 'description' => "We care less about what's delivered and more about what it helps you achieve."],
         ],
     ],
 

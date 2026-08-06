@@ -18,7 +18,13 @@ class MediaForm
                     ->disk('public')
                     ->directory('media')
                     ->image()
-                    ->required()
+                    ->requiredWithout('url')
+                    ->columnSpanFull(),
+                TextInput::make('url')
+                    ->label('...or paste an image URL')
+                    ->url()
+                    ->requiredWithout('path')
+                    ->helperText("We'll download and store a copy, so the image keeps working even if the original goes away.")
                     ->columnSpanFull(),
                 TextInput::make('alt')
                     ->label('Alt text')

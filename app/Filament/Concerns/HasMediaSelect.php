@@ -3,6 +3,7 @@
 namespace App\Filament\Concerns;
 
 use App\Models\Media;
+use App\Support\MediaDownloader;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -78,8 +79,13 @@ trait HasMediaSelect
                 ->directory('media')
                 ->visibility('public')
                 ->maxSize(8192)
-                ->required()
+                ->requiredWithout('url')
                 ->helperText('JPG, PNG, WebP or SVG, up to 8 MB.'),
+            TextInput::make('url')
+                ->label('...or paste an image URL')
+                ->url()
+                ->requiredWithout('file')
+                ->helperText("We'll download and store a copy, so the image keeps working even if the original goes away."),
             TextInput::make('alt')
                 ->label('Alt text')
                 ->helperText('What the image shows, for screen readers and search engines.'),
@@ -87,16 +93,17 @@ trait HasMediaSelect
     }
 
     /**
-     * Turns an uploaded file into a media library row and returns its id.
+     * Turns an uploaded file — or a pasted URL, downloaded first — into a
+     * media library row, and returns its id.
      *
-     * FileUpload has already written the file to the public disk, so this only
-     * records it. Dimensions are read from the stored file rather than trusted
-     * from the request, and are left null for formats getimagesize cannot read,
-     * such as SVG.
+     * FileUpload has already written a picked file to the public disk, so
+     * that branch only records it. Dimensions are read from the stored file
+     * rather than trusted from the request, and are left null for formats
+     * getimagesize cannot read, such as SVG.
      */
     protected static function registerUploadedMedia(array $data): int
     {
-        $path = $data['file'];
+        $path = filled($data['file'] ?? null) ? $data['file'] : MediaDownloader::downloadToPublicDisk($data['url']);
 
         $dimensions = @getimagesize(Storage::disk('public')->path($path));
 
