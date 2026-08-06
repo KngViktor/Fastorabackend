@@ -13,6 +13,8 @@ class Inquiry extends Model
         'kind',
         'name',
         'email',
+        'phone',
+        'website_url',
         'company',
         'service_needed_id',
         'budget_range',

@@ -19,6 +19,10 @@ class CaseStudyController extends Controller
             $query->where('featured_on_home', true);
         }
 
+        if ($relatedService = $request->string('relatedService')->toString()) {
+            $query->whereHas('relatedService', fn ($q) => $q->where('slug', $relatedService));
+        }
+
         if ($limit = $request->integer('limit')) {
             $query->limit($limit);
         }

@@ -211,6 +211,29 @@ class PageForm
                                                 ->helperText('The section stays hidden while this list is empty, so it is never shown bare. A client with no logo shows as its name, so a confirmed list can go live before the logo files arrive.'),
                                         ]),
 
+                                    Block::make('team')
+                                        ->label('Meet the Team')
+                                        ->schema([
+                                            ...static::eyebrowHeading(),
+                                            Textarea::make('description')
+                                                ->rows(2)
+                                                ->columnSpanFull()
+                                                ->helperText('Optional sentence below the heading.'),
+                                            Repeater::make('members')
+                                                ->columnSpanFull()
+                                                ->schema([
+                                                    TextInput::make('name')->required(),
+                                                    TextInput::make('role'),
+                                                    Textarea::make('bio')->rows(3),
+                                                    static::mediaPicker('photo', 'Photo')
+                                                        ->helperText('Optional. Shows as initials until a photo is uploaded.'),
+                                                ])
+                                                ->columns(2)
+                                                ->addActionLabel('Add team member')
+                                                ->reorderable()
+                                                ->defaultItems(0),
+                                        ]),
+
                                     Block::make('servicesOverview')
                                         ->label('Services Overview')
                                         ->schema([
@@ -315,6 +338,10 @@ class PageForm
                                         ->label('Our Process')
                                         ->schema([
                                             ...static::eyebrowHeading(),
+                                            Textarea::make('intro')
+                                                ->rows(2)
+                                                ->columnSpanFull()
+                                                ->helperText('Optional sentence below the heading.'),
                                             Repeater::make('steps')
                                                 ->columnSpanFull()
                                                 ->schema([

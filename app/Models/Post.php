@@ -15,6 +15,7 @@ class Post extends Model
         'content',
         'tags',
         'status',
+        'featured',
         'published_at',
         'meta_title',
         'meta_description',
@@ -25,6 +26,7 @@ class Post extends Model
 
     protected $casts = [
         'meta_noindex' => 'boolean',
+        'featured' => 'boolean',
         'tags' => 'array',
         'published_at' => 'datetime',
     ];

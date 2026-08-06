@@ -19,6 +19,8 @@ class ContactController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'websiteUrl' => ['nullable', 'string', 'max:255'],
             'company' => ['nullable', 'string', 'max:255'],
             'serviceNeeded' => ['nullable', 'integer', 'exists:services,id'],
             // Free text: a fixed set of bands forced people into the wrong one, and
@@ -44,6 +46,8 @@ class ContactController extends Controller
             'kind' => $data['kind'] ?? 'general',
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone' => $data['phone'] ?? null,
+            'website_url' => $data['websiteUrl'] ?? null,
             'company' => $data['company'] ?? null,
             'service_needed_id' => $data['serviceNeeded'] ?? null,
             'budget_range' => $data['budgetRange'] ?? null,

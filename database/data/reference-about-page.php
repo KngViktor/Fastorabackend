@@ -1,147 +1,112 @@
 <?php
 
 /**
- * The About page as it appears in the reference build, shared by the seeder and
- * the migration that rebuilds it on an existing database.
+ * The About page as written in the client's content document
+ * ("FASTORA WEBSITE CONTENT COPY"), shared by the seeder and the migration
+ * that rebuilds it on an existing database.
  *
- * One file for the same reason as reference-services.php: on a fresh database
- * migrations run before the seeder, so the migration finds no page to rewrite
- * and the seeder has to produce this itself.
+ * This replaces an earlier reference build wholesale: Vision/Mission, the
+ * six core values, "The problem we exist to solve", "Our approach", and the
+ * About-page FAQ are all gone, because the document's About page doesn't
+ * cover them — it has its own structure (Story, principles, team,
+ * experience, process, audience, name origin), and superseding rather than
+ * appending is what was asked for.
  *
- * Note on the stat values. The reference renders 0, 0 and 0%, which looks like a
- * bug rather than a design choice — the count-up animation reads the leading
- * digits of the stored value and the stored values really were zero. Using the
- * numbers the labels describe: ten services, six values, wholly in-house.
- *
- * The image ids are filled in by the caller, which is why they are absent here.
+ * The image ids are filled in by the caller, for the same reason as before:
+ * they're environment-specific.
  */
 return [
-    'hero_rich_text' => '<h1>We help good businesses become impossible to overlook</h1>'
-        . '<p>Fastora is a communications and digital strategy company. We help businesses communicate '
-        . 'with purpose, strengthen their brands, and earn the attention they deserve.</p>',
+    'hero_rich_text' => '<h1>Good businesses deserve to be understood.</h1>'
+        . '<p>Fastora is a communications and digital strategy company that helps businesses '
+        . 'present themselves in ways that reflect the quality of what they do. We work with '
+        . 'businesses, founders, and organisations to strengthen their communication, shape '
+        . 'their brand, and build a stronger digital presence through thoughtful strategy and '
+        . 'execution.</p>',
 
     'layout' => [
         [
-            'type' => 'whyFastora',
-            'data' => [
-                'eyebrow' => 'At a glance',
-                'heading' => 'A snapshot of how we work',
-                'points' => [
-                    [
-                        'stat' => '10',
-                        'title' => 'Integrated services',
-                        'description' => 'From strategic communications to digital marketing, delivered by one accountable team.',
-                    ],
-                    [
-                        'stat' => '6',
-                        'title' => 'Core values',
-                        'description' => 'Principles that guide every recommendation and every project we take on.',
-                    ],
-                    [
-                        'stat' => '100%',
-                        'title' => 'In-house thinking',
-                        'description' => 'No subcontracted black boxes, every strategy is developed and executed by our own team.',
-                    ],
-                ],
-            ],
-        ],
-
-        [
             'type' => 'content',
             'data' => [
-                'richText' => '<h2>Our story</h2>'
-                    . '<p>Fastora was founded on a simple observation: many businesses are genuinely good at what they do, '
-                    . 'with capable teams and valuable services, yet they are overlooked because they struggle to '
-                    . 'communicate their value.</p>'
-                    . "<p>Inconsistent messaging. Websites that don't reflect the quality of the work behind them. Content "
-                    . 'with no clear direction. Fastora exists to close that gap, helping businesses become easier to '
-                    . 'understand, easier to trust, and harder to ignore.</p>',
-            ],
-        ],
-
-        [
-            'type' => 'content',
-            'data' => [
-                'richText' => '<h2>The problem we exist to solve</h2>'
-                    . "<p>Every day, good businesses miss opportunities, not because they lack quality, but because people don't "
-                    . 'fully understand who they are, what they do, or why they matter.</p>'
-                    . '<p>We believe communication is one of the most valuable assets a business can invest in. When businesses '
-                    . 'communicate well, trust grows faster and better opportunities follow.</p>',
-            ],
-        ],
-
-        [
-            'type' => 'visionMission',
-            'data' => [
-                'visionHeading' => 'Our vision',
-                'visionBody' => "<p>To become one of the world's most respected communications and digital strategy companies, helping "
-                    . 'businesses, founders, and organisations communicate with confidence and build brands with lasting impact.</p>'
-                    . "<p>We're proudly African, committed to raising the standard of business communication across Africa while "
-                    . 'serving clients and partners around the world.</p>',
-                'missionHeading' => 'Our mission',
-                'missionBody' => '<p>To help businesses communicate with purpose, strengthen their brands, and build meaningful connections '
-                    . 'through thoughtful strategy, compelling storytelling, and practical digital solutions.</p>'
-                    . '<p>We listen before advising, think before creating, and execute with the same care from the first '
-                    . 'conversation to long after a project ships.</p>',
+                'richText' => '<h2>How Fastora began</h2>'
+                    . '<p>Every business has a story.</p>'
+                    . '<p>Ours began with an observation. Time and again, we saw businesses with '
+                    . "great products and services struggle to communicate their value in a way "
+                    . 'people understood.</p>'
+                    . '<p>Many business owners came to us after trying different approaches that '
+                    . 'never quite solved the problem. They had already invested time and money, '
+                    . 'only to realise they still needed to start over.</p>'
+                    . '<p>Fastora was created to help businesses get it right from the beginning.</p>'
+                    . '<p>Today, we partner with businesses, founders, and organisations that want '
+                    . 'to communicate with greater confidence, build stronger brands, and create '
+                    . 'meaningful connections with the people they serve.</p>',
             ],
         ],
 
         [
             'type' => 'whyFastora',
             'data' => [
-                'eyebrow' => 'Our values',
-                'heading' => 'What guides our work',
+                'eyebrow' => 'What guides our work',
+                'heading' => 'The principles behind every recommendation',
                 'points' => [
+                    [
+                        'stat' => 'Understood',
+                        'title' => 'Good work deserves to be understood.',
+                        'description' => "A business shouldn't miss opportunities because people struggle to understand what it does. We help close that gap.",
+                    ],
                     [
                         'stat' => 'Think first',
-                        'title' => 'Think Before We Create',
-                        'description' => "Every project begins with understanding, the client's business, goals, audience, and challenges, before we recommend anything.",
+                        'title' => 'Think before you create.',
+                        'description' => "Design, content, campaigns, and marketing all matter, but they work best when they're guided by thoughtful decisions rather than guesswork.",
                     ],
                     [
-                        'stat' => 'On purpose',
-                        'title' => 'Communicate with Purpose',
-                        'description' => 'Every message has a clear objective, whether to inform, persuade, reassure, or inspire action.',
-                    ],
-                    [
-                        'stat' => 'Consistency',
-                        'title' => 'Build Trust Through Consistency',
-                        'description' => 'Consistency creates recognition. Recognition builds confidence. Confidence strengthens trust.',
-                    ],
-                    [
-                        'stat' => 'Simplicity',
-                        'title' => 'Keep Things Simple',
-                        'description' => "Complex ideas don't need complicated explanations, our goal is always clarity over complexity.",
-                    ],
-                    [
-                        'stat' => 'Excellence',
-                        'title' => 'Deliver with Excellence',
-                        'description' => 'From strategy and writing to design and execution, we hold every detail to a high standard.',
-                    ],
-                    [
-                        'stat' => 'Partnership',
-                        'title' => 'Grow Through Partnership',
-                        'description' => "We invest in our clients' ambitions and remain committed to their long-term growth. When they succeed, we succeed.",
+                        'stat' => 'One story',
+                        'title' => 'Everything should tell the same story.',
+                        'description' => 'Your website, social media, presentations, proposals, and conversations all shape how people see your business. We help make sure they point in the same direction.',
                     ],
                 ],
             ],
         ],
 
         [
-            'type' => 'audienceGrid',
+            'type' => 'team',
             'data' => [
-                'eyebrow' => 'Who we serve',
-                'heading' => 'Organisations we work with',
-                'description' => "Regardless of industry, we're drawn to organisations that are serious about growth and committed to improving how they communicate.",
-                'items' => [
-                    ['label' => 'Small and medium-sized businesses'],
-                    ['label' => 'Startups'],
-                    ['label' => 'Corporate organisations'],
-                    ['label' => 'Professional service firms'],
-                    ['label' => 'Founders and executives'],
-                    ['label' => 'Non-profit organisations'],
-                    ['label' => 'Educational institutions'],
-                    ['label' => 'Government and development organisations'],
-                    ['label' => 'Personal brands with established businesses'],
+                'eyebrow' => 'Meet the team',
+                'heading' => 'The people behind Fastora',
+                'description' => 'Behind every project is a team that believes thoughtful work creates lasting results.',
+                'members' => [
+                    [
+                        'name' => 'Kator Tarkaa',
+                        'role' => 'Founder & Digital Communications Strategist',
+                        'bio' => "Kator leads Fastora's strategy, helping businesses communicate more effectively through brand positioning, communications, content, and digital strategy. His work focuses on helping businesses present themselves with confidence and build stronger connections with the people they serve.",
+                    ],
+                    [
+                        'name' => 'Emmanuel Akaluese',
+                        'role' => 'Operations Associate',
+                        'bio' => 'Emmanuel helps keep projects moving from idea to delivery. He supports internal operations, coordinates workflows, and ensures client projects stay organised, efficient, and on schedule.',
+                    ],
+                    [
+                        'name' => 'Eya Ndidiamaka',
+                        'role' => 'Digital Communications Associate',
+                        'bio' => 'Eya supports the planning, coordination, and delivery of digital communications across client accounts. She helps ensure content is published consistently and that day-to-day communication reflects the quality and direction of each brand.',
+                    ],
+                ],
+            ],
+        ],
+
+        [
+            'type' => 'whyFastora',
+            'data' => [
+                'eyebrow' => 'Our experience',
+                'heading' => 'A growing body of work',
+                'description' => "Over the years, we've had the opportunity to work with businesses of "
+                    . 'different sizes, industries, and ambitions. Every project has added to our '
+                    . 'understanding of what helps businesses communicate more effectively.',
+                'points' => [
+                    ['stat' => '18+', 'title' => 'Years', 'description' => 'Combined experience.'],
+                    ['stat' => '20+', 'title' => 'Clients', 'description' => 'Each with a different story to tell.'],
+                    ['stat' => '640K+', 'title' => 'Growth', 'description' => 'Built through our work.'],
+                    ['stat' => '10+', 'title' => 'Industries', 'description' => 'From healthcare to hospitality.'],
+                    ['stat' => '4', 'title' => 'Continents', 'description' => 'Clients in Africa, Europe, North America, and Australia.'],
                 ],
             ],
         ],
@@ -149,45 +114,48 @@ return [
         [
             'type' => 'content',
             'data' => [
-                'richText' => '<h2>Our approach</h2>'
-                    . '<p>Many agencies focus on producing more content. We focus on helping clients communicate more '
-                    . 'effectively, starting with understanding the business, not a template.</p>'
-                    . '<p>Every project we take on is guided by the same promise: to help good businesses become easier to '
-                    . 'understand, easier to trust, and harder to ignore.</p>',
+                'richText' => '<h2>A thoughtful process from start to finish</h2>'
+                    . '<p>Every project begins with a conversation. Before recommending a direction, '
+                    . "we take time to understand your business, the people you're trying to reach, "
+                    . "and what you're hoping to achieve.</p>"
+                    . '<p>From there, we develop a clear plan, bring it to life with care, and '
+                    . "continue refining it as your business grows. It's a simple approach that helps "
+                    . 'us get the work right from the start.</p>',
             ],
         ],
 
         [
-            'type' => 'faq',
+            'type' => 'content',
             'data' => [
-                'heading' => 'Questions about working with us',
-                'items' => [
-                    [
-                        'question' => 'What makes Fastora different from a traditional marketing agency?',
-                        'answer' => 'We position ourselves as a communications and digital strategy partner, not a content factory. We start with strategy and positioning, then move into execution, so the work we produce is always tied to a clear business objective.',
-                    ],
-                    [
-                        'question' => 'Which industries does Fastora work with?',
-                        'answer' => 'We work with SMEs, startups, corporate organisations, professional service firms, founders and executives, non-profits, educational institutions, and government or development organisations, any business serious about communicating better.',
-                    ],
-                    [
-                        'question' => 'Do you only work with businesses in Africa?',
-                        'answer' => "No. We're proudly African and based in Africa, but we work with clients and partners globally.",
-                    ],
-                    [
-                        'question' => 'How do we get started?',
-                        'answer' => "Book a consultation through our contact page. We'll ask a few questions about your business and communication goals, then follow up with a proposal tailored to what you actually need.",
-                    ],
-                ],
+                'richText' => '<h2>Who we work with</h2>'
+                    . '<p>We work with people building businesses they believe in.</p>'
+                    . '<p>Some are taking their first steps. Others have been around for years and '
+                    . 'are ready for a new chapter.</p>'
+                    . '<p>Our role is to help them communicate in a way that gives people a reason '
+                    . 'to notice, understand, and trust what they do.</p>',
+            ],
+        ],
+
+        [
+            'type' => 'content',
+            'data' => [
+                'richText' => '<h2>A name inspired by the way we work</h2>'
+                    . '<p>Fastora is a name we created, inspired by the idea of speed and getting '
+                    . 'things right from the start.</p>'
+                    . "<p>Over the years, we've met businesses that spent more time and money fixing "
+                    . 'work that should have been done properly the first time.</p>'
+                    . '<p>We wanted to build a company that helped people avoid that.</p>',
             ],
         ],
 
         [
             'type' => 'cta',
             'data' => [
-                'richText' => '<h2>Ready to communicate with more confidence?</h2>',
+                'richText' => "<h2>Let's build something people understand.</h2>"
+                    . '<p>Every business deserves to be recognised for the quality of its work.</p>'
+                    . "<p>Let's talk about where your business is today and where you want it to go.</p>",
                 'links' => [
-                    ['label' => 'Book a Consultation', 'url' => '/contact', 'appearance' => 'default'],
+                    ['label' => 'Book a Consultation', 'url' => '/consultation', 'appearance' => 'default'],
                 ],
             ],
         ],

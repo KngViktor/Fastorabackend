@@ -9,6 +9,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
@@ -68,6 +69,10 @@ class PostForm
                                 ->live(),
                             DateTimePicker::make('published_at')
                                 ->helperText('For scheduled posts, this is when it goes live automatically.'),
+                            Toggle::make('featured')
+                                ->label('Pin to top of Insights')
+                                ->helperText('Only one pinned post is shown. If more than one is toggled on, the most recently published wins.')
+                                ->columnSpanFull(),
                             ...static::seoFields(),
                         ])
                         ->columns(2),

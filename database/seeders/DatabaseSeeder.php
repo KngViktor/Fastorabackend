@@ -245,6 +245,12 @@ class DatabaseSeeder extends Seeder
 
         $strategyCategory = Category::updateOrCreate(['slug' => 'strategy'], ['title' => 'Strategy']);
         $brandingCategory = Category::updateOrCreate(['slug' => 'branding'], ['title' => 'Branding']);
+        // The content document's topic filter needs all six to choose from,
+        // even before there's a post in every one.
+        Category::updateOrCreate(['slug' => 'communication'], ['title' => 'Communication']);
+        Category::updateOrCreate(['slug' => 'content'], ['title' => 'Content']);
+        Category::updateOrCreate(['slug' => 'digital-marketing'], ['title' => 'Digital Marketing']);
+        Category::updateOrCreate(['slug' => 'founder-branding'], ['title' => 'Founder Branding']);
 
         $post1 = Post::updateOrCreate(['slug' => 'why-most-messaging-frameworks-fail'], [
             'hero_image_media_id' => $contentPhoto->id,
@@ -326,8 +332,8 @@ class DatabaseSeeder extends Seeder
             'title' => 'Services',
             'hero_type' => 'none',
             'page_header_eyebrow' => 'What we do',
-            'page_header_heading' => 'Services built around how you communicate',
-            'page_header_description' => 'Integrated services, each designed to help your business communicate with more clarity, credibility, and confidence.',
+            'page_header_heading' => 'Services built around how people experience your business.',
+            'page_header_description' => 'Every interaction shapes how people think about your business. Our services help you communicate more intentionally, strengthen your brand, and support long-term growth.',
             'faqs' => [
                 [
                     'question' => 'How do I know which service is right for us?',
@@ -347,10 +353,9 @@ class DatabaseSeeder extends Seeder
             'published_at' => now()->subMonths(8),
         ]);
 
-        // Hero copy and layout come from the shared reference file, so this matches
-        // what the rebuild migration produces on an existing database. The
-        // aboutFastora block is prepended here rather than living in that file,
-        // because it needs a media id the file cannot know.
+        // Hero copy and layout come entirely from the shared reference file, so
+        // this matches what the rebuild migration produces on an existing
+        // database.
         $aboutReference = require database_path('data/reference-about-page.php');
 
         Page::updateOrCreate(['slug' => 'about'], [
@@ -358,22 +363,7 @@ class DatabaseSeeder extends Seeder
             'hero_type' => 'lowImpact',
             'hero_rich_text' => $aboutReference['hero_rich_text'],
             'hero_media_id' => $studioPhoto->id,
-            'layout' => array_merge([
-                // Not part of the reference page, but added on request. A different
-                // photograph from the hero directly above it, and no link, since
-                // "More about Fastora" would point at this page.
-                ['type' => 'aboutFastora', 'data' => [
-                    'heading' => 'Good work deserves to be noticed, understood, and remembered.',
-                    'richText' => '<p>Many businesses are genuinely good at what they do. Capable teams, quality products, years of experience. Yet they are overlooked because they struggle to communicate their value.</p><p>Fastora exists to close that gap. We help businesses communicate more effectively so they become easier to understand, easier to trust, and harder to ignore.</p>',
-                    'image' => $strategyPhoto->id,
-                    'linkLabel' => null,
-                    'linkUrl' => null,
-                    'stats' => [
-                        ['value' => '10', 'label' => 'Services under one team'],
-                        ['value' => 'Africa', 'label' => 'Rooted here, working globally'],
-                    ],
-                ]],
-            ], $aboutReference['layout']),
+            'layout' => $aboutReference['layout'],
             'status' => 'published',
             'published_at' => now()->subMonths(8),
             'meta_title' => 'About Fastora',
@@ -408,20 +398,32 @@ class DatabaseSeeder extends Seeder
             'title' => 'Contact',
             'hero_type' => 'none',
             'page_header_eyebrow' => 'Contact',
-            'page_header_heading' => "Let's start your project",
-            'page_header_description' => "Tell us where you want to go. We'll come back with how to get there, fast.",
+            'page_header_heading' => "Let's talk about your business.",
+            'page_header_description' => "Every project starts with a conversation. Tell us what you're working on, where you'd like to go, or the challenge you're trying to solve. We'll take it from there.",
             'faqs' => [
                 [
-                    'question' => 'What happens after I submit the form?',
-                    'answer' => "We'll review your message and follow up within one to two business days to schedule a consultation.",
-                ],
-                [
-                    'question' => 'Is the first consultation free?',
-                    'answer' => "Yes. The first consultation is a conversation about your business and communication goals, with no obligation.",
+                    'question' => 'Do I need to know which service I need?',
+                    'answer' => "Not at all. Many clients come to us with a challenge rather than a clear solution. We'll help you decide what makes the most sense after we've learned more about your business.",
                 ],
                 [
                     'question' => 'What information should I include in my message?',
-                    'answer' => "A short description of your business, what you're hoping to achieve, and which service you're interested in helps us prepare for the call.",
+                    'answer' => "Tell us a little about your business, what you're hoping to achieve, and any challenges you're facing. If you already know which service you're interested in, you can include that too.",
+                ],
+                [
+                    'question' => 'Is the first conversation free?',
+                    'answer' => "Yes. The first conversation is an opportunity for us to understand your business, answer your questions, and decide whether we're the right fit to work together.",
+                ],
+                [
+                    'question' => 'What happens after I get in touch?',
+                    'answer' => "We'll review your message and, if it looks like we're a good fit, we'll get in touch to arrange a conversation and discuss the best next step for your business.",
+                ],
+                [
+                    'question' => 'How soon will I hear back?',
+                    'answer' => 'We aim to respond to every enquiry within one business day.',
+                ],
+                [
+                    'question' => 'Do you work with businesses outside Nigeria?',
+                    'answer' => 'Yes. We work with businesses, founders, and organisations across Africa and in other parts of the world.',
                 ],
             ],
             'layout' => [],

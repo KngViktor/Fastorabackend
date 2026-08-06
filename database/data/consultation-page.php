@@ -15,20 +15,24 @@ return [
     'hero_type' => 'lowImpact',
     'hero_eyebrow' => '45-minute strategic session',
     'hero_rich_text' => '<h1>Talk it through with us first.</h1>'
-        . '<p>A focused 45 minutes on your business, your audience, and the communication '
-        . 'problem in front of you. No pitch deck, no obligation — you leave with a clear '
-        . 'view of what to do next, whether or not you work with us.</p>',
+        . '<p>Every project starts with a conversation. We\'ll spend time understanding your '
+        . "business, the people you're trying to reach, and the challenges you're facing. By the "
+        . "end, you'll have a better idea of what comes next, whether that's working with us or "
+        . 'taking the next step on your own.</p>',
 
     'layout' => [
         [
             'type' => 'ourProcess',
             'data' => [
-                'eyebrow' => 'What happens',
-                'heading' => 'How the session runs',
+                'eyebrow' => 'What to expect',
+                'heading' => 'How the conversation works',
+                'intro' => "There's no presentation to sit through and no pressure to make a "
+                    . "decision. We'll simply spend time understanding your business and talking "
+                    . "through what's in front of you.",
                 'steps' => [
-                    ['title' => 'You tell us the situation', 'description' => 'Where the business is, who you are trying to reach, and what is not landing.'],
-                    ['title' => 'We ask the awkward questions', 'description' => 'The ones that surface what is actually causing the problem rather than the symptom.'],
-                    ['title' => 'We name the next step', 'description' => 'A clear recommendation you can act on, in your own time, with or without us.'],
+                    ['title' => 'You tell us about your business', 'description' => "We'll talk about what your business does, where you are today, and what you're hoping to achieve."],
+                    ['title' => 'We ask the right questions', 'description' => "We'll explore the things that matter most so we understand the business before discussing possible solutions."],
+                    ['title' => 'You leave with a clear next step', 'description' => "By the end of the conversation, you'll have a better understanding of where to focus and what comes next."],
                 ],
             ],
         ],
@@ -36,16 +40,18 @@ return [
         [
             'type' => 'consultationForm',
             'data' => [
-                'eyebrow' => 'Request a session',
-                'heading' => 'Pick a few times that suit you',
-                'description' => 'Send two or three options and we will confirm one by email. Sessions run over video, or by phone if you prefer.',
+                'eyebrow' => 'Request a conversation',
+                'heading' => 'Pick a few times that work for you',
+                'description' => "Share two or three dates and times that suit you, and we'll "
+                    . 'confirm one by email. Conversations take place online, so you can join from '
+                    . "wherever you're based.",
                 'idealFor' => [
-                    ['label' => 'Businesses preparing to grow'],
-                    ['label' => 'Founders refining positioning'],
-                    ['label' => 'Organisations reviewing communication'],
+                    ['label' => 'Businesses preparing for their next stage of growth.'],
+                    ['label' => "Founders refining how they're seen."],
+                    ['label' => 'Organisations reviewing how they communicate.'],
                 ],
-                'submitLabel' => 'Request a session',
-                'reassurance' => "Within one business day we'll confirm one of your preferred times by email.",
+                'submitLabel' => 'Request a Conversation',
+                'reassurance' => "We'll get back to you within one business day to confirm your conversation.",
             ],
         ],
 
@@ -55,20 +61,24 @@ return [
                 'heading' => 'Before you book',
                 'items' => [
                     [
-                        'question' => 'Is the session really free?',
-                        'answer' => 'Yes. The first consultation is a conversation about your business and communication goals, with no cost and no obligation to proceed.',
+                        'question' => 'Do I need to know which service I need?',
+                        'answer' => "Not at all. Many conversations begin with a challenge rather than a clear solution. We'll help you decide what makes the most sense after we've learned more about your business.",
+                    ],
+                    [
+                        'question' => 'Is the first conversation free?',
+                        'answer' => "Yes. It's an opportunity for us to understand your business, answer your questions, and see whether we're the right fit to work together.",
                     ],
                     [
                         'question' => 'What should I prepare?',
-                        'answer' => 'Nothing formal. If you have a website, deck, or recent campaign you are unsure about, send it ahead and we will look at it before we speak.',
+                        'answer' => 'Nothing formal. It helps to have a general idea of your business, your goals, and the challenges you\'re facing. The rest is simply a conversation.',
                     ],
                     [
                         'question' => 'Who will I be speaking to?',
-                        'answer' => 'Someone senior enough to give you a straight answer. These sessions are not run by a sales team.',
+                        'answer' => "You'll be speaking with Kator Tarkaa, Founder & Digital Communications Strategist at Fastora. He'll lead the conversation, answer your questions, and help you think through the best next step for your business.",
                     ],
                     [
-                        'question' => 'What if none of my suggested times work for you?',
-                        'answer' => 'We will reply with the nearest alternatives. Sending two or three options usually means we can confirm on the first reply.',
+                        'question' => 'What if none of my suggested times work?',
+                        'answer' => "We'll get in touch and find another time that works for both of us.",
                     ],
                 ],
             ],

@@ -54,6 +54,7 @@ class PageResource extends JsonResource
         'mediaBlock' => ['single' => ['media'], 'repeaters' => []],
         'aboutFastora' => ['single' => ['image'], 'repeaters' => []],
         'trustedBy' => ['single' => [], 'repeaters' => ['logos' => 'media']],
+        'team' => ['single' => [], 'repeaters' => ['members' => 'photo']],
     ];
 
     protected function resolveLayoutMedia(array $blocks): array

@@ -18,6 +18,8 @@ class PostResource extends JsonResource
             'slug' => $this->slug,
             'heroImage' => $this->heroImage ? new MediaResource($this->heroImage) : null,
             'content' => $this->content,
+            'readingTimeMinutes' => $this->readingTimeMinutes(),
+            'featured' => (bool) $this->featured,
             'tags' => collect($this->tags ?? [])->pluck('tag')->values(),
             'categories' => $this->whenLoaded(
                 'categories',
@@ -40,5 +42,17 @@ class PostResource extends JsonResource
                 'image' => $this->metaImage ? new MediaResource($this->metaImage) : null,
             ],
         ];
+    }
+
+    /**
+     * 200 words per minute, rounded up so a short post never reads as
+     * "0 min read". Stripped of HTML tags first — `content` is rich text, and
+     * counting markup as words would inflate the estimate.
+     */
+    private function readingTimeMinutes(): int
+    {
+        $wordCount = str_word_count(strip_tags((string) $this->content));
+
+        return max(1, (int) ceil($wordCount / 200));
     }
 }

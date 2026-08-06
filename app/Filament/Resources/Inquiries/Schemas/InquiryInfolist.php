@@ -48,6 +48,13 @@ class InquiryInfolist
                         ->copyMessage('Address copied')
                         // The reply is the whole point, so make it one click.
                         ->url(fn ($record): ?string => $record->email ? 'mailto:' . $record->email : null),
+                    TextEntry::make('phone')
+                        ->label('Phone')
+                        ->placeholder('—')
+                        ->url(fn ($record): ?string => $record->phone ? 'tel:' . $record->phone : null),
+                    TextEntry::make('website_url')
+                        ->label('Website')
+                        ->placeholder('—'),
                     TextEntry::make('company')->placeholder('—'),
                     TextEntry::make('serviceNeeded.title')
                         ->label('Service')
