@@ -453,15 +453,21 @@ class DatabaseSeeder extends Seeder
     }
 
     /**
-     * Privacy Policy and Terms & Conditions, from the same shared file the
-     * migration uses, so a fresh install and a migrated database produce
-     * the same pages.
+     * Privacy Policy, Terms of Use, and Cookie Policy, from the same shared
+     * file the migration uses, so a fresh install and a migrated database
+     * produce the same pages.
      */
     protected function seedLegalPages(): void
     {
         $legal = require database_path('data/reference-legal-pages.php');
 
-        foreach (['privacy-policy' => 'privacy_policy', 'terms-conditions' => 'terms_conditions'] as $slug => $key) {
+        $slugs = [
+            'privacy-policy' => 'privacy_policy',
+            'terms-of-use' => 'terms_of_use',
+            'cookie-policy' => 'cookie_policy',
+        ];
+
+        foreach ($slugs as $slug => $key) {
             $page = $legal[$key];
 
             Page::updateOrCreate(['slug' => $slug], [

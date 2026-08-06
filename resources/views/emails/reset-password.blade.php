@@ -21,7 +21,7 @@
                   Reset password
                 </a>
                 <p style="margin:24px 0 0;line-height:1.6;color:#5B6472;font-size:13px;">
-                  If you didn't request this, you can safely ignore this email — your password won't change.
+                  If you didn't request this, you can safely ignore this email. Your password won't change.
                 </p>
                 <p style="margin:16px 0 0;line-height:1.6;color:#9aa3b2;font-size:12px;word-break:break-all;">
                   Or paste this link into your browser:<br>{{ $url }}

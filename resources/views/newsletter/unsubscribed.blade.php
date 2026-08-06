@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Unsubscribed — Fastora</title>
+    <title>Unsubscribed - Fastora</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body style="margin:0;background:#f4f6fb;font-family:Arial,Helvetica,sans-serif;color:#111827;">

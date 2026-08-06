@@ -21,7 +21,7 @@ class MediaTable
                 TextColumn::make('alt')->searchable(),
                 TextColumn::make('mime_type')->label('Type'),
                 TextColumn::make('size')
-                    ->formatStateUsing(fn (?int $state) => $state ? number_format($state / 1024, 1) . ' KB' : '—'),
+                    ->formatStateUsing(fn (?int $state) => $state ? number_format($state / 1024, 1) . ' KB' : '-'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

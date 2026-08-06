@@ -30,11 +30,11 @@ class InquiryInfolist
                     TextEntry::make('preferred_times')
                         ->label('Times they can make')
                         ->columnSpanFull()
-                        ->placeholder('—')
+                        ->placeholder('-')
                         ->visible(fn ($record): bool => filled($record->preferred_times)),
                     TextEntry::make('timezone')
                         ->label('Their timezone')
-                        ->placeholder('—')
+                        ->placeholder('-')
                         ->visible(fn ($record): bool => filled($record->timezone)),
                 ])
                 ->columns(2),
@@ -50,19 +50,19 @@ class InquiryInfolist
                         ->url(fn ($record): ?string => $record->email ? 'mailto:' . $record->email : null),
                     TextEntry::make('phone')
                         ->label('Phone')
-                        ->placeholder('—')
+                        ->placeholder('-')
                         ->url(fn ($record): ?string => $record->phone ? 'tel:' . $record->phone : null),
                     TextEntry::make('website_url')
                         ->label('Website')
-                        ->placeholder('—'),
-                    TextEntry::make('company')->placeholder('—'),
+                        ->placeholder('-'),
+                    TextEntry::make('company')->placeholder('-'),
                     TextEntry::make('serviceNeeded.title')
                         ->label('Service')
                         ->placeholder('Not specified'),
                     TextEntry::make('budget_range')
                         ->label('Budget')
-                        ->placeholder('—'),
-                    TextEntry::make('timeline')->placeholder('—'),
+                        ->placeholder('-'),
+                    TextEntry::make('timeline')->placeholder('-'),
                 ])
                 ->columns(2),
 
