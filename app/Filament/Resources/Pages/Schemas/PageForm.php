@@ -215,6 +215,10 @@ class PageForm
                                         ->label('Services Overview')
                                         ->schema([
                                             ...static::eyebrowHeading(),
+                                            Textarea::make('description')
+                                                ->rows(2)
+                                                ->columnSpanFull()
+                                                ->helperText('Optional sentence below the heading.'),
                                             TextInput::make('limit')->numeric()->default(6),
                                         ]),
 
@@ -222,6 +226,10 @@ class PageForm
                                         ->label('Why Fastora')
                                         ->schema([
                                             ...static::eyebrowHeading(),
+                                            Textarea::make('description')
+                                                ->rows(2)
+                                                ->columnSpanFull()
+                                                ->helperText('Optional sentence below the heading.'),
                                             Repeater::make('points')
                                                 ->columnSpanFull()
                                                 ->schema([
@@ -238,6 +246,10 @@ class PageForm
                                         ->label('Selected Work / Case Studies')
                                         ->schema([
                                             ...static::eyebrowHeading(),
+                                            Textarea::make('description')
+                                                ->rows(2)
+                                                ->columnSpanFull()
+                                                ->helperText('Optional sentence below the heading.'),
                                             TextInput::make('limit')->numeric()->default(3),
                                         ]),
 
@@ -292,6 +304,10 @@ class PageForm
                                         ->label('Latest Insights')
                                         ->schema([
                                             ...static::eyebrowHeading(),
+                                            Textarea::make('description')
+                                                ->rows(2)
+                                                ->columnSpanFull()
+                                                ->helperText('Optional sentence below the heading.'),
                                             TextInput::make('limit')->numeric()->default(3),
                                         ]),
 

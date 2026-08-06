@@ -23,7 +23,7 @@ return [
         'title' => 'Communications Strategy',
         'order' => 1,
         'featured_on_home' => true,
-        'summary' => 'The way your business communicates influences how people understand it.',
+        'summary' => 'The way your business communicates shapes how people see it. We help you get that right.',
         'problem' => "<p>People don't always ignore a business because it's the wrong choice.</p>"
             . '<p>Sometimes they simply don\'t understand what it does, why it matters, or why they should trust it.</p>'
             . '<p>Communications Strategy helps you close that gap.</p>',
@@ -81,7 +81,7 @@ return [
         'title' => 'Brand Positioning',
         'order' => 2,
         'featured_on_home' => true,
-        'summary' => 'Help people recognise what your business stands for and remember why it matters.',
+        'summary' => 'People remember brands that stand for something. We help you define what that is.',
         'problem' => '<p>People begin forming opinions about your business long before they become customers.</p>'
             . '<p>Brand Positioning helps you define what your business stands for, what makes it different, and why people should remember it.</p>',
         'overview_heading' => 'A brand people can recognise and remember.',
@@ -139,7 +139,7 @@ return [
         'title' => 'Content & Storytelling',
         'order' => 3,
         'featured_on_home' => true,
-        'summary' => 'Every piece of content should strengthen the story your business is trying to tell.',
+        'summary' => 'Content is often the first conversation people have with your business. We help make it count.',
         'problem' => '<p>People often meet your business through your content before they ever meet you.</p>'
             . '<p>Every article, caption, website page, or campaign becomes part of the story they remember.</p>'
             . "<p>Content &amp; Storytelling helps make sure it's a story worth telling.</p>",
@@ -232,8 +232,8 @@ return [
         ],
         'includes' => [
             ['label' => 'Social Media Management'],
-            ['label' => 'Marketing Strategy'],
             ['label' => 'Digital Marketing'],
+            ['label' => 'Marketing Strategy'],
         ],
         'related_service_slugs' => ['content-and-storytelling', 'communications-strategy'],
         'cta_heading' => "Let's help more people find your business.",

@@ -268,15 +268,14 @@ class DatabaseSeeder extends Seeder
         $post2->categories()->sync([$brandingCategory->id]);
         $post2->authors()->sync([$admin->id]);
 
+        $home = require database_path('data/reference-home-page.php');
+
         Page::updateOrCreate(['slug' => 'home'], [
             'title' => 'Home',
             'hero_type' => 'highImpact',
-            'hero_eyebrow' => 'Communications & Digital Strategy',
-            'hero_rich_text' => '<h1>Communication that earns attention.</h1><p>Fastora is a communications and digital strategy company that helps businesses communicate with purpose, strengthen their brand, and earn the trust they deserve.</p>',
-            'hero_links' => [
-                ['label' => 'Book a Consultation', 'url' => '/consultation', 'appearance' => 'default'],
-                ['label' => 'View case studies', 'url' => '/case-studies', 'appearance' => 'outline'],
-            ],
+            'hero_eyebrow' => $home['hero_eyebrow'],
+            'hero_rich_text' => $home['hero_rich_text'],
+            'hero_links' => $home['hero_links'],
             'hero_media_id' => $heroImage->id,
             'layout' => [
                 // Six confirmed clients. No logo files yet, so the block renders
@@ -287,30 +286,19 @@ class DatabaseSeeder extends Seeder
                 ]],
 
                 ['type' => 'aboutFastora', 'data' => [
-                    'heading' => 'Good work deserves to be noticed, understood, and remembered.',
-                    'richText' => '<p>Many businesses are genuinely good at what they do. Capable teams, quality products, years of experience. Yet they are overlooked because they struggle to communicate their value.</p><p>Fastora exists to close that gap. We help businesses communicate more effectively so they become easier to understand, easier to trust, and harder to ignore.</p>',
+                    ...$home['about_fastora'],
                     'image' => $studioPhoto->id,
-                    'linkLabel' => 'More about Fastora',
-                    'linkUrl' => '/about',
-                    'stats' => [
-                        ['value' => '10', 'label' => 'Services under one team'],
-                        ['value' => 'Africa', 'label' => 'Rooted here, working globally'],
-                    ],
                 ]],
 
-                ['type' => 'servicesOverview', 'data' => ['eyebrow' => 'What we do', 'heading' => 'Services built around how you communicate', 'limit' => 6]],
-                ['type' => 'whyFastora', 'data' => [
-                    'eyebrow' => null,
-                    'heading' => 'A strategic partner, not just another vendor',
-                    'points' => [
-                        ['stat' => '10+', 'title' => 'Integrated services', 'description' => 'From strategy to execution, communications and digital work live under one accountable team, not scattered across vendors.'],
-                        ['stat' => 'Strategy-first', 'title' => 'We think before we create', 'description' => 'Every recommendation starts with understanding your business, not a template. Strategy guides everything we produce.'],
-                        ['stat' => 'Africa', 'title' => 'Proudly African, globally minded', 'description' => "We're committed to raising the standard of business communication across Africa while serving clients and partners around the world."],
-                    ],
-                ]],
+                ['type' => 'whyFastora', 'data' => $home['impact_at_a_glance']],
+
+                ['type' => 'servicesOverview', 'data' => $home['services_overview']],
+
+                ['type' => 'whyFastora', 'data' => $home['why_fastora']],
 
                 // Precedes the case studies, as in the reference: how we work,
-                // then what it produced.
+                // then what it produced. Not covered by the content document,
+                // so left as it was.
                 ['type' => 'ourProcess', 'data' => [
                     'eyebrow' => null,
                     'heading' => 'How we work with you',
@@ -321,23 +309,12 @@ class DatabaseSeeder extends Seeder
                         ['title' => 'Review & grow', 'description' => "We measure what matters, share what we're learning, and refine the approach as your business and audience evolve."],
                     ],
                 ]],
-                ['type' => 'selectedWork', 'data' => ['eyebrow' => 'Selected work', 'heading' => 'Results, not just deliverables', 'limit' => 3]],
-                ['type' => 'testimonialsBlock', 'data' => ['eyebrow' => 'Client voices', 'heading' => 'What clients say', 'limit' => 3]],
-                ['type' => 'latestInsights', 'data' => ['eyebrow' => 'Insights', 'heading' => 'Recent thinking', 'limit' => 3]],
-                ['type' => 'faq', 'data' => [
-                    'heading' => 'Questions, answered directly',
-                    'items' => [
-                        ['question' => 'What does Fastora do?', 'answer' => 'Fastora is a communications and digital strategy company. We help businesses communicate more effectively through strategic communications, brand consulting, content strategy, reputation management, founder branding, social media management, copywriting, digital marketing, marketing strategy, and communication advisory, all working toward one goal: helping you become easier to understand, easier to trust, and harder to ignore.'],
-                        ['question' => 'How is Fastora different from a typical marketing agency?', 'answer' => 'We start with strategy, not content production. Before we write a caption or launch a campaign, we take time to understand your business, audience, and communication challenge, then build a plan execution can actually follow.'],
-                        ['question' => 'How quickly can we start working together?', 'answer' => 'Most engagements begin with a consultation to understand your goals, followed by a proposal within a few days. From there, timelines depend on scope, but we move as quickly as good strategy allows.'],
-                        ['question' => 'Does Fastora work with businesses outside Africa?', 'answer' => "Yes. We're proudly African and committed to raising the standard of business communication across Africa, while serving clients and partners around the world."],
-                    ],
-                ]],
 
-                ['type' => 'cta', 'data' => [
-                    'richText' => '<h2>Ready to start your project?</h2><p>Tell us where you want to go, we\'ll come back with how to get there.</p>',
-                    'links' => [['label' => 'Book a Consultation', 'url' => '/consultation', 'appearance' => 'default']],
-                ]],
+                ['type' => 'selectedWork', 'data' => $home['selected_work']],
+                ['type' => 'testimonialsBlock', 'data' => $home['testimonials_block']],
+                ['type' => 'latestInsights', 'data' => $home['latest_insights']],
+                ['type' => 'faq', 'data' => $home['faq']],
+                ['type' => 'cta', 'data' => $home['cta']],
             ],
             'status' => 'published',
             'published_at' => now()->subMonths(8),
