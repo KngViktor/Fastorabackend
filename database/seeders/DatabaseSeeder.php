@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
         $analyticsPhoto = $this->importImage('119721.jpg', 'Reviewing performance figures on a tablet');
         $contentPhoto = $this->importImage('83416.jpg', 'Planning content across digital channels');
         $strategyPhoto = $this->importImage('32.jpg', 'Mapping a communications strategy across markets');
+        $katorPhoto = $this->importImage('kator-tarkaa.jpg', 'Kator Tarkaa, Founder & Digital Communications Strategist at Fastora');
 
         SiteSetting::current()->update([
             'site_name' => 'Fastora',
@@ -348,6 +349,7 @@ class DatabaseSeeder extends Seeder
             'process' => $strategyPhoto->id,
             'audience' => $contentPhoto->id,
             'name' => $analyticsPhoto->id,
+            'kator' => $katorPhoto->id,
         ]);
 
         Page::updateOrCreate(['slug' => 'about'], [
