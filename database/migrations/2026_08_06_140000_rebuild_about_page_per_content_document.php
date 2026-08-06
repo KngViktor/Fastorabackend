@@ -32,13 +32,29 @@ return new class extends Migration
             return;
         }
 
-        $reference = require database_path('data/reference-about-page.php');
+        $reference = (require database_path('data/reference-about-page.php'))($this->resolveImageIds());
 
         DB::table('pages')->where('id', $page->id)->update([
             'hero_rich_text' => $reference['hero_rich_text'],
             'layout' => json_encode($reference['layout']),
             'updated_at' => now(),
         ]);
+    }
+
+    /**
+     * Looked up by alt text rather than a hardcoded id, since these rows'
+     * ids depend on import order and aren't stable across installs.
+     */
+    private function resolveImageIds(): array
+    {
+        $idFor = fn (string $alt) => DB::table('media')->where('alt', $alt)->value('id');
+
+        return [
+            'origin' => $idFor('A communications professional at work in a studio'),
+            'process' => $idFor('Mapping a communications strategy across markets'),
+            'audience' => $idFor('Planning content across digital channels'),
+            'name' => $idFor('Reviewing performance figures on a tablet'),
+        ];
     }
 
     /**

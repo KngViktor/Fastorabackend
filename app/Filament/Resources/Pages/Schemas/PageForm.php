@@ -128,7 +128,15 @@ class PageForm
                                         ->label('Content')
                                         ->schema([
                                             RichEditor::make('richText')->label('Text')->columnSpanFull(),
-                                        ]),
+                                            static::mediaPicker('image', 'Image')
+                                                ->helperText('Optional. Adds a two-column layout with the text beside it.'),
+                                            Select::make('imagePosition')
+                                                ->label('Image position')
+                                                ->options(['right' => 'Right', 'left' => 'Left'])
+                                                ->default('right')
+                                                ->visible(fn ($get) => filled($get('image'))),
+                                        ])
+                                        ->columns(2),
 
                                     Block::make('visionMission')
                                         ->label('Vision & Mission')

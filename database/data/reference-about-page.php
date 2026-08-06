@@ -13,9 +13,15 @@
  * appending is what was asked for.
  *
  * The image ids are filled in by the caller, for the same reason as before:
- * they're environment-specific.
+ * they're environment-specific. This file returns a function rather than a
+ * plain array so the caller can pass them in — four of the plain-text
+ * sections below now carry a photo each, alternating sides down the page
+ * rather than reading as an unbroken stack of paragraphs.
+ *
+ * @param array{origin: int, process: int, audience: int, name: int} $images
  */
-return [
+return function (array $images): array {
+    return [
     'hero_rich_text' => '<h1>Good businesses deserve to be understood.</h1>'
         . '<p>Fastora is a communications and digital strategy company that helps businesses '
         . 'present themselves in ways that reflect the quality of what they do. We work with '
@@ -39,6 +45,8 @@ return [
                     . '<p>Today, we partner with businesses, founders, and organisations that want '
                     . 'to communicate with greater confidence, build stronger brands, and create '
                     . 'meaningful connections with the people they serve.</p>',
+                'image' => $images['origin'],
+                'imagePosition' => 'right',
             ],
         ],
 
@@ -121,6 +129,8 @@ return [
                     . '<p>From there, we develop a clear plan, bring it to life with care, and '
                     . "continue refining it as your business grows. It's a simple approach that helps "
                     . 'us get the work right from the start.</p>',
+                'image' => $images['process'],
+                'imagePosition' => 'left',
             ],
         ],
 
@@ -133,6 +143,8 @@ return [
                     . 'are ready for a new chapter.</p>'
                     . '<p>Our role is to help them communicate in a way that gives people a reason '
                     . 'to notice, understand, and trust what they do.</p>',
+                'image' => $images['audience'],
+                'imagePosition' => 'right',
             ],
         ],
 
@@ -145,6 +157,8 @@ return [
                     . "<p>Over the years, we've met businesses that spent more time and money fixing "
                     . 'work that should have been done properly the first time.</p>'
                     . '<p>We wanted to build a company that helped people avoid that.</p>',
+                'image' => $images['name'],
+                'imagePosition' => 'left',
             ],
         ],
 
@@ -160,4 +174,5 @@ return [
             ],
         ],
     ],
-];
+    ];
+};

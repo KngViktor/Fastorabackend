@@ -80,6 +80,7 @@ class DatabaseSeeder extends Seeder
                 ['label' => 'Insights', 'url' => '/insights'],
                 ['label' => 'About', 'url' => '/about'],
                 ['label' => 'Contact', 'url' => '/contact'],
+                ['label' => 'Book a Consultation', 'url' => '/consultation'],
             ],
         ]);
 
@@ -356,7 +357,12 @@ class DatabaseSeeder extends Seeder
         // Hero copy and layout come entirely from the shared reference file, so
         // this matches what the rebuild migration produces on an existing
         // database.
-        $aboutReference = require database_path('data/reference-about-page.php');
+        $aboutReference = (require database_path('data/reference-about-page.php'))([
+            'origin' => $studioPhoto->id,
+            'process' => $strategyPhoto->id,
+            'audience' => $contentPhoto->id,
+            'name' => $analyticsPhoto->id,
+        ]);
 
         Page::updateOrCreate(['slug' => 'about'], [
             'title' => 'About',

@@ -53,6 +53,7 @@ class PageResource extends JsonResource
     protected const MEDIA_FIELDS = [
         'mediaBlock' => ['single' => ['media'], 'repeaters' => []],
         'aboutFastora' => ['single' => ['image'], 'repeaters' => []],
+        'content' => ['single' => ['image'], 'repeaters' => []],
         'trustedBy' => ['single' => [], 'repeaters' => ['logos' => 'media']],
         'team' => ['single' => [], 'repeaters' => ['members' => 'photo']],
     ];
