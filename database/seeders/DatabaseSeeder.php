@@ -435,6 +435,8 @@ class DatabaseSeeder extends Seeder
             'layout' => [],
             'status' => 'published',
             'published_at' => now()->subMonths(8),
+            'meta_title' => 'Contact',
+            'meta_description' => "Tell us about your business and where you'd like to go. We respond to every enquiry within one business day.",
         ]);
 
         // The consultation page, from the same shared file the migration uses, so a
