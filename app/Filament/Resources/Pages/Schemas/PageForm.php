@@ -239,6 +239,9 @@ class PageForm
                                                 ->columns(2)
                                                 ->addActionLabel('Add team member')
                                                 ->reorderable()
+                                                ->collapsed()
+                                                ->collapsible()
+                                                ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
                                                 ->defaultItems(0),
                                         ]),
 
