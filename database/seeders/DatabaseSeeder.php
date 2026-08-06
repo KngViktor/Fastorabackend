@@ -276,6 +276,8 @@ class DatabaseSeeder extends Seeder
         $post2->categories()->sync([$brandingCategory->id]);
         $post2->authors()->sync([$admin->id]);
 
+        $this->seedJournalPosts($admin);
+
         $home = require database_path('data/reference-home-page.php');
 
         Page::updateOrCreate(['slug' => 'home'], [
@@ -481,6 +483,37 @@ class DatabaseSeeder extends Seeder
                 'meta_title' => $page['meta_title'],
                 'meta_description' => $page['meta_description'],
             ]);
+        }
+    }
+
+    /**
+     * Two Journal posts supplied as finished copy plus their own cover
+     * images, from the same shared file the migration uses.
+     */
+    protected function seedJournalPosts(User $admin): void
+    {
+        $posts = require database_path('data/reference-posts-2026-08-06.php');
+
+        foreach ($posts as $data) {
+            $image = $this->importImage($data['image_filename'], $data['image_alt']);
+            $category = Category::where('slug', $data['category_slug'])->first();
+
+            $post = Post::updateOrCreate(['slug' => $data['slug']], [
+                'title' => $data['title'],
+                'hero_image_media_id' => $image->id,
+                'content' => $data['content'],
+                'tags' => $data['tags'],
+                'status' => 'published',
+                'published_at' => now(),
+                'meta_title' => $data['meta_title'],
+                'meta_description' => $data['meta_description'],
+            ]);
+
+            if ($category) {
+                $post->categories()->sync([$category->id]);
+            }
+
+            $post->authors()->sync([$admin->id]);
         }
     }
 
