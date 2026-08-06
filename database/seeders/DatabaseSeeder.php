@@ -445,7 +445,43 @@ class DatabaseSeeder extends Seeder
             'meta_description' => $consultation['meta_description'],
         ]);
 
+        $this->seedLegalPages();
+
         $this->applyReferenceServiceCopy();
+    }
+
+    /**
+     * Privacy Policy and Terms & Conditions, from the same shared file the
+     * migration uses, so a fresh install and a migrated database produce
+     * the same pages.
+     */
+    protected function seedLegalPages(): void
+    {
+        $legal = require database_path('data/reference-legal-pages.php');
+
+        foreach (['privacy-policy' => 'privacy_policy', 'terms-conditions' => 'terms_conditions'] as $slug => $key) {
+            $page = $legal[$key];
+
+            Page::updateOrCreate(['slug' => $slug], [
+                'title' => $page['title'],
+                'hero_type' => 'lowImpact',
+                'hero_rich_text' => $page['hero_rich_text'],
+                'hero_links' => [],
+                'faqs' => [],
+                'layout' => [
+                    [
+                        'type' => 'content',
+                        'data' => [
+                            'richText' => sprintf($page['body'], 'hello@fastora.africa', '+234 703 814 7969'),
+                        ],
+                    ],
+                ],
+                'status' => 'published',
+                'published_at' => now(),
+                'meta_title' => $page['meta_title'],
+                'meta_description' => $page['meta_description'],
+            ]);
+        }
     }
 
     /**

@@ -39,9 +39,11 @@ class PostObserver
 
         $url = "{$frontendUrl}/insights/{$post->slug}";
 
-        NewsletterSubscriber::query()->pluck('email')->each(function (string $email) use ($post, $url) {
+        NewsletterSubscriber::query()->get(['email', 'unsubscribe_token'])->each(function (NewsletterSubscriber $subscriber) use ($post, $url) {
             try {
-                Mail::to($email)->send(new NewPostMail($post, $url));
+                $unsubscribeUrl = route('newsletter.unsubscribe', $subscriber->unsubscribe_token);
+
+                Mail::to($subscriber->email)->send(new NewPostMail($post, $url, $unsubscribeUrl));
             } catch (Throwable $e) {
                 // One bad or bouncing address must never stop the rest of the list.
                 report($e);

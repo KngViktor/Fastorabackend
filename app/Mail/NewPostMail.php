@@ -12,7 +12,7 @@ class NewPostMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Post $post, public string $url) {}
+    public function __construct(public Post $post, public string $url, public string $unsubscribeUrl) {}
 
     public function build(): self
     {
@@ -22,6 +22,7 @@ class NewPostMail extends Mailable
                 'post' => $this->post,
                 'url' => $this->url,
                 'excerpt' => $this->excerpt(),
+                'unsubscribeUrl' => $this->unsubscribeUrl,
             ]);
     }
 

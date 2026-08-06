@@ -23,6 +23,10 @@
               </td>
             </tr>
           </table>
+          <p style="margin:20px 0 0;font-size:12px;color:#9aa3b2;">
+            You're receiving this because you subscribed to the Fastora Journal.
+            <a href="{{ $unsubscribeUrl }}" style="color:#9aa3b2;text-decoration:underline;">Unsubscribe</a>
+          </p>
         </td>
       </tr>
     </table>

@@ -41,4 +41,20 @@ class NewsletterController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    /**
+     * The one-click link every broadcast email carries. Renders directly —
+     * not a JSON endpoint — since a mail client opens this in a plain
+     * browser tab with no frontend app behind it to hand the response to.
+     *
+     * An unrecognised or already-used token still shows success rather than
+     * an error: from the visitor's side "I'm not on the list" and "I was
+     * just removed from the list" are the same outcome.
+     */
+    public function unsubscribe(string $token)
+    {
+        NewsletterSubscriber::where('unsubscribe_token', $token)->delete();
+
+        return view('newsletter.unsubscribed');
+    }
 }
