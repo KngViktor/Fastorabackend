@@ -32,10 +32,23 @@ class SiteSetting extends Model
         'footer_text',
         'newsletter_heading',
         'newsletter_subheading',
+        'mail_host',
+        'mail_port',
+        'mail_username',
+        'mail_password',
+        'mail_encryption',
+        'mail_from_address',
+        'mail_from_name',
+        'notification_email',
+        'newsletter_provider',
+        'newsletter_api_key',
+        'newsletter_list_id',
     ];
 
     protected $casts = [
         'social_links' => 'array',
+        'mail_password' => 'encrypted',
+        'newsletter_api_key' => 'encrypted',
     ];
 
     public function logoLight(): BelongsTo

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CaseStudyController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\NavController;
+use App\Http\Controllers\Api\NewsletterController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ServiceController;
@@ -44,4 +45,7 @@ Route::get('/pages/{slug}', [PageController::class, 'show']);
 // Five per minute per IP is far above anything a real person does on a contact
 // form and low enough that abuse stops being worth the effort.
 Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1');
+
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
     ->middleware('throttle:5,1');

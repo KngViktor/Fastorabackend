@@ -16,6 +16,7 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -46,7 +47,11 @@ class SiteSettingsPage extends Page
 
     public function mount(): void
     {
-        $this->form->fill(SiteSetting::current()->toArray());
+        // mail_password is excluded rather than pre-filled decrypted: the
+        // field starts empty every load, `dehydrated` below skips it on save
+        // when left that way, and it's never round-tripped back into the
+        // browser just to render a settings form.
+        $this->form->fill(Arr::except(SiteSetting::current()->toArray(), ['mail_password', 'newsletter_api_key']));
     }
 
     protected function mediaOptions(): array
@@ -129,6 +134,79 @@ class SiteSettingsPage extends Page
                                 Textarea::make('footer_text')->columnSpanFull(),
                                 TextInput::make('newsletter_heading'),
                                 TextInput::make('newsletter_subheading'),
+                            ])
+                            ->columns(2),
+
+                        Tab::make('Email')
+                            ->schema([
+                                TextInput::make('notification_email')
+                                    ->label('Send form notifications to')
+                                    ->email()
+                                    ->helperText('Where contact and consultation form submissions are emailed. Leave blank to use the contact email in the Contact tab.')
+                                    ->columnSpanFull(),
+
+                                TextInput::make('mail_host')
+                                    ->label('SMTP host')
+                                    ->helperText('Leave every field on this tab blank to keep using the server\'s default mail setup.')
+                                    ->placeholder('smtp.example.com'),
+                                TextInput::make('mail_port')
+                                    ->label('Port')
+                                    ->numeric()
+                                    ->placeholder('587'),
+                                TextInput::make('mail_username')
+                                    ->label('Username')
+                                    ->placeholder('you@example.com'),
+                                TextInput::make('mail_password')
+                                    ->label('Password')
+                                    ->password()
+                                    ->revealable()
+                                    ->dehydrated(fn ($state) => filled($state))
+                                    ->helperText('Stored encrypted. Leave blank to keep the current password.'),
+                                Select::make('mail_encryption')
+                                    ->label('Encryption')
+                                    ->options(['tls' => 'TLS', 'ssl' => 'SSL', '' => 'None'])
+                                    ->default('tls'),
+                                TextInput::make('mail_from_address')
+                                    ->label('"From" address')
+                                    ->email()
+                                    ->placeholder('hello@example.com'),
+                                TextInput::make('mail_from_name')
+                                    ->label('"From" name')
+                                    ->placeholder('Fastora'),
+                            ])
+                            ->columns(2),
+
+                        Tab::make('Newsletter')
+                            ->schema([
+                                Select::make('newsletter_provider')
+                                    ->label('Provider')
+                                    ->native(false)
+                                    ->options([
+                                        'mailchimp' => 'Mailchimp',
+                                        'convertkit' => 'Kit (ConvertKit)',
+                                        'brevo' => 'Brevo',
+                                        'mailerlite' => 'MailerLite',
+                                        'resend' => 'Resend Audiences',
+                                    ])
+                                    ->placeholder('Not connected')
+                                    ->helperText('The footer signup form always saves every signup locally (see the Newsletter list in the sidebar) even without a provider connected here.')
+                                    ->columnSpanFull()
+                                    ->live(),
+                                TextInput::make('newsletter_api_key')
+                                    ->label('API key')
+                                    ->password()
+                                    ->revealable()
+                                    ->dehydrated(fn ($state) => filled($state))
+                                    ->helperText('Stored encrypted. Leave blank to keep the current key.')
+                                    ->visible(fn ($get) => filled($get('newsletter_provider'))),
+                                TextInput::make('newsletter_list_id')
+                                    ->label(fn ($get) => match ($get('newsletter_provider')) {
+                                        'convertkit' => 'Form ID',
+                                        'mailerlite' => 'Group ID',
+                                        'resend' => 'Audience ID',
+                                        default => 'List / Audience ID',
+                                    })
+                                    ->visible(fn ($get) => filled($get('newsletter_provider'))),
                             ])
                             ->columns(2),
                     ]),

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\CaseStudy;
+use App\Models\Inquiry;
 use App\Models\NavFooter;
 use App\Models\NavHeader;
 use App\Models\Page;
@@ -11,10 +12,12 @@ use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Notifications\FastoraResetPassword;
 use App\Observers\CaseStudyObserver;
+use App\Observers\InquiryObserver;
 use App\Observers\PageObserver;
 use App\Observers\PostObserver;
 use App\Observers\ServiceObserver;
 use App\Observers\SiteWideSettingsObserver;
+use App\Support\MailSettings;
 use Filament\Auth\Notifications\ResetPassword;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Support\ServiceProvider;
@@ -46,6 +49,9 @@ class AppServiceProvider extends ServiceProvider
         SiteSetting::observe(SiteWideSettingsObserver::class);
         NavHeader::observe(SiteWideSettingsObserver::class);
         NavFooter::observe(SiteWideSettingsObserver::class);
+        Inquiry::observe(InquiryObserver::class);
+
+        MailSettings::apply();
 
         $this->configureRichEditors();
     }
