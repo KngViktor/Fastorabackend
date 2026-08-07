@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        $strategy = Service::updateOrCreate(['slug' => 'strategic-communications'], [
+        Service::updateOrCreate(['slug' => 'strategic-communications'], [
             'title' => 'Strategic Communications',
             'summary' => 'Clear, consistent messaging that aligns every team around the same story.',
             'featured_image_media_id' => $strategyPhoto->id,
@@ -101,7 +101,7 @@ class DatabaseSeeder extends Seeder
             'published_at' => now()->subMonths(6),
         ]);
 
-        $branding = Service::updateOrCreate(['slug' => 'brand-consulting'], [
+        Service::updateOrCreate(['slug' => 'brand-consulting'], [
             'title' => 'Brand Consulting',
             'summary' => 'Positioning, identity, and voice work that makes a business memorable.',
             'featured_image_media_id' => $studioPhoto->id,
@@ -181,47 +181,59 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $acme = CaseStudy::updateOrCreate(['slug' => 'lumen-skincare-content-strategy'], [
-            'title' => 'From sporadic posts to a content strategy that compounds',
-            'summary' => 'Lumen Skincare had beautiful products but flat social engagement. We rebuilt their content strategy and social media management from the ground up.',
-            'client_name' => 'Lumen Skincare',
-            'industry' => 'Beauty & Wellness',
-            'cover_image_media_id' => $analyticsPhoto->id,
-            'gallery' => [['media_id' => $contentPhoto->id]],
-            'order' => 1,
-            'featured_on_home' => true,
-            'related_service_id' => $branding->id,
-            'challenge' => '<p>Lumen Skincare had beautiful products but an inconsistent social presence, irregular posting, no clear content strategy, and flat engagement across Instagram and TikTok.</p>',
-            'approach' => '<p>We built a platform-specific content strategy and editorial calendar, then took over day-to-day social media management, consistent publishing, community engagement, and monthly reporting tied to real growth metrics.</p>',
-            'results' => [
-                ['metric' => '+212%', 'label' => 'Engagement rate in 90 days'],
-                ['metric' => '3.1x', 'label' => 'Follower growth in 6 months'],
-                ['metric' => '48hr', 'label' => 'Average content turnaround'],
-            ],
-            'status' => 'published',
-            'published_at' => now()->subMonths(5),
-        ]);
+        // The four real client case studies, read from the same file the
+        // migration uses so a fresh install matches a migrated one. The demo
+        // studies these replaced (Lumen Skincare, Northbound Logistics) were
+        // invented for the reference build and are gone.
+        foreach (require database_path('data/reference-case-studies.php') as $study) {
+            $gallery = [];
+            foreach ($study['gallery'] as [$filename, $caption]) {
+                $gallery[] = [
+                    'media_id' => $this->importImage($filename, $caption)->id,
+                    'caption' => $caption,
+                ];
+            }
 
-        CaseStudy::updateOrCreate(['slug' => 'northbound-logistics-marketing-strategy'], [
-            'title' => 'Turning a strong operation into a clear, trusted brand',
-            'summary' => 'Northbound Logistics ran a strong operation but a fragmented digital presence made it hard for prospects to understand their value. We rebuilt their messaging and marketing strategy.',
-            'client_name' => 'Northbound Logistics',
-            'industry' => 'Logistics & Supply Chain',
-            'cover_image_media_id' => $contentPhoto->id,
-            'gallery' => [],
-            'order' => 2,
-            'featured_on_home' => true,
-            'related_service_id' => $strategy->id,
-            'challenge' => '<p>Northbound\'s messaging was inconsistent across their website, proposals, and social presence, and their marketing had no clear strategy connecting it to business goals, so qualified leads were slipping through before a conversation ever started.</p>',
-            'approach' => '<p>We developed a marketing strategy grounded in Northbound\'s actual competitive position, rewrote their core messaging for clarity and trust, and rebuilt their lead-generating campaigns around a single measurable goal: qualified quote requests.</p>',
-            'results' => [
-                ['metric' => '+40%', 'label' => 'Qualified quote requests in 90 days'],
-                ['metric' => '-28%', 'label' => 'Cost per qualified lead'],
-                ['metric' => '100%', 'label' => 'Consistent messaging across every channel'],
-            ],
-            'status' => 'published',
-            'published_at' => now()->subMonths(3),
-        ]);
+            CaseStudy::updateOrCreate(['slug' => $study['slug']], [
+                'title' => $study['title'],
+                'summary' => $study['summary'],
+                'hero_intro' => $study['hero_intro'],
+                'client_name' => $study['client_name'],
+                'industry' => $study['industry'],
+                'location' => $study['location'],
+                'engagement' => $study['engagement'],
+                'service_labels' => $study['service_labels'],
+                'cover_image_media_id' => $this->importImage($study['cover'][0], $study['cover'][1])->id,
+                'gallery' => $gallery,
+                'order' => $study['order'],
+                'featured_on_home' => $study['featured_on_home'],
+                'related_service_id' => Service::where('slug', $study['related_service_slugs'][0])->value('id'),
+                'the_business' => $study['the_business'],
+                'what_we_noticed' => $study['what_we_noticed'],
+                'our_thinking' => $study['our_thinking'],
+                'what_we_did' => $study['what_we_did'],
+                'results_heading' => $study['results_heading'] ?? null,
+                'results_intro' => $study['results_intro'] ?? null,
+                'results' => $study['results'],
+                'results_note' => $study['results_note'] ?? null,
+                'results_placement' => $study['results_placement'] ?? null,
+                'testimonial_quote' => $study['testimonial_quote'] ?? null,
+                'testimonial_author' => $study['testimonial_author'] ?? null,
+                'testimonial_role' => $study['testimonial_role'] ?? null,
+                'standout_heading' => $study['standout_heading'] ?? null,
+                'standout_copy' => $study['standout_copy'] ?? null,
+                'takeaway_heading' => $study['takeaway_heading'] ?? null,
+                'takeaway_copy' => $study['takeaway_copy'] ?? null,
+                'related_service_slugs' => $study['related_service_slugs'],
+                'cta_heading' => $study['cta_heading'],
+                'cta_copy' => $study['cta_copy'],
+                'cta_label' => 'Book a Conversation',
+                'meta_title' => $study['client_name'],
+                'meta_description' => $study['meta_description'],
+                'status' => 'published',
+                'published_at' => now(),
+            ]);
+        }
 
         // Real client reviews from the founder's portfolio and LinkedIn, read from
         // the same file the migration uses so a fresh install matches a migrated one.
@@ -453,9 +465,9 @@ class DatabaseSeeder extends Seeder
     }
 
     /**
-     * Privacy Policy, Terms of Use, and Cookie Policy, from the same shared
-     * file the migration uses, so a fresh install and a migrated database
-     * produce the same pages.
+     * Privacy Policy, Terms of Use, Cookie Policy and Accessibility, from the
+     * same shared file the migration uses, so a fresh install and a migrated
+     * database produce the same pages.
      */
     protected function seedLegalPages(): void
     {
@@ -465,6 +477,7 @@ class DatabaseSeeder extends Seeder
             'privacy-policy' => 'privacy_policy',
             'terms-of-use' => 'terms_of_use',
             'cookie-policy' => 'cookie_policy',
+            'accessibility' => 'accessibility',
         ];
 
         foreach ($slugs as $slug => $key) {

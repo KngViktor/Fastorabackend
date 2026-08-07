@@ -164,4 +164,38 @@ return [
             . '<p>You can manage or disable cookies through your browser settings at any time.</p>'
             . '<p>If you have any questions about how we use cookies, please contact us at <a href="mailto:%1$s">%1$s</a>.</p>',
     ],
+
+    'accessibility' => [
+        'title' => 'Accessibility',
+        'meta_title' => 'Accessibility',
+        'meta_description' => 'How Fastora works to keep this website usable for visitors with different needs, devices, and abilities, and how to ask us for help.',
+        'hero_rich_text' => '<h1>Accessibility</h1>'
+            . '<p>Last updated: August, 2026</p>',
+        'body' => '<p>We want the Fastora website to be easy to use for as many people as possible.</p>'
+            . "<p>We're committed to improving accessibility and creating an experience that works for visitors with different needs, devices, and abilities.</p>"
+
+            . '<h2>Our approach</h2>'
+            . '<p>When building and maintaining this website, we aim to:</p>'
+            . '<ul>'
+            . '<li>Use clear and easy-to-read content.</li>'
+            . '<li>Make the website easy to navigate.</li>'
+            . '<li>Use colours with sufficient contrast.</li>'
+            . '<li>Support keyboard navigation where possible.</li>'
+            . '<li>Provide meaningful alternative text for images where appropriate.</li>'
+            . '<li>Continue improving accessibility as the website evolves.</li>'
+            . '</ul>'
+
+            . '<h2>Need assistance?</h2>'
+            . "<p>If you experience difficulty accessing any part of our website or using one of our services, we'd like to hear from you.</p>"
+            . "<p>We'll do our best to provide the information you need in another format or help you complete what you were trying to do.</p>"
+
+            . '<h2>Contact us</h2>'
+            . "<p>If you'd like to report an accessibility issue or request assistance, please get in touch.</p>"
+            . '<p><strong>Email</strong><br><a href="mailto:%1$s">%1$s</a></p>'
+            . '<p><strong>Phone</strong><br>%2$s</p>'
+
+            . '<h2>Continuous improvement</h2>'
+            . '<p>Accessibility is an ongoing effort.</p>'
+            . "<p>As Fastora grows, we'll continue reviewing and improving our website to make it more accessible and easier to use for everyone.</p>",
+    ],
 ];
