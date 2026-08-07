@@ -46,6 +46,9 @@ class DatabaseSeeder extends Seeder
         $contentPhoto = $this->importImage('83416.jpg', 'Planning content across digital channels');
         $strategyPhoto = $this->importImage('32.jpg', 'Mapping a communications strategy across markets');
         $katorPhoto = $this->importImage('kator-tarkaa.jpg', 'Kator Tarkaa, Founder & Digital Communications Strategist at Fastora');
+        $emmanuelPhoto = $this->importImage('team-emmanuel-akaluese.jpg', 'Emmanuel Akaluese, Operations Associate at Fastora');
+        $ndidiamakaPhoto = $this->importImage('team-ndidiamaka-eya.jpg', 'Ndidiamaka Eya, Digital Communications Associate at Fastora');
+        $teamPhoto = $this->importImage('team-group-photo.jpg', 'The Fastora team');
 
         SiteSetting::current()->update([
             'site_name' => 'Fastora',
@@ -326,8 +329,8 @@ class DatabaseSeeder extends Seeder
             ],
             'status' => 'published',
             'published_at' => now()->subMonths(8),
-            'meta_title' => 'Fastora, Communications & Digital Strategy',
-            'meta_description' => 'Fastora helps businesses communicate with clarity, credibility, and confidence.',
+            'meta_title' => 'Fastora | Communications & Digital Strategy',
+            'meta_description' => 'Helping businesses become easier to understand, remember, and choose.',
         ]);
 
         Page::updateOrCreate(['slug' => 'services'], [
@@ -359,11 +362,13 @@ class DatabaseSeeder extends Seeder
         // this matches what the rebuild migration produces on an existing
         // database.
         $aboutReference = (require database_path('data/reference-about-page.php'))([
-            'origin' => $studioPhoto->id,
+            'origin' => $teamPhoto->id,
             'process' => $strategyPhoto->id,
             'audience' => $contentPhoto->id,
             'name' => $analyticsPhoto->id,
             'kator' => $katorPhoto->id,
+            'emmanuel' => $emmanuelPhoto->id,
+            'ndidiamaka' => $ndidiamakaPhoto->id,
         ]);
 
         Page::updateOrCreate(['slug' => 'about'], [

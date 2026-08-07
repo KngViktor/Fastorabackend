@@ -18,7 +18,7 @@
  * sections below now carry a photo each, alternating sides down the page
  * rather than reading as an unbroken stack of paragraphs.
  *
- * @param array{origin: int, process: int, audience: int, name: int, kator: int} $images
+ * @param array{origin: int, process: int, audience: int, name: int, kator: int, emmanuel: int, ndidiamaka: int} $images
  */
 return function (array $images): array {
     return [
@@ -94,11 +94,13 @@ return function (array $images): array {
                         'name' => 'Emmanuel Akaluese',
                         'role' => 'Operations Associate',
                         'bio' => 'Emmanuel helps keep projects moving from idea to delivery. He supports internal operations, coordinates workflows, and ensures client projects stay organised, efficient, and on schedule.',
+                        'photo' => $images['emmanuel'],
                     ],
                     [
-                        'name' => 'Eya Ndidiamaka',
+                        'name' => 'Ndidiamaka Eya',
                         'role' => 'Digital Communications Associate',
                         'bio' => 'Ndidiamaka supports the planning, coordination, and delivery of digital communications across client accounts. She helps ensure content is published consistently and that day-to-day communication reflects the quality and direction of each brand.',
+                        'photo' => $images['ndidiamaka'],
                     ],
                 ],
             ],

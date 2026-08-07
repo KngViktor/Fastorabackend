@@ -154,7 +154,7 @@ return [
         'cta_copy' => '<p>Growth deserves to be seen.</p>'
             . "<p>We'll help you build the systems that make that possible.</p>",
         'order' => 2,
-        'featured_on_home' => true,
+        'featured_on_home' => false,
         'meta_description' => 'How Fastora built the communication systems that made an indigenous Nigerian energy company\'s operational progress visible to customers, partners and staff.',
     ],
 
@@ -294,7 +294,7 @@ return [
         'cta_copy' => '<p>Every business has a story.</p>'
             . "<p>Sometimes the next step isn't creating a new one. It's helping people see the one that's already there.</p>",
         'order' => 4,
-        'featured_on_home' => false,
+        'featured_on_home' => true,
         'meta_description' => "How Fastora rebuilt a Florida skincare brand's Instagram around its founder's story, and what happened when the person came before the product.",
     ],
 
