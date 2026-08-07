@@ -17,7 +17,15 @@ return new class extends Migration
     {
         $legal = require database_path('data/reference-legal-pages.php');
 
-        foreach (['privacy-policy' => 'privacy_policy', 'terms-conditions' => 'terms_conditions'] as $slug => $key) {
+        // The shared data file's 'terms_conditions' key became 'terms_of_use'
+        // when the client's own copy replaced the drafted version, which left
+        // this migration reading a key that no longer existed and broke
+        // `migrate` on any fresh database. It still creates the page under the
+        // original 'terms-conditions' slug: the later migration renames that
+        // slug to 'terms-of-use' and rewrites the body, so the end state is the
+        // same either way, and existing databases are untouched because this
+        // migration has already run on them.
+        foreach (['privacy-policy' => 'privacy_policy', 'terms-conditions' => 'terms_of_use'] as $slug => $key) {
             if (DB::table('pages')->where('slug', $slug)->exists()) {
                 continue;
             }
