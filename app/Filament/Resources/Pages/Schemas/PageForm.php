@@ -268,7 +268,8 @@ class PageForm
                                                 ->columnSpanFull()
                                                 ->schema([
                                                     TextInput::make('stat')->required()->helperText('e.g. "89%"'),
-                                                    TextInput::make('title')->required(),
+                                                    TextInput::make('title')
+                                                        ->helperText('Optional. Left blank on the "Be Understood" / "Think First" style cards.'),
                                                     TextInput::make('description')->required(),
                                                 ])
                                                 ->columns(3)
