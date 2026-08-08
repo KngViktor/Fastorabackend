@@ -23,7 +23,7 @@ return [
         . "<p>Being good at what you do isn't always enough. Fastora helps businesses present "
         . 'themselves in ways that match the quality of what they do.</p>',
     'hero_links' => [
-        ['label' => 'Book a Consultation', 'url' => '/consultation', 'appearance' => 'default'],
+        ['label' => 'Book a Conversation', 'url' => '/consultation', 'appearance' => 'default'],
         ['label' => 'Explore Services', 'url' => '/services', 'appearance' => 'outline'],
     ],
 
@@ -169,7 +169,7 @@ return [
             . '<p>Tell us where your business is today and where you want it to go.</p>'
             . "<p>We'll help people understand why you're worth paying attention to.</p>",
         'links' => [
-            ['label' => 'Book a Consultation', 'url' => '/consultation', 'appearance' => 'default'],
+            ['label' => 'Book a Conversation', 'url' => '/consultation', 'appearance' => 'default'],
         ],
     ],
 ];

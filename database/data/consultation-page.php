@@ -10,7 +10,7 @@
  * copy.
  */
 return [
-    'title' => 'Book a Consultation',
+    'title' => 'Book a Conversation',
     'slug' => 'consultation',
     'hero_type' => 'lowImpact',
     'hero_eyebrow' => '45-minute strategic session',
@@ -85,6 +85,6 @@ return [
         ],
     ],
 
-    'meta_title' => 'Book a Consultation',
+    'meta_title' => 'Book a Conversation',
     'meta_description' => 'A free 45-minute strategic session on your business, your audience, and the communication problem in front of you.',
 ];

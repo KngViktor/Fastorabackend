@@ -174,7 +174,7 @@ return function (array $images): array {
                     . '<p>Every business deserves to be recognised for the quality of its work.</p>'
                     . "<p>Let's talk about where your business is today and where you want it to go.</p>",
                 'links' => [
-                    ['label' => 'Book a Consultation', 'url' => '/consultation', 'appearance' => 'default'],
+                    ['label' => 'Book a Conversation', 'url' => '/consultation', 'appearance' => 'default'],
                 ],
             ],
         ],

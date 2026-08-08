@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
                 ['label' => 'Insights', 'url' => '/insights'],
                 ['label' => 'About', 'url' => '/about'],
                 ['label' => 'Contact', 'url' => '/contact'],
-                ['label' => 'Book a Consultation', 'url' => '/consultation'],
+                ['label' => 'Book a Conversation', 'url' => '/consultation'],
             ],
         ]);
 
