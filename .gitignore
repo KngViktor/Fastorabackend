@@ -3,6 +3,10 @@
 .env
 .env.backup
 .env.production
+# Catches any other *.env-named file (e.g. env2.env), not just the exact
+# names above — one of those got committed with production DB credentials
+# in it because its name didn't match any existing pattern.
+*.env
 .phpactor.json
 .phpunit.result.cache
 /.fleet
