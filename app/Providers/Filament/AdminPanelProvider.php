@@ -77,6 +77,12 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::SIDEBAR_NAV_START,
                 fn (): View => view('filament.sidebar-user'),
             )
+            // Must load before any upload can be started, hence HEAD_END
+            // rather than a body hook. See the view for why it exists.
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): View => view('filament.sanitize-upload-filenames'),
+            )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
