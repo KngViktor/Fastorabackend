@@ -31,6 +31,11 @@ class PostForm
                             TextInput::make('slug')->required()->columnSpanFull(),
                             static::mediaSelect('heroImage', 'Hero image')->columnSpanFull(),
                             RichEditor::make('content')->required()->columnSpanFull(),
+                            Toggle::make('show_journal_note')
+                                ->label('Show the Journal note at the end')
+                                ->helperText("Adds \"This article is part of Fastora's Journal on branding, communication and the way people make decisions.\" below the article. Turn off for posts that aren't part of the Journal.")
+                                ->default(true)
+                                ->columnSpanFull(),
                         ]),
 
                     Tab::make('Meta')
@@ -72,11 +77,6 @@ class PostForm
                             Toggle::make('featured')
                                 ->label('Pin to top of Insights')
                                 ->helperText('Only one pinned post is shown. If more than one is toggled on, the most recently published wins.')
-                                ->columnSpanFull(),
-                            Toggle::make('show_journal_note')
-                                ->label('Show the Journal note')
-                                ->default(true)
-                                ->helperText("Prints \"This article is part of Fastora's Journal…\" under the article, with links to the Journal and to Contact. On for Journal pieces, which is most of them; turn it off for anything that is not part of the Journal.")
                                 ->columnSpanFull(),
                             ...static::seoFields(),
                         ])
