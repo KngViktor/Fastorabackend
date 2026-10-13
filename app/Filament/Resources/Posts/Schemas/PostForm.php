@@ -31,6 +31,11 @@ class PostForm
                             TextInput::make('slug')->required()->columnSpanFull(),
                             static::mediaSelect('heroImage', 'Hero image')->columnSpanFull(),
                             RichEditor::make('content')->required()->columnSpanFull(),
+                            Toggle::make('show_journal_note')
+                                ->label('Show the Journal note at the end')
+                                ->helperText("Adds \"This article is part of Fastora's Journal on branding, communication and the way people make decisions.\" below the article. Turn off for posts that aren't part of the Journal.")
+                                ->default(true)
+                                ->columnSpanFull(),
                         ]),
 
                     Tab::make('Meta')

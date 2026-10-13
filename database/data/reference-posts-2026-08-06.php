@@ -38,8 +38,7 @@ return [
             . "<p>Long before someone becomes a customer, they're collecting pieces of evidence, enough to answer a simple question.</p>"
             . '<p>Does this business seem like it knows what it&rsquo;s doing?</p>'
             . '<p>That answer is often settled long before the first meeting or sale.</p>'
-            . "<p>This is why our work at Fastora rarely starts with content. Before we look at calendars, we spend time understanding the business itself. The goal isn't to make a business appear larger than it is; it's to ensure every interaction tells the same story.</p>"
-            . "<p>This article is part of Fastora's journal on branding, communication and the way people make decisions.</p>",
+            . "<p>This is why our work at Fastora rarely starts with content. Before we look at calendars, we spend time understanding the business itself. The goal isn't to make a business appear larger than it is; it's to ensure every interaction tells the same story.</p>",
     ],
     [
         'slug' => 'your-business-knows-too-much-about-itself',
@@ -62,7 +61,6 @@ return [
             . '<p>None of this comes from a lack of expertise. It comes from being too close to the work. Knowing something well changes how we talk about it; we forget how much context we are carrying.</p>'
             . '<p>Most people won&rsquo;t tell you they are confused. They won&rsquo;t send an email asking for a simpler explanation. By the time they are trying to understand your business, they are already deciding whether it is worth their time.</p>'
             . '<p>One question we always ask at Fastora is: Could someone explain this business to a friend after seeing it for the first time?</p>'
-            . "<p>If the answer is no, we don't start with campaigns or content calendars. We start by fixing the explanation.</p>"
-            . "<p>This article is part of Fastora's journal on branding, communication and the way people make decisions.</p>",
+            . "<p>If the answer is no, we don't start with campaigns or content calendars. We start by fixing the explanation.</p>",
     ],
 ];
