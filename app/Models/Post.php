@@ -16,7 +16,6 @@ class Post extends Model
         'tags',
         'status',
         'featured',
-        'show_journal_note',
         'published_at',
         'meta_title',
         'meta_description',
@@ -28,7 +27,6 @@ class Post extends Model
     protected $casts = [
         'meta_noindex' => 'boolean',
         'featured' => 'boolean',
-        'show_journal_note' => 'boolean',
         'tags' => 'array',
         'published_at' => 'datetime',
     ];
